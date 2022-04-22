@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form action="" class="form_wrap">
+            <input type="text" class="username" placeholder="username">
+            <input type="text" class="email" placeholder="email">
+            <input type="text" class="number_phone" placeholder="number phone">
+            <input type="password" class="input" placeholder="password">
+            <button class="button" type="submit">Submit</button>
+        </form>
+        <p class="notification"></p>
+    </div>
+    <script>
+        const buttonEl = document.querySelector('.button')
+        const notiEl = document.querySelector('.notification')
+        const username = document.querySelector('.username')
+        const email = document.querySelector('.email')
+        const number_phone = document.querySelector('.number_phone')
+        buttonEl.onclick = function(e){
+            var check = 0;
+            e.preventDefault()
+            notiEl.textContent = ''
+            checkUsername(username.value)
+            checkEmail(email.value)
+            checkPhone(number_phone.value)
+            if(!check){
+                alert('Thông tin hợp lệ!!!')
+            }
+        }
+
+        function checkUsername(username){
+            if(!username){
+                notiEl.textContent += " [username không được bỏ trống] "
+                check = 1;
+            }
+        }
+        function checkEmail(email){
+            const isEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email);
+            if(!isEmail){
+                notiEl.textContent += " [định dạng email không hợp lệ] "
+                check = 1;
+            }
+        }
+        function checkPhone(phone){
+            const isphone = /((09|03|07|08|05|849|843|847|848|845)+([0-9]{8})\b)/g.test(phone);
+            if(!isphone){
+                notiEl.textContent += " [định dạng số điện thoại không hợp lệ] "
+                check = 1;
+            }
+        }
+    </script>
+</body>
+</html>

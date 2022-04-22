@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="" style="color:red" class="red_a" onmouseout="changeColor(text1)" onmouseover="changeColor(text1, 'red')">RED</a>
+    <p class="red_p">Màu đỏ</p>
+    <a href="" style="color:green" class="green_a" onmouseout="changeColor(text2)" onmouseover="changeColor(text2, 'green')">GREEN</a>
+    <p class="green_p">Màu xanh lá</p>
+    <a href="" style="color:blue" class="blue_a" onmouseout="changeColor(text3)" onmouseover="changeColor(text3, 'blue')">BLUE</a>
+    <p class="blue_p">Màu xanh dương</p>
+    <script>
+        const text1 = document.querySelector('.red_p')
+        const text2 = document.querySelector('.green_p')
+        const text3 = document.querySelector('.blue_p')
+        function changeColor(el, color = 'black'){
+            el.style.color = color
+        }
+    </script>
+</body>
+</html>
