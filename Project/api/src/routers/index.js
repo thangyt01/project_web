@@ -1,7 +1,7 @@
-const { ERROR_CODE_API_NOT_FOUND } = require("../helpers/errorCodes");
+const { ERROR_CODE_API_NOT_FOUND, ERROR_CODE_UNAUTHORIZED, ERROR_CODE_INVALID_PARAMETER } = require("../helpers/errorCodes");
 const { respondWithError } = require("../helpers/messageResponse");
 
-function getRoutes(req, res, routers){
+async function getRoutes(req, res, routers){
     let checkApi = 0 //0 không có api nào phù hợp
     for(let router of routers){
         if(router && router.listApi && router.listApi.length > 0){
