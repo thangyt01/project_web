@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var http = require('http');
+const { setBodyRequest, setQueryAndPathNameRequest } = require('../src/app');
 const getRoutes = require('../src/routers');
 require('dotenv').config()
 const routers = require('../src/routers/routerContant')
@@ -12,12 +13,12 @@ const routers = require('../src/routers/routerContant')
  */
 
 var port = process.env.PORT || 8000
-// const {} = require('../src/helpers/errorCodes')
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(function (req, res) {
+var server = http.createServer(async function (req, res) {
+    await setBodyRequest(req)
+    setQueryAndPathNameRequest(req)
     getRoutes(req, res, routers)
 });
 

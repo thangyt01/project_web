@@ -1,5 +1,5 @@
 function authenticate(req, res){
-    return 0;
+    return 1;
 }
 
 module.exports = authenticate
