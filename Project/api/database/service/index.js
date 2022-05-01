@@ -26,7 +26,11 @@ const models = require('../index')
 //         "A.a": "DESC",
 //     },
 //     groupBy: ['a.a', 'a.b'],
-//     having: ['COUNT(a.a) > 5']
+//     having: ['COUNT(a.a) > 5'],
+    // data: {
+    //     a: 'c',
+    //     b: 'a'
+    // }
 // }
 
 function buildQuery(params) {
@@ -40,6 +44,7 @@ function buildQuery(params) {
         orderBy = null,
         groupBy = [],
         having = [],
+        data = {},
         type = null
     } = params;
     let query = '';
@@ -73,26 +78,39 @@ function buildQuery(params) {
                 }
             }
             atts += ', ' + setAttributies(item.table, item.attributes || []);
-            join += item.type + ' ' + item.table + ' on ' + item.on + ' ';
+            join += item.type + ' ' + item.table + ' ON ' + item.on + ' ';
         })
-        query = 'select ' + atts + ' from ' + table + ' ' + join  + ' where ' + where;
+        query = 'SELECT ' + atts + ' FROM ' + table + ' ' + join  + ' WHERE ' + where;
 
         if(orderBy){
-            query += ' order by ' + Object.keys(orderBy)[0] + ' ' + Object.values(orderBy)[0];
+            query += ' ORDER BY ' + Object.keys(orderBy)[0] + ' ' + Object.values(orderBy)[0];
         }
         if(groupBy.length > 0){
-            query += ' group by ' + groupBy.join(', ');
+            query += ' GROUP BY ' + groupBy.join(', ');
         }
         if(having.length > 0){
-            query += ' having ' + having.join(', ');
+            query += ' HAVING ' + having.join(', ');
         }
         if(limit){
-            query += ' limit ' + limit;
+            query += ' LIMIT ' + limit;
         }
         if(offset){
-            query += ' offset ' + offset;
+            query += ' OFFSET ' + offset;
         }
     }
+    if(type === 'update'){
+        let set = Object.keys(data).map(item => item + ' = ' + data[item]).join(', ');
+        query = 'UPDATE ' + table + ' SET ' + set + ' WHERE ' + where;
+    }
+    if(type === 'create'){
+        let cols = Object.keys(data).join(', ');
+        let values = Object.values(data).join(', ');
+        query = 'INSERT INTO ' + table + ' (' + cols + ') VALUES (' + values + ')';
+    }
+    if(type === 'destroy'){
+        query = 'DELETE FROM ' + table + ' WHERE ' + where;
+    }
+    console.log("buildQuery " , query);
     return query;
 }
 
@@ -117,9 +135,8 @@ function find(query = {}) {
             reject(query);
         }
         try {
-            models.query(query, function (err, results, fields) {
+            models.query(query, function (err, results) {
                 console.log(results); // results contains rows returned by server
-                console.log(fields); // fields contains extra meta data about results, if available
                 if (err) {
                     reject(err);
                 }
@@ -133,14 +150,13 @@ function find(query = {}) {
 
 function update(query = {}) {
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'select' });
+        query = buildQuery({ ...query, type: 'update' });
         if (query.error) {
             reject(query);
         }
         try {
-            models.query(query, function (err, results, fields) {
+            models.query(query, function (err, results) {
                 console.log(results); // results contains rows returned by server
-                console.log(fields); // fields contains extra meta data about results, if available
                 if (err) {
                     reject(err);
                 }
@@ -150,4 +166,51 @@ function update(query = {}) {
             resole(error)
         }
     })
+}
+
+function create(query = {}) {
+    return new Promise((resole, reject) => {
+        query = buildQuery({ ...query, type: 'create' });
+        if (query.error) {
+            reject(query);
+        }
+        try {
+            models.query(query, function (err, results) {
+                console.log(results); // results contains rows returned by server
+                if (err) {
+                    reject(err);
+                }
+                resole(results);
+            });
+        } catch (error) {
+            resole(error)
+        }
+    })
+}
+
+function destroy(query = {}) {
+    return new Promise((resole, reject) => {
+        query = buildQuery({ ...query, type: 'destroy' });
+        if (query.error) {
+            reject(query);
+        }
+        try {
+            models.query(query, function (err, results) {
+                console.log(results); // results contains rows returned by server
+                if (err) {
+                    reject(err);
+                }
+                resole(results);
+            });
+        } catch (error) {
+            resole(error)
+        }
+    })
+}
+
+module.exports = {
+    find,
+    create,
+    update,
+    destroy
 }
