@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: db
+    restart: always
+    networks:
+      - my-network
+    ports:
+      - '33061:3306'
+    volumes:
+      - ./mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root@1234
+networks:
+  my-network:
+    driver: bridge
+volumes:
+  db:
+
+

@@ -130,3 +130,24 @@ function find(query = {}) {
         }
     })
 }
+
+function update(query = {}) {
+    return new Promise((resole, reject) => {
+        query = buildQuery({ ...query, type: 'select' });
+        if (query.error) {
+            reject(query);
+        }
+        try {
+            models.query(query, function (err, results, fields) {
+                console.log(results); // results contains rows returned by server
+                console.log(fields); // fields contains extra meta data about results, if available
+                if (err) {
+                    reject(err);
+                }
+                resole(results);
+            });
+        } catch (error) {
+            resole(error)
+        }
+    })
+}
