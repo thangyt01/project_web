@@ -1,4 +1,5 @@
 const { login, register } = require("../components/auth/authController")
+const { loginValidator } = require("../components/auth/authValidator")
 const authenticate = require("../middlewares/auth")
 
 const routers = [
@@ -10,8 +11,8 @@ const routers = [
                 name: 'login',
                 method: 'POST',
                 url: '/login',
-                authenticate: authenticate,
-                validator: null,
+                authenticate: null,
+                validator: loginValidator,
                 handle: login
             },
             {
