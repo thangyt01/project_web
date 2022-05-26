@@ -66,14 +66,7 @@ async function fetchLogin(credentials) {
         return {
             success: true,
             data: {
-                accessToken: {
-                    token,
-                    expiresIn: (authConfig && authConfig.secret_access_token_expire) ? authConfig.secret_access_token_expire : SECRET_ACCESS_TOKEN_EXPIRE,
-                },
-                refreshToken: {
-                    token: rToken,
-                    expiresIn: (authConfig && authConfig.secret_refresh_access_token) ? authConfig.secret_refresh_access_token_expire : SECRET_REFRESH_ACCESS_TOKEN_EXPIRE,
-                },
+                pk: pk,
                 profile,
             },
             message: USERS['2013']
