@@ -45,13 +45,13 @@ Validator.prototype.max = function(max){
 
 Validator.prototype.number = function(){
     if(!this.check) return this
-    this.check = (typeof this.obj) !== 'number' ? 1 : 0
+    this.check = (typeof this.obj) === 'number' ? 1 : 0
     return this
 }
 
 Validator.prototype.string = function(){
     if(!this.check) return this
-    this.check = (typeof this.obj) !== 'string' ? 1 : 0
+    this.check = (typeof this.obj) === 'string' ? 1 : 0
     return this
 }
 
