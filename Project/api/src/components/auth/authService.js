@@ -1,5 +1,5 @@
 const { update, find } = require("../../../database/service");
-const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN } = require("../../helpers/errorCodes");
+const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD } = require("../../helpers/errorCodes");
 const { USERS } = require("../../helpers/message");
 const {genPrivateKey} =  require('../../helpers/utils')
 
@@ -11,7 +11,9 @@ async function fetchLogin(credentials) {
             attributes: [],
             table: 'user',
             where: `username = '${username}'`,
+            // logging: true
         })
+        user = user[0]
         if (!user) {
             // return user not exist
             return {
@@ -20,8 +22,8 @@ async function fetchLogin(credentials) {
                 message: USERS['2000'],
             };
         }
-        
-        if (!user.deletedAt) {
+
+        if (user.deletedAt) {
             return {
                 error: true,
                 code: ERROR_CODE_CREDENTIAL_NOT_EXIST,
@@ -53,33 +55,26 @@ async function fetchLogin(credentials) {
             id: user.id,
             username: user.username,
             email: user.email ? user.email : null,
-            fullName: user.firstName + user.lastName,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            fullName: user.firstname + " " + user.lastname,
+            firstName: user.firstname,
+            lastName: user.lastname,
             phone: user.phone ? user.phone : null,
-            birthday: user.birthday,
-            gender: user.gender,
             pk: user.pk,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
+            address: user.address,
+            lastLogin: user.lastLogin
         };
 
         return {
             success: true,
             data: {
-                accessToken: {
-                    token,
-                    expiresIn: (authConfig && authConfig.secret_access_token_expire) ? authConfig.secret_access_token_expire : SECRET_ACCESS_TOKEN_EXPIRE,
-                },
-                refreshToken: {
-                    token: rToken,
-                    expiresIn: (authConfig && authConfig.secret_refresh_access_token) ? authConfig.secret_refresh_access_token_expire : SECRET_REFRESH_ACCESS_TOKEN_EXPIRE,
-                },
+                pk: pk,
                 profile,
             },
-            message: USERS['2013']
+            message: USERS['2008']
         }
     } catch (e) {
-        logger.error(`authService fetchLogin Dang nhap bang username (SDT) : ${e.stack || JSON.stringify(e)}`);
+        console.error(`authService fetchLogin Dang nhap bang username (SDT) : ${e.stack || JSON.stringify(e)}`);
         const { errors = [] } = e;
         const [error = {}] = errors;
         return {

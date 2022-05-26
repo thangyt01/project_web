@@ -128,10 +128,10 @@ function setAttributies(tableName, attributes = []){
     return attributes.map(att => tableName + "." + att).join(', ');
 }
 
-function execQuery(resole, reject){
+function execQuery(resole, reject, query, logging = false){
     try {
         models.query(query, function (err, results) {
-            console.log(results); // results contains rows returned by server
+            if (logging) console.log(results); // results contains rows returned by server
             if (err) {
                 reject(err);
             }
@@ -139,48 +139,50 @@ function execQuery(resole, reject){
         });
     } catch (error) {
         resole(error);
-    } finally {
-        models.end();
     }
 }
 
 function find(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'select' });
+        query = buildQuery({ ...rest, type: 'select' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 
 function update(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'update' });
+        query = buildQuery({ ...rest, type: 'update' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 
 function create(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'create' });
+        query = buildQuery({ ...rest, type: 'create' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 
 function destroy(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'destroy' });
+        query = buildQuery({ ...rest, type: 'destroy' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 

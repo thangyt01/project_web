@@ -7,19 +7,26 @@ async function getRoutes(req, res, routers){
         if(router && router.listApi && router.listApi.length > 0){
             for(let api of router.listApi){
                 if(req.url === '/api' + router.mainUrl + api.url && req.method === api.method){
+                    console.time(`\x1b[37m${req.method}` + " - " + `\x1b[33m${'/api' + router.mainUrl + api.url}` + `  \x1b[32m${''}`)
                     if(api.authenticate && !api.authenticate(req, res)){
                         res.writeHead(ERROR_CODE_UNAUTHORIZED, { "Content-Type": "application/json" })
                         res.end(respondWithError(ERROR_CODE_UNAUTHORIZED, 'Bạn không có quyền truy cập API này!!', {}))
+                        console.timeEnd(`\x1b[37m${req.method}` + " - " + `\x1b[33m${'/api' + router.mainUrl + api.url}` + `  \x1b[32m${''}`)
+                        console.log(`\x1b[37m${''}`)
                         return 
                     }
                     if(api.validator && !api.validator(req, res)){
                         res.writeHead(ERROR_CODE_INVALID_PARAMETER, { "Content-Type": "application/json" })
                         res.end(respondWithError(ERROR_CODE_INVALID_PARAMETER, 'Tham số truyền vào không chính xác!!', {}))
+                        console.timeEnd(`\x1b[37m${req.method}` + " - " + `\x1b[33m${'/api' + router.mainUrl + api.url}` + `  \x1b[32m${''}`)
+                        console.log(`\x1b[37m${''}`)
                         return 
                     }
                     if(api.handle){
                         res.writeHead(ERROR_CODE_INVALID_PARAMETER, { "Content-Type": "application/json" })
                         api.handle(req, res)
+                        console.timeEnd(`\x1b[37m${req.method}` + " - " + `\x1b[33m${'/api' + router.mainUrl + api.url}` + `  \x1b[32m${''}`)
+                        console.log(`\x1b[37m${''}`)
                         return 
                     }
                 }
