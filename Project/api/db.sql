@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `lastname` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
   `isAdmin` int NOT NULL DEFAULT '0',
   `lastLogin` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `privateKey` int DEFAULT '0',
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deletedAt` datetime DEFAULT NULL,
