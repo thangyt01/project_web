@@ -1,5 +1,5 @@
-const { update, find } = require("../../../database/service");
-const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD } = require("../../helpers/errorCodes");
+const { update, find, create } = require("../../../database/service");
+const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD, ERROR_CODE_SYSTEM_ERROR } = require("../../helpers/errorCodes");
 const { USERS } = require("../../helpers/message");
 const {genPrivateKey} =  require('../../helpers/utils')
 
@@ -13,8 +13,7 @@ async function fetchLogin(credentials) {
             where: `username = '${username}'`,
             // logging: true
         })
-        user = user[0]
-        if (!user) {
+        if (user.length === 0) {
             // return user not exist
             return {
                 error: true,
@@ -22,6 +21,8 @@ async function fetchLogin(credentials) {
                 message: USERS['2000'],
             };
         }
+
+        user = user[0]
 
         if (user.deletedAt) {
             return {
@@ -80,12 +81,72 @@ async function fetchLogin(credentials) {
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
-            message: `${e.message}: ${_.get(error, 'message', '')}`
+            message: `${e.message}: ${error['message'] || ''}`
+        }
+    }
+}
+
+async function fetchRegister(credentials) {
+    try {
+        let { 
+            username,
+            password,
+            re_password,
+            ...rest
+        } = credentials;
+
+        let user = await find({
+            attributes: [],
+            table: 'user',
+            where: `username = '${username}'`,
+            // logging: true
+        })
+
+        if (user.length > 0) {
+            // return user not exist
+            return {
+                error: true,
+                code: ERROR_CODE_FORBIDDEN,
+                message: USERS['2017'],
+            };
+        }
+
+        if (password !== re_password) {
+            return {
+                error: true,
+                code: ERROR_CODE_INCORRECT_PASSWORD,
+                message: USERS['2010'],
+            };
+        }
+
+        await create({
+            table: 'user',
+            data: {
+                username: username,
+                password: password,
+                ...rest
+            },
+        })
+
+        return {
+            success: true,
+            data: {},
+            message: USERS['2019']
+        }
+    } catch (e) {
+        console.error(`authService fetchRegister Dang ky : ${e.stack || JSON.stringify(e)}`);
+        const { errors = [] } = e;
+        const [error = {}] = errors;
+        return {
+            error: true,
+            code: ERROR_CODE_SYSTEM_ERROR,
+            message: `${e.message}: ${error['message'] || ''}`
         }
     }
 }
     
 
 module.exports = {
-    fetchLogin
+    fetchLogin,
+    fetchRegister
 }

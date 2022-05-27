@@ -19,6 +19,7 @@ Validator.prototype.allow = function(type){
     //     this.check = 1
     // }
     if(!this.obj) this.check = 0
+    if(this.check) return this
     this.check = this.obj === type ? 1 : 0
     return this
 }
