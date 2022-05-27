@@ -99,12 +99,14 @@ function buildQuery(params) {
         }
     }
     if(type === 'update'){
-        let set = Object.keys(data).map(item => item + ' = ' + data[item]).join(', ');
+        let set = Object.keys(data).map(item => `${item} = '${data[item]}'`).join(', ');
         query = 'UPDATE ' + table + ' SET ' + set + ' WHERE ' + where;
     }
     if(type === 'create'){
         let cols = Object.keys(data).join(', ');
-        let values = Object.values(data).join(', ');
+        let values = Object.values(data);
+        values = values.map(i => `'${i}'`)
+        values = Object.values(values).join(', ');
         query = 'INSERT INTO ' + table + ' (' + cols + ') VALUES (' + values + ')';
     }
     if(type === 'destroy'){
@@ -128,10 +130,10 @@ function setAttributies(tableName, attributes = []){
     return attributes.map(att => tableName + "." + att).join(', ');
 }
 
-function execQuery(resole, reject){
+function execQuery(resole, reject, query, logging = false){
     try {
         models.query(query, function (err, results) {
-            console.log(results); // results contains rows returned by server
+            if (logging) console.log(results); // results contains rows returned by server
             if (err) {
                 reject(err);
             }
@@ -139,48 +141,50 @@ function execQuery(resole, reject){
         });
     } catch (error) {
         resole(error);
-    } finally {
-        models.end();
     }
 }
 
 function find(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'select' });
+        query = buildQuery({ ...rest, type: 'select' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 
 function update(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'update' });
+        query = buildQuery({ ...rest, type: 'update' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 
 function create(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'create' });
+        query = buildQuery({ ...rest, type: 'create' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 
 function destroy(query = {}) {
+    let {logging = false, ...rest} = query
     return new Promise((resole, reject) => {
-        query = buildQuery({ ...query, type: 'destroy' });
+        query = buildQuery({ ...rest, type: 'destroy' });
         if (query.error) {
             reject(query);
         }
-        execQuery(resole, reject);
+        execQuery(resole, reject, query, logging);
     })
 }
 

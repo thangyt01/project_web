@@ -1,6 +1,6 @@
 const { login, register } = require("../components/auth/authController")
-const { loginValidator } = require("../components/auth/authValidator")
-const authenticate = require("../middlewares/auth")
+const { loginValidator, registerValidator } = require("../components/auth/authValidator")
+const { authenticate, authorizationAdmin } = require("../middlewares/auth")
 
 const routers = [
     {
@@ -12,6 +12,7 @@ const routers = [
                 method: 'POST',
                 url: '/login',
                 authenticate: null,
+                authoriztion: null,
                 validator: loginValidator,
                 handle: login
             },
@@ -20,7 +21,8 @@ const routers = [
                 method: 'POST',
                 url: '/register',
                 authenticate: null,
-                validator: null,
+                authoriztion: null,
+                validator: registerValidator,
                 handle: register
             }
         ]
