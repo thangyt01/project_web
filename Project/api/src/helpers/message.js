@@ -19,6 +19,7 @@ const USERS = {
     '2016': 'Số điện thoại này chưa được đăng kí tài khoản',
     '2017': 'Username hoặc số điện thoại hoặc email đã được sử dụng!',
     '2018': 'Tên không hợp lệ!',
+    '2019': 'Đăng ký tài khoản thành công.'
 }
 
 module.exports = {

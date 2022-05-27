@@ -99,12 +99,14 @@ function buildQuery(params) {
         }
     }
     if(type === 'update'){
-        let set = Object.keys(data).map(item => item + ' = ' + data[item]).join(', ');
+        let set = Object.keys(data).map(item => `${item} = '${data[item]}'`).join(', ');
         query = 'UPDATE ' + table + ' SET ' + set + ' WHERE ' + where;
     }
     if(type === 'create'){
         let cols = Object.keys(data).join(', ');
-        let values = Object.values(data).join(', ');
+        let values = Object.values(data);
+        values = values.map(i => `'${i}'`)
+        values = Object.values(values).join(', ');
         query = 'INSERT INTO ' + table + ' (' + cols + ') VALUES (' + values + ')';
     }
     if(type === 'destroy'){
