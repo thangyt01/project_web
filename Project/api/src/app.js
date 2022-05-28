@@ -2,7 +2,7 @@ const querystring = require('querystring');
 const url = require('url');
 
 async function setBodyRequest(req){
-    let data;
+    let data = '{}';
     await req.on('data', chunk => {
         data = chunk
     });
