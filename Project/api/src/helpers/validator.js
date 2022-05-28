@@ -30,6 +30,10 @@ Validator.prototype.min = function(min){
         this.check = 0;
         return this
     }
+    if(this.obj < min ){
+        this.check = 0;
+        return this
+    }
     this.check = this.obj.length >= min ? 1 : 0
     return this
 }

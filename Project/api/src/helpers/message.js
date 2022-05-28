@@ -19,7 +19,11 @@ const USERS = {
     '2016': 'Số điện thoại này chưa được đăng kí tài khoản',
     '2017': 'Username hoặc số điện thoại hoặc email đã được sử dụng!',
     '2018': 'Tên không hợp lệ!',
-    '2019': 'Đăng ký tài khoản thành công.'
+    '2019': 'Đăng ký tài khoản thành công.',
+    '2020': 'Lấy danh sách sản phẩm thành công',
+    '2021': 'Không tìm thấy sản phẩm',
+    '2022': 'Xóa sản phẩm thành công',
+    '2023': 'Cập nhật sản phẩm thành công'
 }
 
 module.exports = {

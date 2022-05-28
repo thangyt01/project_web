@@ -83,7 +83,7 @@ function buildQuery(params) {
         query = 'SELECT ' + atts + ' FROM ' + table + ' ' + join  + ' WHERE ' + where;
 
         if(orderBy){
-            query += ' ORDER BY ' + Object.keys(orderBy)[0] + ' ' + Object.values(orderBy)[0];
+            query += ' ORDER BY ' + orderBy;
         }
         if(groupBy.length > 0){
             query += ' GROUP BY ' + groupBy.join(', ');
