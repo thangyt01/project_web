@@ -1,0 +1,87 @@
+.slider{
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    .wrapper{
+        .top{
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            .left{
+                font-size: 18px;
+            }
+            .right{
+                transition: all 0.5s ease;
+                display: flex;
+                align-items: center;
+                transform: translate(-40px);
+                opacity: 0;
+                cursor: pointer;
+                color: #c08500;
+                font-weight: 600;
+                &:hover{
+                    color: var(--color-text-1);
+                }
+            }
+        }
+
+        &:hover .right{
+            opacity: 1;
+            transform: translateX(0px);
+        }
+
+        .bottom{
+            display: flex;
+            position: relative;
+            justify-content: space-between;
+            
+            .bottom__left{
+                @media only screen and (max-width: 710px) {
+                    display: none;
+                }
+                position: relative;
+                left: 0;
+                right: 0;
+                min-width: 800px;
+                width: 800px;
+                overflow: hidden;
+
+                .btn_left{
+                    position: absolute;
+                    top: 50%;
+                    left: 5px;
+                    z-index: 50;
+                    transform: translateY(-50%);
+                    background-color: #ffffff61;
+                    border-radius: 999px;
+                }
+                .btn_right{
+                    position: absolute;
+                    z-index: 50;
+                    right: 5px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background-color: #ffffff61;
+                    border-radius: 999px;
+                }
+                
+                .sliders{
+                    display: flex;
+                    flex-direction: row;
+                    transition: all 0.5s ease;
+                }
+            }
+
+            .bottom__right{
+                @media only screen and (max-width: 710px) {
+                    margin: 0 auto;
+                    img{
+                        max-width: 375px;
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+
+}

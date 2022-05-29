@@ -1,0 +1,79 @@
+//500px ----- mobile
+//768px ----- tablet
+//1024px----- desktop
+
+:root {
+    --color-bg-1: #125B50;
+    --color-bg-2: beige;
+    --color-bg-3: #FF6363;
+    --color-text-1: #F8B400;
+    --color-text-2: #FAF5E4;
+}
+
+.app {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        color: #0a0a0a;
+        font-weight: 700;
+    }
+    
+    color: black;
+    font-size: 14px;
+    padding-top: 100px;
+}
+
+.padding___main {
+    padding: 5px 150px;
+
+    @media only screen and (max-width: 1075px) {
+        padding: 5px 30px;
+    }
+
+    @media only screen and (max-width: 500px) {
+        padding: 5px 10px;
+    }
+}
+
+.hidden___mobile {
+    @media only screen and (max-width: 500px) {
+        display: none;
+    }
+}
+
+.hidden___tablet {
+    @media only screen and (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.align-item___center {
+    display: flex;
+    align-items: center;
+}
+
+.margin___right {
+    margin-right: 50px;
+    
+    @media only screen and (max-width: 1160px) {
+        margin-right: 20px;
+    }
+
+    @media only screen and (max-width: 500px) {
+        margin-right: 5px;
+    }
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchInput{
+    outline: none;
+    border-radius: 15px;
+    padding: 2px 5px;
+}
