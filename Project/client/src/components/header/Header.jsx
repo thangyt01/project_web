@@ -10,6 +10,7 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -23,8 +24,18 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export const Header = ({ isScroll }) => {
     const dispatch = useDispatch()
+    const [hiden, setHiden] = useState(true)
+    const [popupLogin, setPopupLogin] = useState(0)
 
-    const handleClickMenu = ()=>{
+    const handleHiden = () => {
+        setHiden(!hiden)
+    }
+
+    const handlePopupLogin = (value) => {
+        setPopupLogin(value)
+    }
+
+    const handleClickMenu = () => {
         const bottom___left = document.querySelector(".bottom___left")
         bottom___left.classList.toggle('add')
     }
@@ -38,7 +49,7 @@ export const Header = ({ isScroll }) => {
                     <div className="top___right">
                         <ul>
                             <li><PhoneIcon></PhoneIcon> <span className="hidden___tablet" style={{ marginLeft: '5px' }}>0906 03 5225</span></li>
-                            <li><PersonIcon></PersonIcon></li>
+                            <li onClick={() => { handlePopupLogin(1) }}><PersonIcon></PersonIcon></li>
                             <li>
                                 <IconButton aria-label="cart">
                                     <StyledBadge badgeContent={4}>
@@ -71,7 +82,89 @@ export const Header = ({ isScroll }) => {
                     </div>
                 </div>
             </div>
-            
+            {!popupLogin? <></> : 
+                <div className="fill">
+                    <div className="exit" onClick={() => { handlePopupLogin(0) }}>
+                        <IconButton aria-label="exit">
+                            <CloseIcon></CloseIcon>
+                        </IconButton>
+                    </div>
+                    {popupLogin === 1 ? <div className="login">
+                        <div className="login__left" style={{ background: "url('https://img.freepik.com/free-psd/presentation-back-front-smartwatches-with-screen-mock-up_23-2148787550.jpg?t=st=1653904478~exp=1653905078~hmac=d8c3f665f41ac9f899b82afa0b3156cfe414315df2c615c7040130167c175a87&w=1060') no-repeat center center / cover" }}>
+                        </div>
+                        <div className="login__right">
+                            <div className="top">
+                                <h2>Đăng Nhập</h2>
+                                <div>
+                                    <p>Bạn có tài khoản chưa?</p>
+                                    <p className="registerNow" onClick={() => { handlePopupLogin(2) }}>Đăng ký ngay</p>
+                                </div>
+                            </div>
+                            <div className="login__container" >
+                                <label htmlFor="">Tên đăng nhập</label>
+                                <input type="text" placeholder="Username / Email / Số điện thoại" />
+                            </div>
+                            <div className="login__container">
+                                <label htmlFor="">Mật khẩu</label>
+                                <input type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
+                                <div onClick={handleHiden}><i className={`${!hiden ? "fa-solid fa-eye" : "fa-solid fa-eye hiden"}`}></i><i className={`${hiden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye-slash hiden"}`}></i></div>
+                            </div>
+                            <div className="login__container__checkbox">
+                                <div>
+                                    <input type="checkbox" name="" id="" />
+                                    <span>Ghi nhớ đăng nhập</span>
+                                </div>
+                                <label htmlFor="">Quên mật khẩu ?</label>
+                            </div>
+                            <button>Đăng nhập ngay</button>
+                        </div>
+                    </div> : <></>
+                    }
+                    {popupLogin === 2 ? <div className="register">
+                        <div className="login__left" style={{ background: "url('https://img.freepik.com/free-psd/presentation-back-front-smartwatches-with-screen-mock-up_23-2148787550.jpg?t=st=1653904478~exp=1653905078~hmac=d8c3f665f41ac9f899b82afa0b3156cfe414315df2c615c7040130167c175a87&w=1060') no-repeat center center / cover" }}>
+                        </div>
+                        <div className="login__right">
+                            <div className="top">
+                                <h2>Đăng ký</h2>
+                                <div>
+                                    <p>Bạn đã có tài khoản?</p>
+                                    <p className="registerNow" onClick={() => { handlePopupLogin(1) }}>Đăng nhập ngay</p>
+                                </div>
+                            </div>
+                            <div className="login__container" >
+                                <label htmlFor="">Nhập họ và tên</label>
+                                <input type="text" placeholder="Nguyễn Văn A" />
+                            </div>
+                            <div className="login__container" >
+                                <label htmlFor="">Nhập tên đăng nhập</label>
+                                <input type="text" placeholder="Username / Email / Số điện thoại" />
+                            </div>
+                            <div className="login__container">
+                                <label htmlFor="">Nhập mật khẩu</label>
+                                <input type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
+                                <div onClick={handleHiden}><i className={`${!hiden ? "fa-solid fa-eye" : "fa-solid fa-eye hiden"}`}></i><i className={`${hiden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye-slash hiden"}`}></i></div>
+                            </div>
+                            <div className="login__container">
+                                <label htmlFor="">Nhập lại mật khẩu</label>
+                                <input type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
+                                <div onClick={handleHiden}><i className={`${!hiden ? "fa-solid fa-eye" : "fa-solid fa-eye hiden"}`}></i><i className={`${hiden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye-slash hiden"}`}></i></div>
+                            </div>
+                            <div className="login__container" >
+                                <label htmlFor="">Nhập email</label>
+                                <input type="text" placeholder="info@bkwatch.vn" />
+                            </div>
+                            <div className="login__container__checkbox">
+                                <div>
+                                    <input type="checkbox" name="" id="" />
+                                    <span>Tôi đã đọc và đồng ý điều khoản</span>
+                                </div>
+                            </div>
+                            <button>Đăng ký ngay</button>
+                        </div>
+                    </div> : <></>
+                    }
+                </div>
+            }
         </div>
     )
 }

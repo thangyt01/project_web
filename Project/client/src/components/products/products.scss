@@ -1,6 +1,18 @@
 .products{
     padding-top: 25px;
     padding-bottom: 25px;
+    padding-left: 140px;
+    padding-right: 140px;
+    
+    @media only screen and (max-width: 1075px) {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    @media only screen and (max-width: 500px) {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
     .title{
         display: flex;
         align-items: center;

@@ -3,7 +3,7 @@ import './products.scss'
 
 const Products = ({title}) => {
   return (
-    <div className='products padding___main'>
+    <div className='products'>
         <div className="title">
             <b></b>
             <h2>{title}</h2>

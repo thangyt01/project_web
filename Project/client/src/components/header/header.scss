@@ -38,6 +38,7 @@
                 flex: 1.5;
 
                 li {
+                    cursor: pointer;
                     display: flex;
                     align-items: center;
                     flex-direction: row;
@@ -143,6 +144,232 @@
 
                     .searchInput {
                         margin: 0 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .fill{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: rgba(30, 29, 29, 0.8);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .exit{
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #fff;
+            .MuiSvgIcon-root{
+                color: #fff;
+            }
+        }
+        .login{
+            width: 65%;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            min-width: 350px;
+            border-radius: 20px;
+            overflow: hidden;
+            .login__left{
+                padding: 80px 60px;
+                flex: 1;
+                border-right: 1px solid rgb(150, 150, 150);
+            }
+            .login__right{
+                padding: 80px 60px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                .top{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    div{
+                        p{
+                            text-align: right;
+                        }
+                        .registerNow{
+                            color: var(--color-text-1);
+                            margin-top: 5px;
+                            cursor: pointer;
+                            &:hover{
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+                    h2{
+                        font-size: 2rem;
+                    }
+                }
+                .login__container{
+                    margin-top: 20px !important; 
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 8px;
+                    position: relative;
+                    label{
+                        padding: 0 5px;
+                        position: absolute;
+                        font-weight: 400;
+                        top: 0;
+                        left: 30px;
+                        transform: translateY(-50%);
+                        background-color: #fff;
+                    }
+                    div{
+                        
+                        i{
+                            font-size: 1rem;
+                            color: rgb(130, 130, 130);
+                            position: absolute;
+                            top: 50%;
+                            right: 20px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .login__container__checkbox{
+                    margin-top: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    input{
+                        height: 20px;
+                        width: 20px;
+                    }
+                    div{
+                        display: flex;
+                        align-items: center;
+                    }
+                }
+                label{
+                }
+                span{
+                    display: inline-block;
+                    margin: 5px;
+                }
+                button{
+                    border-radius: 20px;
+                    margin-top: 50px;
+                    border: 0;
+                    padding: 10px 20px;
+                    color: var(--color-text-2);
+                    background-color: var(--color-bg-3);
+                    height: 50px;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    &:hover{
+                        background-color: #ff9691;
+                    }
+                }
+            }
+        }
+        .register{
+            width: 65%;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            min-width: 350px;
+            border-radius: 20px;
+            overflow: hidden;
+            .login__left{
+                padding: 40px 60px;
+                flex: 1;
+                border-right: 1px solid rgb(150, 150, 150);
+            }
+            .login__right{
+                padding: 40px 60px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                .top{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    div{
+                        p{
+                            text-align: right;
+                        }
+                        .registerNow{
+                            color: var(--color-text-1);
+                            margin-top: 5px;
+                            cursor: pointer;
+                            &:hover{
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+                    h2{
+                        font-size: 2rem;
+                    }
+                }
+                .login__container{
+                    margin-top: 20px !important; 
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 8px;
+                    position: relative;
+                    label{
+                        padding: 0 5px;
+                        position: absolute;
+                        font-weight: 400;
+                        top: 0;
+                        left: 30px;
+                        transform: translateY(-50%);
+                        background-color: #fff;
+                    }
+                    div{
+                        
+                        i{
+                            font-size: 1rem;
+                            color: rgb(130, 130, 130);
+                            position: absolute;
+                            top: 50%;
+                            right: 20px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .login__container__checkbox{
+                    margin-top: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    input{
+                        height: 20px;
+                        width: 20px;
+                    }
+                    div{
+                        display: flex;
+                        align-items: center;
+                    }
+                }
+                label{
+                }
+                span{
+                    display: inline-block;
+                    margin: 5px;
+                }
+                button{
+                    border-radius: 20px;
+                    margin-top: 30px;
+                    border: 0;
+                    padding: 10px 20px;
+                    color: var(--color-text-2);
+                    background-color: var(--color-bg-3);
+                    height: 50px;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    &:hover{
+                        background-color: #ff9691;
                     }
                 }
             }
