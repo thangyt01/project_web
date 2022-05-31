@@ -13,12 +13,18 @@
         padding-left: 0px;
         padding-right: 0px;
     }
+    
     .title{
         display: flex;
         align-items: center;
+        position: relative;
         h2{
             text-align: center;
-            flex: 0.8;
+            position: absolute;
+            background-color: #fff;
+            right: 50%;
+            padding: 0 20px;
+            transform: translateX(50%);
         }
         b{
             flex: 1;
@@ -29,7 +35,7 @@
     .wrapper{
         margin-top: 25px;
         display: flex;
-        @media only screen and (max-width: 710px) {
+        @media only screen and (max-width: 800px) {
             flex-wrap: wrap;
         }
     }

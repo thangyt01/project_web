@@ -5,7 +5,11 @@
     margin: 10px;
     position: relative;
     border-radius: 10px;
-    @media only screen and (max-width: 710px) {
+    @media only screen and (max-width: 800px) {
+        min-width: 40%;
+        margin: 25px auto;
+    }
+    @media only screen and (max-width: 500px) {
         min-width: 80%;
         margin: 25px auto;
     }
@@ -15,16 +19,23 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
+    .top2{
+        position: relative;
+        &:hover .icon{
+            display: flex !important;
+        }
+        &:hover .top1{
+            filter: brightness(0.6);
+            transform: scale(1.15);
+        }
+    }
     .top1{
         padding-top: 100%;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         transition: all 0.15s ease-in;
-        &:hover{
-            filter: brightness(0.75);
-            transform: scale(1.15);
-        }
+        
     }
     .discount{
         position: absolute;
@@ -110,6 +121,47 @@
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
+            }
+        }
+    }
+    .icon{
+        color: #ccc;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 100%;
+        font-size: 1.4rem;
+        justify-content: space-around;
+        display: none;
+        z-index: 80;
+        i{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            width: 36px;
+            height: 36px;
+        }
+        .fa-heart{
+            &:hover{
+                color: #FF6363;
+                transform: scale(1.3);
+                background-color: #fff;    
+            }
+        }
+        .fa-cart-plus{
+            &:hover{
+                color: #a98274;
+                transform: scale(1.3);
+                background-color: #fff;
+            }
+        }
+        .fa-magnifying-glass{
+            &:hover{
+                color: #75a7ff;
+                background-color: #fff;
+                transform: scale(1.3);
             }
         }
     }

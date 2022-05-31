@@ -27,11 +27,16 @@ export const Header = ({ isScroll }) => {
     const [hiden, setHiden] = useState(true)
     const [popupLogin, setPopupLogin] = useState(0)
 
-    const handleHiden = () => {
+    const handleHiden = () => {  
         setHiden(!hiden)
     }
 
-    const handlePopupLogin = (value) => {
+    const handlePopupLogin = (value) => {        
+        if(!popupLogin){
+            document.querySelector('body').style.overflowY = 'hidden'
+        } else{
+            document.querySelector('body').style.overflowY = 'scroll'
+        }
         setPopupLogin(value)
     }
 
@@ -89,7 +94,7 @@ export const Header = ({ isScroll }) => {
                             <CloseIcon></CloseIcon>
                         </IconButton>
                     </div>
-                    {popupLogin === 1 ? <div className="login">
+                    {popupLogin === 1 ? <div className="login same">
                         <div className="login__left" style={{ background: "url('https://img.freepik.com/free-psd/presentation-back-front-smartwatches-with-screen-mock-up_23-2148787550.jpg?t=st=1653904478~exp=1653905078~hmac=d8c3f665f41ac9f899b82afa0b3156cfe414315df2c615c7040130167c175a87&w=1060') no-repeat center center / cover" }}>
                         </div>
                         <div className="login__right">
@@ -120,7 +125,7 @@ export const Header = ({ isScroll }) => {
                         </div>
                     </div> : <></>
                     }
-                    {popupLogin === 2 ? <div className="register">
+                    {popupLogin === 2 ? <div className="register same">
                         <div className="login__left" style={{ background: "url('https://img.freepik.com/free-psd/presentation-back-front-smartwatches-with-screen-mock-up_23-2148787550.jpg?t=st=1653904478~exp=1653905078~hmac=d8c3f665f41ac9f899b82afa0b3156cfe414315df2c615c7040130167c175a87&w=1060') no-repeat center center / cover" }}>
                         </div>
                         <div className="login__right">
