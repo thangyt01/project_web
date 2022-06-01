@@ -55,6 +55,17 @@
             }
         }
 
+        .bottom.first{
+            padding-left: 130px;
+            @media only screen and (max-width: 1075px) {
+                padding-left: 10px;
+            }
+
+            @media only screen and (max-width: 500px) {
+                padding-left: 0px;
+            }
+        }
+
         .bottom {
             padding-top: 10px;
             padding-bottom: 10px;
@@ -115,6 +126,14 @@
                 }
 
                 li {
+                    padding: 4px 20px;
+                    border-radius: 8px;
+                    @media only screen and (max-width: 720px) {
+                        padding: 4px 16px;
+                    }
+                    @media only screen and (max-width: 704px) {
+                        border-radius: 0px;
+                    }
                     font-size: 1.3rem;
                     list-style: none;
                     cursor: pointer;

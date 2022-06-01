@@ -22,7 +22,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
-export const Header = ({ isScroll }) => {
+export const Header = ({ selected }) => {
     const dispatch = useDispatch()
     const [hiden, setHiden] = useState(true)
     const [popupLogin, setPopupLogin] = useState(0)
@@ -65,13 +65,13 @@ export const Header = ({ isScroll }) => {
                         </ul>
                     </div>
                 </div>
-                <div className="bottom align-item___center">
+                <div className={`bottom align-item___center ${selected !== 1 ? "first":""}`}>
                     <div className="bottom___left" onClick={handleClickMenu}>
                         <ul>
-                            <li className="margin___right">Trang chủ</li>
-                            <li className="margin___right">Sản phẩm</li>
-                            <li className="margin___right">Liên hệ</li>
-                            <li className="margin___right">Về chúng tôi</li>
+                            <li className={`${selected === 1 ? "choose":""}`}>Trang chủ</li>
+                            <li className={`${selected === 2 ? "choose":""}`}>Sản phẩm</li>
+                            <li className={`${selected === 3 ? "choose":""}`}>Liên hệ</li>
+                            <li className={`${selected === 4 ? "choose":""}`}>Về chúng tôi</li>
                         </ul>
                         <IconButton aria-label="menu" className="padding__side">
                             <MenuIcon className="menuIcon"></MenuIcon>

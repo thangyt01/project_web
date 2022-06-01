@@ -6,7 +6,7 @@ import Home from './pages/home/Home';
 function App() {
   return (
     <div className="app" >
-      <Home></Home> 
+      <Home selected={1}></Home> 
     </div>
   );
 }

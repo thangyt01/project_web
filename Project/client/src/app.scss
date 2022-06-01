@@ -54,16 +54,9 @@
     align-items: center;
 }
 
-.margin___right {
-    margin-right: 50px;
-    
-    @media only screen and (max-width: 1160px) {
-        margin-right: 20px;
-    }
-
-    @media only screen and (max-width: 500px) {
-        margin-right: 5px;
-    }
+.choose {
+    background-color: #125b50;
+    color: #fff;
 }
 
 ul {

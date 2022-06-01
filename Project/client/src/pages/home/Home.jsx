@@ -15,7 +15,7 @@ const Home = ({selected}) => {
 
     return (
         <div className="home">
-            <Header></Header>
+            <Header selected={selected}></Header>
             <Slider></Slider>
             <Products title={'Sản phẩm mới nhất'}></Products>
             <Products title={'Sản phẩm bán chạy nhất'}></Products>
