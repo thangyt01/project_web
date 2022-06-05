@@ -88,7 +88,8 @@ export const Header = ({ selected }) => {
                 </div>
             </div>
             {!popupLogin? <></> : 
-                <div className="fill">
+                <div className="fill" >
+                    <div className="fill2" onClick={()=>{ handlePopupLogin(0) }}></div>
                     <div className="exit" onClick={() => { handlePopupLogin(0) }}>
                         <IconButton aria-label="exit">
                             <CloseIcon></CloseIcon>
