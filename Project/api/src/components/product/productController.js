@@ -1,6 +1,6 @@
 const { ERROR_CODE_SYSTEM_ERROR } = require('../../helpers/errorCodes')
 const { respondWithError, respondItemSuccess } = require('../../helpers/messageResponse');
-const { fetchGetListProducts, fetchGetProduct, fetchUpdateProduct, fetchDeleteProduct, fetchGetRecommendProduct } = require('./productService');
+const { fetchGetListProducts, fetchGetProduct, fetchUpdateProduct, fetchDeleteProduct, fetchGetRecommendProduct, fetchCreateProduct } = require('./productService');
 
 async function getListProducts(req, res) {
     let query = req.query;
@@ -60,6 +60,16 @@ async function getRecommendProduct(req, res) {
         res.end(respondWithError(ERROR_CODE_SYSTEM_ERROR, error.message, error))
     }
 }
+async function getCreateProduct(req, res) {
+    try {
+        const results = await fetchCreateProduct(req);
+        if (results.success) res.end(respondItemSuccess(results.data, results.message))
+        else res.end(respondWithError(results.code, results.message, {}))
+
+    } catch (error) {
+        res.end(respondWithError(ERROR_CODE_SYSTEM_ERROR, error.message, error))
+    }
+}
 
 
 module.exports = {
@@ -67,5 +77,6 @@ module.exports = {
     getProduct,
     updateProduct,
     deleteProduct,
-    getRecommendProduct
+    getRecommendProduct,
+    getCreateProduct
 }

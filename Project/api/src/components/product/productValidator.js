@@ -42,20 +42,16 @@ function updateProductValidator(req, res){
 function createProductValidator(req, res){
     const {
         name, 
-        detail,
-        description,
         price,
-        color,
-        imagepath, 
+        ...others
     } = req.body
 
     let validatorName = (new Validator(name)).string().require()
-    let validatorDetail = (new Validator(detail)).string().require()
-    let validatorDescription = (new Validator(description)).string().require()
-    let validatorColor = (new Validator(color)).string().require()
-    let validatorImagepath = (new Validator(imagepath)).string().require()
-    let validatorPrice = (new Validator(price)).string().require().min(0)
-    return validatorName.check * validatorDetail.check * validatorDescription.check * validatorColor.check * validatorImagepath.check * validatorPrice.check;
+    // let validatorDetail = (new Validator(detail)).string().require()
+    // let validatorDescripion = (new Validator(descripion)).string().require()
+    // let validatorColor = (new Validator(color)).string().require()
+    let validatorPrice = (new Validator(price)).string().require()
+    return validatorName.check * validatorPrice.check;
 }
 
 
