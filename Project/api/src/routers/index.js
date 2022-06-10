@@ -15,7 +15,7 @@ async function getRoutes(req, res, routers){
                         console.log(`\x1b[37m${''}`)
                         return 
                     }
-                    if(api.authenticate && !api.authorization(req, res)){
+                    if(api.authoriztion && !await api.authoriztion(req, res)){
                         res.writeHead(ERROR_CODE_UNAUTHORIZED, { "Content-Type": "application/json" })
                         res.end(respondWithError(ERROR_CODE_UNAUTHORIZED, 'Bạn không có quyền truy cập API này!!', {}))
                         console.timeEnd(`\x1b[37m${req.method}` + " - " + `\x1b[33m${'/api' + router.mainUrl + api.url}` + `  \x1b[32m${''}`)
