@@ -3,7 +3,10 @@ import { config } from "./config/config";
 
 export const publicRequest = axios.create({
         baseURL: `${config.REQUEST_URL}`,
-        timeout: 2000
+        timeout: 2000,
+        headers: {
+            'Content-Type': 'application/json'
+        }
 })
 
 export const privateRequest = async (path)=>{

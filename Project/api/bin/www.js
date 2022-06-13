@@ -17,6 +17,10 @@ var port = process.env.PORT || 8000
  * Create HTTP server.
  */
 var server = http.createServer(async function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
     await setBodyRequest(req)
     setQueryAndPathNameRequest(req)
     getRoutes(req, res, routers)
