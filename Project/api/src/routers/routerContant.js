@@ -1,5 +1,6 @@
 const { login, register } = require("../components/auth/authController")
 const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct } = require("../components/product/productController")
+const { getOrder, getListTotalOrder, updateOrder, deleteOrder, statsOrder } = require("../components/order/orderController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
 const { authenticate, authorizationAdmin } = require("../middlewares/auth")
 
@@ -28,7 +29,7 @@ const routers = [
             }
         ]
     },
-      {
+    {
         name: 'product',
         mainUrl: '/product',
         listApi: [
@@ -76,6 +77,57 @@ const routers = [
                 authoriztion: null,
                 validator: null,
                 handle: getRecommendProduct
+            }
+        ]
+    },
+    {
+        name: 'order',
+        mainUrl: '/order',
+        listApi: [
+            {
+                name: 'get order',
+                method: 'GET',
+                url: '',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: getOrder
+            },
+            {
+                name: 'get list total order',
+                method: 'GET',
+                url: '/get_list_total_order',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: getListTotalOrder
+            },
+            {
+                name: 'update order',
+                method: 'PUT',
+                url: '/update',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: updateOrder
+            },
+            {
+                name: 'delete order',
+                method: 'DELETE',
+                url: '/delete',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: deleteOrder
+            },
+            {
+                name: 'stats order',
+                method: 'GET',
+                url: '',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: statsOrder
             }
         ]
     },

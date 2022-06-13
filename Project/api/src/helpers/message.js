@@ -23,7 +23,13 @@ const USERS = {
     '2020': 'Lấy danh sách sản phẩm thành công',
     '2021': 'Không tìm thấy sản phẩm',
     '2022': 'Xóa sản phẩm thành công',
-    '2023': 'Cập nhật sản phẩm thành công'
+    '2023': 'Cập nhật sản phẩm thành công',
+    '2024': 'Không tìm thấy hóa đơn',
+    '2025': 'Lấy danh sách hóa đơn thành công',
+    '2026': 'Cập nhật đơn hàng thành công',
+    '2027': 'Xóa đơn hàng thành công',
+    '2028': 'Lấy danh sách đơn hàng thành công',
+    '2029': 'Thống kê thành công',
 }
 
 module.exports = {
