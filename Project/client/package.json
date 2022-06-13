@@ -9,7 +9,20 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/material": "^5.8.1",
+    "@mui/styled-engine": "^5.8.0",
+    "@reduxjs/toolkit": "^1.8.2",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "react-redux": "^8.0.2",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
+    "redux-persist": "^6.0.0",
+    "sass": "^1.52.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,5 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  }, "proxy":"http://localhost:8000/"
 }
