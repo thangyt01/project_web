@@ -157,11 +157,13 @@ async function fetchStatsOrder(query) {
             groupBy: [], 
         }
         
-        querySql.groupBy = ['month', 'year']
-        querySql.attributes = [...querySql.attributes, 'month', 'year'] 
         if(type == 1){
             querySql.groupBy = ['date', 'month', 'year']
             querySql.attributes = [...querySql.attributes, 'date', 'month', 'year'] 
+        }
+        if(type ==2){
+            querySql.groupBy = ['month', 'year']
+            querySql.attributes = [...querySql.attributes, 'month', 'year'] 
         }
         if(type == 3){
             querySql.groupBy = ['year']
@@ -170,6 +172,7 @@ async function fetchStatsOrder(query) {
         
         const result = await find(querySql)
 
+        console.log(result)
         return {
             success: true,
             data: result,
