@@ -1,80 +1,87 @@
 const { update, find, create, destroy } = require("../../../database/service");
 const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD, ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST, ERROR_CODE_UPLOAD_ERROR } = require("../../helpers/errorCodes");
-const { USERS } = require("../../helpers/message");
+const { PRODUCTS } = require("../../helpers/message");
 const { genPrivateKey } = require('../../helpers/utils')
 
 
 async function fetchGetListProducts(query) {
     // Ví dụ một đường dẫn đầy đủ filter: localhost:8000/api/product/get_list_products?page=0&limit=10&where=price>10000,price<5000000&groupBy=price, discount&having=discount!=0&orderBy=price&asc=1
     let sql_query = {};
-    var { page,
-        offset,
-        limit,
-        groupBy,
-        having,
-        orderBy,
+    var { page = 0,
+        sort,
+        limit = 16,
         priceFrom,
         priceTo,
         color,
-        ...others
+        name,
     } = query
-    if (page) sql_query.page = page;
-    if (limit) sql_query.limit = limit;
-    if (offset) sql_query.offset = offset;
-    if (groupBy && having) {
-        groupBy = groupBy.split(",")
-        having = having.split(",")
+    sql_query ={
+        attributes: ['id', 'name', 'detail', 'descripion', 'price', 'color', 'createdAt'],
+        table: 'product',
+        includes: [{
+            attributes : ['path'],
+            table: 'image',
+            type: 'left join',
+            on: 'product.id = image.product_id',
+        }],
+        where: '1=1',
+        limit,
+        offset: page * limit,
+        orderBy: 'createdAt desc'
 
-        sql_query.groupBy = groupBy;
-        sql_query.having = having;
     }
-    if (orderBy) {
-        orderByArr = orderBy.split(",")
-        sql_query.orderBy = {};
-        sql_query.orderBy[orderByArr[0]] = orderByArr[1];
-
+    if (page) sql_query.offset = page * 16;
+    if (sort==2) {
+        sql_query.orderBy = 'createdAt asc'
     }
-    sql_query.attributes = ['id', 'name', 'detail', 'descripion', 'price', 'color', 'createdAt']
     // sql_query.includes = [{
     //     attributes: ['path'],
     //     table: 'image',
     //     on: 'product.id = image.product_id',
     //     type: 'inner join'
     // }]
-    if (priceFrom && priceTo) {
-        sql_query.where = 'price >= ' + priceFrom + ' and price <= ' + priceTo;
-        if (color) sql_query.where += ` and color = \'${color}\'`;
-    } else if (color) sql_query.where = `color = \'${color}\'`;
-    sql_query.table = 'product'
+    if (priceFrom ) {
+        sql_query.where += ' and price >= ' + priceFrom
+    }
+    if (priceTo ) {
+        sql_query.where += ' and price <= ' + priceTo
+    }
+    if (color ) {
+        sql_query.where += ` and color like '%${color}%'`
+    }
+    if (name ) {
+        sql_query.where += ` and name like '%${name}%'`
+    }
+       
 
 
     try {
         let data = await find(sql_query)
-        for (const i in data) {
-            var imageArr = []
-            let imageData = await find({
-                attributes: [],
-                table: 'image',
-                where: `product_id = '${data[i].id}'`
-            })
-            for (const j in imageData) {
-                imageArr = [imageData[j].path, ...imageArr]
-            }
-            data[i].image_path = imageArr
+        productData = []
+        for (let i of data) {
+            const index = productData.findIndex(e => e.id === i.id);
+           if(index < 0){
+            i.path = [i.path]
+            i.detail = i.detail.split('@@@')
+            i.descripion = i.descripion.split('\n')
+            i.color = i.color.split('@@@')
+            i.price = i.price.replace('₫', '').replace('₫', '').replace('.', '')
+            productData.push(i)
+           }else{
+            productData[index].path.push(i.path)
+           }
+            
         }
-        for (const i in data) {
-            let detail = data[i].detail;
-            if (detail) data[i].detail = detail.split("@@@")
-            let color = data[i].color;
-            if (color) data[i].color = color.split("@@@")
-            let descripion = data[i].descripion;
-            if (descripion) data[i].descripion = descripion.split("\n  ")
-
+        if(sort == 3){
+            productData.sort((a, b)=> parseInt(a.price.split(' - ')[0])  - parseInt(b.price.split(' - ')[0]))
+        }
+        if(sort == 4){
+            productData.sort((a, b)=> parseInt(b.price.split(' - ')[0])  - parseInt(a.price.split(' - ')[0]))
         }
         return {
             success: true,
-            data: data,
-            message: USERS['2020']
+            data: productData,
+            message: PRODUCTS['2020']
         }
     } catch (error) {
         return {
@@ -98,7 +105,7 @@ async function fetchGetProduct(query) {
             return {
                 error: true,
                 code: ERROR_CODE_ITEM_NOT_EXIST,
-                message: USERS['2031']
+                message: PRODUCTS['2031']
             }
         }
         let imageData = await find({
@@ -110,7 +117,7 @@ async function fetchGetProduct(query) {
             return {
                 error: true,
                 code: ERROR_CODE_ITEM_NOT_EXIST,
-                message: USERS['2032']
+                message: PRODUCTS['2032']
             }
         }
         data = data[0]
@@ -120,7 +127,7 @@ async function fetchGetProduct(query) {
             return {
                 error: true,
                 code: ERROR_CODE_ITEM_NOT_EXIST,
-                message: USERS['2021']
+                message: PRODUCTS['2021']
             }
         }
         if (data && imageData) {
@@ -129,16 +136,14 @@ async function fetchGetProduct(query) {
                 imagePath.push(imageData[i].path)
             }
             data.image_path = imagePath;
-            let detail = data.detail;
-            if (detail) data.detail = detail.split("@@@")
-            let color = data.color;
-            if (color) data.color = color.split("@@@")
-            let descripion = data.descripion;
-            if (descripion) data.descripion = descripion.split("\n  ")
+            data.detail = data.detail.split("@@@")
+            data.color = data.color.split("@@@")
+            data.price = data.price.replace('₫', '').replace('₫', '').replace('.', '')
+            data.descripion = data.descripion.split("\n")
             return {
                 success: true,
                 data: data,
-                message: USERS['2020']
+                message: PRODUCTS['2020']
             }
         }
     } catch (error) {
@@ -165,7 +170,7 @@ async function fetchUpdateProduct(req) {
             return {
                 error: true,
                 code: ERROR_CODE_ITEM_NOT_EXIST,
-                message: USERS['2031']
+                message: PRODUCTS['2031']
             }
         }
         await update({
@@ -182,7 +187,7 @@ async function fetchUpdateProduct(req) {
         return {
             success: true,
             data: {},
-            message: USERS['2023']
+            message: PRODUCTS['2023']
         }
     } catch (error) {
         return {
@@ -204,7 +209,7 @@ async function fetchDeleteProduct(query) {
             return {
                 error: true,
                 code: ERROR_CODE_ITEM_NOT_EXIST,
-                message: USERS['2031']
+                message: PRODUCTS['2031']
             }
         }
         await destroy({
@@ -219,7 +224,7 @@ async function fetchDeleteProduct(query) {
         return {
             success: true,
             data: {},
-            message: USERS['2022']
+            message: PRODUCTS['2022']
         }
     } catch (error) {
         return {
@@ -240,7 +245,7 @@ async function fetchGetRecommendProduct(query) {
         return {
             success: true,
             data: data,
-            message: USERS['2020']
+            message: PRODUCTS['2020']
         }
     } catch (error) {
         return {
@@ -264,7 +269,7 @@ async function fetchCreateProduct(req) {
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
-                message: USERS['2025'],
+                message: PRODUCTS['2025'],
             };
         }
         console.log(data.detail.length)
@@ -273,7 +278,7 @@ async function fetchCreateProduct(req) {
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
-                message: USERS['2026'],
+                message: PRODUCTS['2026'],
             };
         }
         if (data.descripion.length == 0) {
@@ -281,7 +286,7 @@ async function fetchCreateProduct(req) {
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
-                message: USERS['2027'],
+                message: PRODUCTS['2027'],
             };
         }
         if (data.price.length == 0) {
@@ -289,7 +294,7 @@ async function fetchCreateProduct(req) {
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
-                message: USERS['2028'],
+                message: PRODUCTS['2028'],
             };
         }
         if (data.color.length == 0) {
@@ -297,7 +302,7 @@ async function fetchCreateProduct(req) {
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
-                message: USERS['2029'],
+                message: PRODUCTS['2029'],
             };
         }
         if (image_path.length == 0) {
@@ -305,7 +310,7 @@ async function fetchCreateProduct(req) {
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
-                message: USERS['2030'],
+                message: PRODUCTS['2030'],
             };
         }
         let dataProduct = await create({
@@ -331,7 +336,7 @@ async function fetchCreateProduct(req) {
         return {
             success: true,
             data: dataProduct,
-            message: USERS['2024']
+            message: PRODUCTS['2024']
         }
     } catch (error) {
         return {

@@ -20,6 +20,10 @@ const USERS = {
     '2017': 'Username hoặc số điện thoại hoặc email đã được sử dụng!',
     '2018': 'Tên không hợp lệ!',
     '2019': 'Đăng ký tài khoản thành công.',
+    
+
+}
+const PRODUCTS = {
     '2020': 'Lấy danh sách sản phẩm thành công',
     '2021': 'Không tìm thấy sản phẩm',
     '2022': 'Xóa sản phẩm thành công',
@@ -33,10 +37,8 @@ const USERS = {
     '2030': 'Ảnh sản phẩm không được để trống', 
     '2031': 'Sản phẩm không tồn tại', 
     '2032': 'Không có ảnh của sản phẩm này', 
-
-
 }
 
 module.exports = {
-    USERS
+    USERS, PRODUCTS
 }
