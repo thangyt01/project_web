@@ -31,7 +31,7 @@ async function getRoutes(req, res, routers){
                     }
                     if(api.handle){
                         res.writeHead(ERROR_CODE_INVALID_PARAMETER, { "Content-Type": "application/json" })
-                        api.handle(req, res)
+                        await api.handle(req, res)
                         console.timeEnd(`\x1b[37m${req.method}` + " - " + `\x1b[33m${'/api' + router.mainUrl + api.url}` + `  \x1b[32m${''}`)
                         console.log(`\x1b[37m${''}`)
                         return 
