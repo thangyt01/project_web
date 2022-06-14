@@ -2,6 +2,7 @@ const { update, find, create, destroy } = require("../../../database/service");
 const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD, ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../helpers/errorCodes");
 const { USERS } = require("../../helpers/message");
 const {genPrivateKey} =  require('../../helpers/utils')
+const moment = require('moment')
 
 async function fetchGetListTotalOrder(query) {
     var {
@@ -129,16 +130,54 @@ async function fetchDeleteOrder(query) {
     }
 }
 // Uncompleted!!
+/**
+ * 
+ * @param {*} query = {fromDay, toDay, type}
+ * fromDay, toDay dạng YYYY-MM-DD
+ * type = 1 thống kê theo ngày
+ * type = 2 thống kê theo tháng
+ * type = 3 thống kê theo năm
+ * @returns 
+ */
 async function fetchStatsOrder(query) {
     try {
+        let {
+            fromDay,
+            toDay,
+            type = 2
+        } = query
+        let from = moment(fromDay).format('YYYY-MM-DD')
+        let to = moment(toDay).format('YYYY-MM-DD')
+
+        let querySql = {
+            attributes: ['sum(total_cost) as total_cost', 'sum(quantity) as quantity'],
+            table: "`order`",
+            tableAttributes: 0,
+            where: `createdAt >= '${from}' AND createdAt <= '${to}'`,
+            groupBy: [], 
+        }
         
+        querySql.groupBy = ['month', 'year']
+        querySql.attributes = [...querySql.attributes, 'month', 'year'] 
+        if(type == 1){
+            querySql.groupBy = ['date', 'month', 'year']
+            querySql.attributes = [...querySql.attributes, 'date', 'month', 'year'] 
+        }
+        if(type == 3){
+            querySql.groupBy = ['year']
+            querySql.attributes = [...querySql.attributes, 'year'] 
+        }
+        
+        const result = await find(querySql)
 
         return {
             success: true,
-            data: data,
+            data: result,
             message: USERS['2029']
         }
-    } catch (error) {
+    } catch (e) {
+        const { errors = [] } = e;
+        const [error = {}] = errors;
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
