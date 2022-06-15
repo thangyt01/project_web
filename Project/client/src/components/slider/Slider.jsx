@@ -24,7 +24,7 @@ const Slider = () => {
     })
 
     const handleMouseMove = () => {
-        clearInterval(timeId)
+        clearInterval(timeId);
     }
 
     const handleMouseLeave = ()=>{

@@ -1,7 +1,8 @@
 const { login, register } = require("../components/auth/authController")
-const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct } = require("../components/product/productController")
+const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct, getCreateProduct } = require("../components/product/productController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
 const { authenticate, authorizationAdmin } = require("../middlewares/auth")
+const { createProductValidator } = require("../components/product/productValidator")
 const { getListUsers, getUser, updateUser, deleteUser } = require("../components/user/userController")
 
 const routers = [
@@ -77,6 +78,15 @@ const routers = [
                 authoriztion: null,
                 validator: null,
                 handle: getRecommendProduct
+            },
+            {
+                name: 'create product',
+                method: 'POST', 
+                url: '/create',
+                authenticate: null,
+                authoriztion: null,
+                validator: createProductValidator,
+                handle: getCreateProduct
             }
         ]
     },
