@@ -23,7 +23,8 @@ const USERS = {
     '2020': 'Lấy danh sách sản phẩm thành công',
     '2021': 'Không tìm thấy sản phẩm',
     '2022': 'Xóa sản phẩm thành công',
-    '2023': 'Cập nhật sản phẩm thành công'
+    '2023': 'Cập nhật sản phẩm thành công',
+    '2024': 'Lấy danh sách user thành công',
 }
 
 module.exports = {

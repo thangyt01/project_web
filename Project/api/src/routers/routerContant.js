@@ -2,6 +2,7 @@ const { login, register } = require("../components/auth/authController")
 const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct } = require("../components/product/productController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
 const { authenticate, authorizationAdmin } = require("../middlewares/auth")
+const { getListUsers, getUser, updateUser, deleteUser } = require("../components/user/userController")
 
 const routers = [
     {
@@ -28,7 +29,7 @@ const routers = [
             }
         ]
     },
-      {
+    {
         name: 'product',
         mainUrl: '/product',
         listApi: [
@@ -40,7 +41,7 @@ const routers = [
                 authoriztion: null,
                 validator: null,
                 handle: getProduct
-            }, 
+            },
             {
                 name: 'get list products',
                 method: 'GET',
@@ -49,7 +50,7 @@ const routers = [
                 authoriztion: null,
                 validator: null,
                 handle: getListProducts
-            }, 
+            },
             {
                 name: 'update product',
                 method: 'PUT',
@@ -58,7 +59,7 @@ const routers = [
                 authoriztion: null,
                 validator: null,
                 handle: updateProduct
-            },  
+            },
             {
                 name: 'delete product',
                 method: 'DELETE',
@@ -67,7 +68,7 @@ const routers = [
                 authoriztion: null,
                 validator: null,
                 handle: deleteProduct
-            }, 
+            },
             {
                 name: 'get recommend product',
                 method: 'GET',
@@ -77,6 +78,48 @@ const routers = [
                 validator: null,
                 handle: getRecommendProduct
             }
+        ]
+    },
+    {
+        name: 'user',
+        mainUrl: '/user',
+        listApi: [
+            {
+                name: 'get list user',
+                method: 'GET',
+                url: '/get_list_users',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: getListUsers
+            },
+            {
+                name: 'getUser',
+                method: 'GET',
+                url: '',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: getUser
+            },
+            {
+                name: 'updateUser',
+                method: 'PUT',
+                url: '/update',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: updateUser
+            },
+            {
+                name: 'deleteUser',
+                method: 'DELETE',
+                url: '/delete',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: deleteUser
+            },
         ]
     },
 ]
