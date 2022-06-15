@@ -1,11 +1,9 @@
 const { update, find, create, destroy } = require("../../../database/service");
-const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD, ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST, ERROR_CODE_UPLOAD_ERROR } = require("../../helpers/errorCodes");
+const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST, ERROR_CODE_UPLOAD_ERROR } = require("../../helpers/errorCodes");
 const { PRODUCTS } = require("../../helpers/message");
-const { genPrivateKey } = require('../../helpers/utils')
 
 
 async function fetchGetListProducts(query) {
-    // Ví dụ một đường dẫn đầy đủ filter: localhost:8000/api/product/get_list_products?page=0&limit=10&where=price>10000,price<5000000&groupBy=price, discount&having=discount!=0&orderBy=price&asc=1
     let sql_query = {};
     var { page = 0,
         sort,
@@ -34,12 +32,6 @@ async function fetchGetListProducts(query) {
     if (sort==2) {
         sql_query.orderBy = 'createdAt asc'
     }
-    // sql_query.includes = [{
-    //     attributes: ['path'],
-    //     table: 'image',
-    //     on: 'product.id = image.product_id',
-    //     type: 'inner join'
-    // }]
     if (priceFrom ) {
         sql_query.where += ' and price >= ' + priceFrom
     }
@@ -53,8 +45,6 @@ async function fetchGetListProducts(query) {
         sql_query.where += ` and name like '%${name}%'`
     }
        
-
-
     try {
         let data = await find(sql_query)
         productData = []
@@ -96,7 +86,6 @@ async function fetchGetProduct(query) {
     try {
 
         let data = await find({
-            // attributes: ['id', 'name', 'detail', 'descripion', 'price', 'color', 'createdAt'],
             attributes: [],
             table: 'product',
             where: `id = '${query.id}'`,
@@ -161,7 +150,6 @@ async function fetchUpdateProduct(req) {
 
     try {
         let data = await find({
-            // attributes: ['id', 'name', 'detail', 'descripion', 'price', 'color', 'createdAt'],
             attributes: [],
             table: 'product',
             where: `id = '${req.query.id}'`,
@@ -241,7 +229,6 @@ async function fetchGetRecommendProduct(query) {
             attributes: [],
             table: 'product',
         })
-        // console.log(data)
         return {
             success: true,
             data: data,
@@ -257,7 +244,6 @@ async function fetchGetRecommendProduct(query) {
 }
 
 async function fetchCreateProduct(req) {
-    // console.log(req.body)
     let { image_path, id, ...data } = req.body
     data.detail = data.detail.join('@@@')
     data.color = data.color.join('@@@')
@@ -265,16 +251,13 @@ async function fetchCreateProduct(req) {
 
     try {
         if (data.name.length == 0) {
-            // return user not exist
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
                 message: PRODUCTS['2025'],
             };
         }
-        console.log(data.detail.length)
         if (data.detail.length == 0) {
-            // return user not exist
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
@@ -282,7 +265,6 @@ async function fetchCreateProduct(req) {
             };
         }
         if (data.descripion.length == 0) {
-            // return user not exist
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
@@ -290,7 +272,6 @@ async function fetchCreateProduct(req) {
             };
         }
         if (data.price.length == 0) {
-            // return user not exist
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
@@ -298,7 +279,6 @@ async function fetchCreateProduct(req) {
             };
         }
         if (data.color.length == 0) {
-            // return user not exist
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
@@ -306,7 +286,6 @@ async function fetchCreateProduct(req) {
             };
         }
         if (image_path.length == 0) {
-            // return user not exist
             return {
                 error: true,
                 code: ERROR_CODE_UPLOAD_ERROR,
@@ -332,7 +311,6 @@ async function fetchCreateProduct(req) {
                 }
             })
         }
-        // console.log(data)
         return {
             success: true,
             data: dataProduct,
@@ -345,11 +323,6 @@ async function fetchCreateProduct(req) {
             message: `${error.message}: ${error['message'] || ''}`
         }
     }
-
-
-
-
-    return 1;
 }
 
 module.exports = {

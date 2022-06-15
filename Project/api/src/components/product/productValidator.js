@@ -8,7 +8,6 @@ function updateProductValidator(req, res){
         price,
         color,
         imagepath,
-       
     } = req.body
 
     if(name){
@@ -43,13 +42,9 @@ function createProductValidator(req, res){
     const {
         name, 
         price,
-        ...others
     } = req.body
 
     let validatorName = (new Validator(name)).string().require()
-    // let validatorDetail = (new Validator(detail)).string().require()
-    // let validatorDescripion = (new Validator(descripion)).string().require()
-    // let validatorColor = (new Validator(color)).string().require()
     let validatorPrice = (new Validator(price)).string().require()
     return validatorName.check * validatorPrice.check;
 }

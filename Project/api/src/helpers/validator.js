@@ -14,10 +14,6 @@ Validator.prototype.require = function() {
 }
 
 Validator.prototype.allow = function(type){
-    // if(!this.check) return this
-    // if(this.obj === {} || this.obj === [] || this.obj === '' || this.obj === null || this.obj === undefined){
-    //     this.check = 1
-    // }
     if(!this.obj) this.check = 0
     if(this.check) return this
     this.check = this.obj === type ? 1 : 0

@@ -1,8 +1,8 @@
 const { login, register } = require("../components/auth/authController")
 const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct, getCreateProduct } = require("../components/product/productController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
-const { authenticate, authorizationAdmin } = require("../middlewares/auth")
-const { createProductValidator } = require("../components/product/productValidator")
+const { authenticate, authorizationAdmin, authorizationMyUser } = require("../middlewares/auth")
+const { createProductValidator, updateProductValidator } = require("../components/product/productValidator")
 const { getListUsers, getUser, updateUser, deleteUser } = require("../components/user/userController")
 
 const routers = [
@@ -56,17 +56,17 @@ const routers = [
                 name: 'update product',
                 method: 'PUT',
                 url: '/update',
-                authenticate: null,
-                authoriztion: null,
-                validator: null,
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: updateProductValidator,
                 handle: updateProduct
             },
             {
                 name: 'delete product',
                 method: 'DELETE',
                 url: '/delete',
-                authenticate: null,
-                authoriztion: null,
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
                 validator: null,
                 handle: deleteProduct
             },
@@ -83,8 +83,8 @@ const routers = [
                 name: 'create product',
                 method: 'POST', 
                 url: '/create',
-                authenticate: null,
-                authoriztion: null,
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
                 validator: createProductValidator,
                 handle: getCreateProduct
             }
@@ -108,7 +108,7 @@ const routers = [
                 method: 'GET',
                 url: '',
                 authenticate: authenticate,
-                authoriztion: authorizationAdmin,
+                authoriztion: authorizationMyUser,
                 validator: null,
                 handle: getUser
             },
@@ -116,8 +116,8 @@ const routers = [
                 name: 'updateUser',
                 method: 'PUT',
                 url: '/update',
-                authenticate: null,
-                authoriztion: null,
+                authenticate: authenticate,
+                authoriztion: authorizationMyUser,
                 validator: null,
                 handle: updateUser
             },
@@ -125,8 +125,8 @@ const routers = [
                 name: 'deleteUser',
                 method: 'DELETE',
                 url: '/delete',
-                authenticate: null,
-                authoriztion: null,
+                authenticate: authenticate,
+                authoriztion: authorizationMyUser,
                 validator: null,
                 handle: deleteUser
             },
