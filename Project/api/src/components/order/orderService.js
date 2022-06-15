@@ -1,54 +1,52 @@
 const { update, find, create, destroy } = require("../../../database/service");
-const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD, ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../helpers/errorCodes");
-const { USERS } = require("../../helpers/message");
-const {genPrivateKey} =  require('../../helpers/utils')
+const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../helpers/errorCodes");
+const { ORDER } = require("../../helpers/message");
 const moment = require('moment')
 
 async function fetchGetListTotalOrder(query) {
-    var {
-        page,
-        limit,
-        orderBy,
-        groupBy,
-        having,
-        asc,
-        where,
-        ...other
-    } = query
-    if (having) having = having.split(",")
-    if (where) where = where.split(",").join(' and ');
-
     try {
-        if(!groupBy || !having) {
-            var data = await find({
-                attributes: [],
-                table: 'order',
-                limit: query.limit || 999,
-                where: where,
-                orderBy: orderBy || 1
-            })
-        } else if(groupBy && having) {
-            var data = await find({
-                attributes: [],
-                table: 'order',
-                limit: query.limit || 999,
-                having: having,
-                groupBy: groupBy,
-                where: where,
-                orderBy: orderby || 1
-            })
-        }
+        let {
+            page = 0,
+            limit = 10,
+            user,
+            productName,
+            productId,
+            fromDay,
+            toDay,
+        } = query
 
+        let sql = {
+            attributes: [],
+            table: '`order`',
+            limit,
+            offset: limit * page,
+            where: `1 = 1`,
+        }
+        if (user) {
+            sql.where += ` AND (firstname LIKE '%${user}%' OR lastname LIKE '%${user}%' OR phone LIKE '%${user}%') `
+        }
+        if (productName) {
+            const listProduct = await find({
+                attributes: [],
+                table: 'product',
+                where: `name LIKE '${productName}'`,
+            })
+            if (listProduct.length > 0) sql.where += ` AND product_id IN(${listProduct.map(i => i.id).join(',')}) `
+        }
+        if(productId) sql.where += ` AND product_id = ${productId} `
+        if(fromDay) sql.where += ` AND createdAt >= ${fromDay} `
+        if(toDay) sql.where += ` AND createdAt <= ${toDay} `
+        const result = await find(sql)
         return {
             success: true,
-            data: data,
-            message: USERS['2028']
+            data: result,
+            message: ORDER['2028']
         }
     } catch (error) {
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
-            message: `${e.message}: ${error['message'] || ''}`
+            message: `${error.message}: ${error['message'] || ''}`
         }
     }
 }
@@ -57,24 +55,24 @@ async function fetchGetOrder(query) {
     try {
         let data = await find({
             attributes: [],
-            table: 'order',
-            where: `id = '${query.id}`,
+            table: '`order`',
+            where: `id = '${query.id}'`,
         })
-        data = data[0]
 
-        if (!data) {
+        if (data.length < 1) {
             return {
                 error: true,
                 code: ERROR_CODE_ITEM_NOT_EXIST,
-                message: USERS['2024']
+                message: ORDER['2024']
             }
         }
-        if (data) {
-            return {
-                success: true,
-                data: data,
-                message: USERS['2025']
-            }
+
+        data = data[0]
+
+        return {
+            success: true,
+            data: data,
+            message: ORDER['2025']
         }
     } catch (error) {
         return {
@@ -86,19 +84,17 @@ async function fetchGetOrder(query) {
 }
 
 async function fetchUpdateOrder(req) {
-    console.log(req.body)
-    let { ...dataUpdate } = req.body
     try {
         await update({
-            table: 'order',
-            data: dataUpdate,
+            table: '`order`',
+            data: req.body,
             where: `id = '${req.query.id}'`,
         })
 
         return {
             success: true,
             data: {},
-            message: USERS['2026']
+            message: ORDER['2026']
         }
 
     } catch (error) {
@@ -113,13 +109,34 @@ async function fetchUpdateOrder(req) {
 async function fetchDeleteOrder(query) {
     try {
         await destroy({
-            table: 'order',
+            table: '`order`',
             where: `id = ${query.id}`
         })
         return {
             success: true,
             data: {},
-            message: USERS['2027']
+            message: ORDER['2027']
+        }
+    } catch (error) {
+        return {
+            error: true,
+            code: ERROR_CODE_SYSTEM_ERROR,
+            message: `${error.message}: ${error['message'] || ''}`
+        }
+    }
+}
+
+async function fetchCreateOrder(credentials) {
+    try {
+        
+        await create({
+            table: '`order`',
+            data: credentials
+        })
+        return {
+            success: true,
+            data: {},
+            message: ORDER['2030']
         }
     } catch (error) {
         return {
@@ -154,25 +171,24 @@ async function fetchStatsOrder(query) {
             table: "`order`",
             tableAttributes: 0,
             where: `createdAt >= '${from}' AND createdAt <= '${to}'`,
-            groupBy: [], 
+            groupBy: [],
         }
-        
-        if(type == 1){
+
+        if (type == 1) {
             querySql.groupBy = ['date', 'month', 'year']
-            querySql.attributes = [...querySql.attributes, 'date', 'month', 'year'] 
+            querySql.attributes = [...querySql.attributes, 'date', 'month', 'year']
         }
-        if(type ==2){
+        if (type == 2) {
             querySql.groupBy = ['month', 'year']
-            querySql.attributes = [...querySql.attributes, 'month', 'year'] 
+            querySql.attributes = [...querySql.attributes, 'month', 'year']
         }
-        if(type == 3){
+        if (type == 3) {
             querySql.groupBy = ['year']
-            querySql.attributes = [...querySql.attributes, 'year'] 
+            querySql.attributes = [...querySql.attributes, 'year']
         }
-        
+
         const result = await find(querySql)
 
-        console.log(result)
         return {
             success: true,
             data: result,
@@ -195,5 +211,6 @@ module.exports = {
     fetchGetOrder,
     fetchUpdateOrder,
     fetchDeleteOrder,
-    fetchStatsOrder
+    fetchStatsOrder,
+    fetchCreateOrder
 }

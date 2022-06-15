@@ -25,17 +25,9 @@ CREATE TABLE IF NOT EXISTS `image` (
   CONSTRAINT `FK1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=394 DEFAULT CHARSET=latin1;
 
--- Dumping data for table test.image: ~231 rows (approximately)
+-- Dumping data for table test.image: ~223 rows (approximately)
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
 INSERT INTO `image` (`id`, `path`, `product_id`, `createdAt`, `updatedAt`, `deletedAt`) VALUES
-	(1, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 1, '2022-05-27 10:26:24', '2022-05-27 10:26:24', NULL),
-	(2, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 1, '2022-05-27 10:27:05', '2022-05-27 10:27:05', NULL),
-	(3, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 1, '2022-05-27 10:27:27', '2022-05-27 10:27:27', NULL),
-	(5, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 1, '2022-05-27 10:27:45', '2022-05-27 10:27:45', NULL),
-	(6, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 2, '2022-05-27 10:28:40', '2022-05-27 10:28:40', NULL),
-	(8, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 2, '2022-05-27 10:29:05', '2022-05-27 10:29:05', NULL),
-	(9, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 3, '2022-05-27 10:33:45', '2022-05-27 10:33:45', NULL),
-	(10, 'http://macshop.giaodienwebmau.com.vn/wp-content/up', 3, '2022-05-27 10:34:09', '2022-05-27 10:34:09', NULL),
 	(118, 'https://cf.shopee.vn/file/492f47a75235713830fd70ea861e00ab_tn', 27, '2022-05-27 21:39:12', '2022-05-27 21:39:12', NULL),
 	(119, 'https://cf.shopee.vn/file/2c964870e9686b6c8ced8798538b6a50_tn', 27, '2022-05-27 21:39:12', '2022-05-27 21:39:12', NULL),
 	(120, 'https://cf.shopee.vn/file/1d44d8a242d4408cc511d6b6093c507e_tn', 27, '2022-05-27 21:39:12', '2022-05-27 21:39:12', NULL),
@@ -271,17 +263,26 @@ CREATE TABLE IF NOT EXISTS `order` (
   `address` char(50) CHARACTER SET utf8 DEFAULT NULL,
   `product_id` bigint(20) unsigned NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT '1',
+  `color` char(255) CHARACTER SET utf8 DEFAULT NULL,
   `total_cost` bigint(20) NOT NULL,
+  `date` int(11) NOT NULL DEFAULT '0',
+  `month` int(11) NOT NULL DEFAULT '0',
+  `year` int(11) NOT NULL DEFAULT '0',
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deletedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_order_product` (`product_id`),
   CONSTRAINT `FK_order_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table test.order: ~0 rows (approximately)
+-- Dumping data for table test.order: ~4 rows (approximately)
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` (`id`, `user_id`, `firstname`, `lastname`, `phone`, `address`, `product_id`, `quantity`, `color`, `total_cost`, `date`, `month`, `year`, `createdAt`, `updatedAt`, `deletedAt`) VALUES
+	(1, 1, NULL, NULL, NULL, NULL, 75, 1, 'xanh', 20000, 29, 5, 2022, '2022-06-14 09:14:38', '2022-06-14 09:15:56', NULL),
+	(2, NULL, NULL, NULL, NULL, NULL, 68, 2, NULL, 999999, 30, 5, 2022, '2022-06-14 09:16:07', '2022-06-14 09:16:24', NULL),
+	(3, NULL, NULL, NULL, NULL, NULL, 29, 1, NULL, 300000, 30, 5, 2022, '2022-06-14 09:16:47', '2022-06-14 09:16:55', NULL),
+	(4, NULL, NULL, NULL, NULL, NULL, 52, 1, NULL, 50000, 10, 6, 2022, '2022-06-14 09:17:17', '2022-06-14 09:17:17', NULL);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 
 -- Dumping structure for table test.product
@@ -302,12 +303,9 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1;
 
--- Dumping data for table test.product: ~49 rows (approximately)
+-- Dumping data for table test.product: ~47 rows (approximately)
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`id`, `name`, `detail`, `descripion`, `price`, `discount`, `color`, `createdAt`, `updatedAt`, `deletedAt`, `createdBy`, `updatedBy`, `deletedBy`) VALUES
-	(1, 'Dây da Apple Watch Hermès Double Tour – Hàng phụ kiện', 'Apple', 'Dây da Apple Watch Hermès Double Tour là phụ kiện phù hợp cho những ai yêu thích phong cách lịch lãm, sang trọng mà vẫn không đánh mất sự trẻ trung và hiện đại. Với chất liệu da êm ái kết hợp với kiểu dây đôi cá tính, trẻ trung nhưng vẫn không làm mất đi vẻ sang trọng vốn có của dây da và Apple Watch. Dây da Apple Watch Hermès Double Tour tỉ mỉ, tinh tế trong từng đường chỉ. Dây màu nâu da bò được tạo điểm nhấn bởi đường chỉ trắng, càng làm nổi bật cho chiếc đồng hồ của bạn. Khoá cài kiểu sáng trẻ trung, bóng loáng với các nấc cài giúp bạn có thể dễ dàng điều chỉnh kích cỡ dây cho phù hợp và thoải mái nhất với cổ tay của bạn. Nếu bạn muốn một phong cách thời trang quý ông phong cách lịch lãm nhưng vẫn không muốn bị mất đi sự năng động cá tính của mình thì Dây da Double Tour là một lựa chọn lý tưởng cho bạn.', '750000', 20, '(38, 40), (42, 44)', '2022-05-27 10:11:40', '2022-05-27 10:23:36', NULL, 0, 0, 0),
-	(2, 'Dây da Apple Watch Hermès Double Tour – Hàng phụ kiện', 'Apple', 'Dây da Apple Watch Hermès Double Tour là phụ kiện phù hợp cho những ai yêu thích phong cách lịch lãm, sang trọng mà vẫn không đánh mất sự trẻ trung và hiện đại. Với chất liệu da êm ái kết hợp với kiểu dây đôi cá tính, trẻ trung nhưng vẫn không làm mất đi vẻ sang trọng vốn có của dây da và Apple Watch. Dây da Apple Watch Hermès Double Tour tỉ mỉ, tinh tế trong từng đường chỉ. Dây màu nâu da bò được tạo điểm nhấn bởi đường chỉ trắng, càng làm nổi bật cho chiếc đồng hồ của bạn. Khoá cài kiểu sáng trẻ trung, bóng loáng với các nấc cài giúp bạn có thể dễ dàng điều chỉnh kích cỡ dây cho phù hợp và thoải mái nhất với cổ tay của bạn. Nếu bạn muốn một phong cách thời trang quý ông phong cách lịch lãm nhưng vẫn không muốn bị mất đi sự năng động cá tính của mình thì Dây da Double Tour là một lựa chọn lý tưởng cho bạn.', '600000', 0, '(38, 40), (42, 44)', '2022-05-27 10:18:25', '2022-05-27 10:23:34', NULL, 0, 0, 0),
-	(3, 'Dây thép không gỉ Hoco WB07', 'Hoco', 'Dây Apple watch – Dây thép không gỉ sang trọng và lịch lãm', '750000', 7, '', '2022-05-27 10:30:44', '2022-05-27 10:31:51', NULL, 0, 0, 0),
 	(27, 'Yêu thích Đồng hồ mặt vuông LED phổ biến kỹ thuật số cho học sinh', 'Mặt đồng hồ Kỹ thuật số@@@Đồng hồ đeo tay Khác@@@Kiểu đồng hồ Thời trang@@@Đường kính vỏ đồng hồ 34mm@@@Kiểu vỏ đồng hồ Carre@@@Chất liệu vỏ đồng hồ Nhựa@@@Kiểu khóa đồng hồ Khóa gài/móc@@@Chất liệu dây đeo Silicone@@@Tính năng Ngày, Phản quang@@@Độ sâu chống nước <30m@@@Kính đồng hồ Nhựa@@@Chất liệu Thủy tinh, Nhựa@@@Số lượng hàng khuyến mãi 93@@@Số sản phẩm còn lại 55989@@@Gửi từ Nước ngoài', 'Thời gian giao hàng dự kiến cho sản phẩm này là từ 7-9 ngày\n  \n  Chào mừng bạn bè của chúng tôi ~\n  \n  - Nhà cung cấp trực tiếp\n  - Tất cả các mặt hàng đều có sẵn\n  - Xin vui lòng liên hệ với chúng tôi để mua sỉ\n  \n  \n  【Thông tin về kích thước】:\n  - Đường kính mặt số: 32mm\n  - Độ dày mặt số: 9.5mm\n  - Chiều rộng dây đeo: 14mm\n  - Chiều dài dây đeo: 235mm (có thể điều chỉnh)\n  - Loại sản phẩm: Đồng hồ chuyển động cơ\n  \n  【Chi tiết sản phẩm】:\n  - Chất liệu dây: PU\n  --Chất liệu: Kính\n  --Thiết kế: Chốt\n  --Chất liệu: thép không gỉ\n  --Vỏ: thép không gỉ\n  \n  【Gói hàng bao gồm】\n  1x đồng hồ (không có hộp)\n  (Sử dụng giấy bọc bong bóng.)\n  \n  -Làm thế nào để có được hộp?\n  -Hộp cần mua riêng. Vui lòng truy cập trang chủ cửa hàng của chúng tôi [Hộp / Gói] để chọn một hộp.\n  ------------------------------------------\n  \n  Xin lưu ý:\n  Do màn hình và điều kiện ánh sáng khác nhau, màu sắc có thể khác với màu gốc. Vui lòng tham khảo sản phẩm thực tế.\n  \n  ~ Cảm ơn bạn đã đến và chúc bạn một cuộc sống hạnh phúc ~', '₫14.000', 0, 'trắng@@@Màu đỏ@@@màu tím@@@đen@@@màu xanh da trời@@@Hoa hồng đỏ', '2022-05-27 21:39:12', '2022-05-27 21:39:12', NULL, 0, 0, 0),
 	(28, 'Yêu thích Đồng hồ với dây đeo bằng thép không gỉ thiết kế thời trang sang trọng cho nam', 'Mặt đồng hồ Kim@@@Đồng hồ đeo tay Thạch anh@@@Kiểu đồng hồ Công việc, Thời trang@@@Kiểu vỏ đồng hồ Tròn@@@Chất liệu vỏ đồng hồ Thép không gỉ@@@Chất liệu dây đeo Thép không gỉ@@@Xuất xứ Trung Quốc@@@Kho hàng 34443@@@Gửi từ Nước ngoài', 'Thời gian giao hàng dự kiến cho sản phẩm này là từ 7-9 ngày\n \n ♫♫ Thông báo:\n ✔Sản phẩm rẻ nhất trong cùng phân khúc chất lượng.\n ✔Tất cả các sản phẩm đều có sẵn.\n ✔Tất cả đều là hình thật.\n ✔Tất cả các sản phẩm đều có sẵn trong kho trừ khi sản phẩm được đánh dấu là đã bán hết.\n ✔Vui lòng chọn các phân loại màu sắc sau đó đặt hàng, Bởi vì chúng tôi không thể chấp nhận yêu cầu màu sắc trong nhận xét hoặc tin nhắn. （Nếu ✔ Phân loại hiển thị: "Ngẫu nhiên", có nghĩa là chúng tôi sẽ là người quyết định màu sắc)\n ✔Chúng tôi không hủy đơn đặt hàng, vui lòng chắc chắn rồi đặt hàng.\n ✔Hỗ trợ bán sỉ và lẻ. (Nếu có mác "bán sỉ"）\n \n Chuyển động: Quartz\n Chất liệu vỏ: Thép không gỉ\n Phong cách: Thời trang & Thường ngày\n Số hiệu model: V860\n Loại chất liệu dây đeo: Thép không gỉ\n Chiều rộng dây đeo: 20mm\n Chiều dài dây đeo: 23cm\n Độ dày mặt đồng hồ: 8mm\n Đường kính mặt đồng hồ: 40mm\n Chất liệu Hộp & mặt đồng hồ: Không có hộp\n Loại chất liệu mặt đồng hồ : Kính\n Kiểu dáng mặt đồng hồ: Tròn\n Không thấm nước: KHÔNG thấm nước\n Bảo hành: KHÔNG có bảo hành\n Gói hàng bao gồm: 1 chiếc đồng hồ đeo tay có pin', '₫53.900', 0, 'Đen xanh@@@Vàng hồng vàng hồng@@@Bạc trắng@@@Vàng hồng xanh@@@Vàng đen@@@Đen trắng@@@Đen đỏ', '2022-05-27 21:39:12', '2022-05-27 21:39:12', NULL, 0, 0, 0),
 	(29, 'Yêu thích Đồng hồ nam dây đeo thép lưới thời trang dành cho', 'Mặt đồng hồ Kim@@@Đồng hồ đeo tay Thạch anh@@@Kiểu đồng hồ Thời trang@@@Loại bảo hành Không bảo hành@@@Kiểu vỏ đồng hồ Tròn@@@Chất liệu vỏ đồng hồ Thép không gỉ@@@Kiểu khóa đồng hồ Khóa gài/móc@@@Chất liệu dây đeo Thép không gỉ@@@Kính đồng hồ Kính Thủy tinh@@@Xuất xứ Trung Quốc@@@Hạn bảo hành Không bảo hành@@@Kho hàng 44917@@@Gửi từ Nước ngoài', 'Thời gian giao hàng dự kiến cho sản phẩm này là từ 7-9 ngày\n  \n  ♫♫ Lưu ý:\n  ✔Giá rẻ nhất so với các sản phẩm cùng chất lượng.\n  ✔Tất cả sản phẩm đều có sẵn\n  ✔Tất cả hình ảnh chụp từ sản phẩm thực tế.\n  ✔Tất cả các sản phẩm có thể đặt hàng đều có sẵn trong kho trừ những mục được đánh dấu "Bán hết".\n  ✔Vui lòng chọn các phân loại màu sắc sau đó đặt hàng, Bởi vì chúng tôi không thể chấp nhận yêu cầu màu sắc trong ghi chú hoặc tin nhắn. （Nếu có các phân loại cho biết:"Ngẫu nhiên hoặc Hỗn hợp", có nghĩa là chúng tôi quyết định màu sắc)\n  ✔Chúng tôi có thể không thể hủy một số đơn đặt hàng, vui lòng đảm bảo đúng mọi thông tin trước khi đặt hàng\n  ✔Hỗ trợ sỉ và lẻ. (Nếu có đánh dấu "sỉ"）\n  \n  Chuyển động: Thạch anh\n  Chất liệu vỏ: Thép không gỉ\n  Phong cách: Thời trang & Thường ngày\n  Mã sản phẩm: V862\n  Loại chất liệu dây đeo: Thép không gỉ\n  Chiều rộng dây đeo: 20mm\n  Chiều dài dây: 23cm\n  Độ dày vỏ: 8mm\n  Đường kính mặt số: 38mm\n  Hộp & Chất liệu vỏ: Không có gói\n  Loại chất liệu mặt kính: Kính\n  Hình dạng vỏ: Tròn\n  Không thấm nước: Không thấm nước\n  Gói hàng bao gồm: 1 Đồng hồ đeo tay có pin', '₫59.000', 0, 'Blue Orange@@@Rose Gold Red@@@Black Blue@@@Silver White@@@Black Orange@@@Black Red@@@Blue White@@@Blue Red@@@Black White@@@Rose Gold Orange@@@Rose Gold Blue@@@Blue Blue', '2022-05-27 21:39:12', '2022-05-27 21:39:12', NULL, 0, 0, 0),
@@ -375,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table test.user: ~2 rows (approximately)
+-- Dumping data for table test.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `phone`, `address`, `firstname`, `lastname`, `isAdmin`, `lastLogin`, `privateKey`, `createdAt`, `updatedAt`, `deletedAt`) VALUES
 	(1, 'adminn', 'adminn', 'adminn@gmail.com', '0345637621', 'Hà Nội, Việt Nam', 'Công Nghệ', 'Web', 1, '2022-05-26 20:33:23', 1677, '2022-05-26 20:33:23', '2022-05-27 10:03:16', 0),

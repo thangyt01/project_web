@@ -1,6 +1,6 @@
 const {ERROR_CODE_SYSTEM_ERROR} = require('../../helpers/errorCodes')
 const {respondWithError, respondItemSuccess} = require('../../helpers/messageResponse')
-const { fetchGetListTotalOrder, fetchGetOrder, fetchUpdateOrder, fetchDeleteOrder, fetchStatsOrder } = require('./orderService')
+const { fetchGetListTotalOrder, fetchGetOrder, fetchUpdateOrder, fetchDeleteOrder, fetchStatsOrder, fetchCreateOrder } = require('./orderService')
 
 async function getListTotalOrder(req, res) {
     let query = req.query;
@@ -26,7 +26,7 @@ async function getOrder(req, res) {
 
 async function updateOrder(req, res) {
     try {
-        const results = await fetchGetListTotalOrder(req);
+        const results = await fetchUpdateOrder(req);
         if(results.success) res.end(respondItemSuccess(results.data, results.message))
         else res.end(respondWithError(results.code, results.message, {}))
     } catch (error) {
@@ -56,10 +56,21 @@ async function statsOrder(req, res) {
     }
 }
 
+async function createOrder(req, res) {
+    try {
+        const results = await fetchCreateOrder(req.body);
+        if(results.success) res.end(respondItemSuccess(results.data, results.message))
+        else res.end(respondWithError(results.code, results.message, {}))
+    } catch (error) {
+        res.end(respondWithError(ERROR_CODE_SYSTEM_ERROR, error.message, error))
+    }
+}
+
 module.exports = {
     getListTotalOrder,
     getOrder,
     updateOrder,
     deleteOrder,
-    statsOrder
+    statsOrder,
+    createOrder
 }
