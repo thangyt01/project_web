@@ -180,11 +180,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        .fill2{
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 2;
+        }
         .exit{
             position: absolute;
             top: 0;
             right: 0;
             color: #fff;
+            z-index: 3;
             .MuiSvgIcon-root{
                 color: #fff;
             }
@@ -196,6 +205,7 @@
             min-width: 350px;
             border-radius: 20px;
             overflow: hidden;
+            z-index: 3;
             @media screen and (max-width: 750px) {
                 flex-direction: column;
             }

@@ -3,6 +3,7 @@ const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendP
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
 const { authenticate, authorizationAdmin } = require("../middlewares/auth")
 const { createProductValidator } = require("../components/product/productValidator")
+const { getListUsers, getUser, updateUser, deleteUser } = require("../components/user/userController")
 
 const routers = [
     {
@@ -87,6 +88,48 @@ const routers = [
                 validator: createProductValidator,
                 handle: getCreateProduct
             }
+        ]
+    },
+    {
+        name: 'user',
+        mainUrl: '/user',
+        listApi: [
+            {
+                name: 'get list user',
+                method: 'GET',
+                url: '/get_list_users',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: getListUsers
+            },
+            {
+                name: 'getUser',
+                method: 'GET',
+                url: '',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: getUser
+            },
+            {
+                name: 'updateUser',
+                method: 'PUT',
+                url: '/update',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: updateUser
+            },
+            {
+                name: 'deleteUser',
+                method: 'DELETE',
+                url: '/delete',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: deleteUser
+            },
         ]
     },
 ]
