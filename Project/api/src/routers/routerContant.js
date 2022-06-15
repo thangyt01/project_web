@@ -1,4 +1,5 @@
 const { login, register } = require("../components/auth/authController")
+const { getOrder, getListTotalOrder, updateOrder, deleteOrder, statsOrder, createOrder } = require("../components/order/orderController")
 const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct, getCreateProduct } = require("../components/product/productController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
 const { authenticate, authorizationAdmin, authorizationMyUser } = require("../middlewares/auth")
@@ -81,7 +82,7 @@ const routers = [
             },
             {
                 name: 'create product',
-                method: 'POST', 
+                method: 'POST',
                 url: '/create',
                 authenticate: authenticate,
                 authoriztion: authorizationAdmin,
@@ -130,6 +131,66 @@ const routers = [
                 validator: null,
                 handle: deleteUser
             },
+        ]
+    },
+    {
+        name: 'order',
+        mainUrl: '/order',
+        listApi: [
+            {
+                name: 'get order',
+                method: 'GET',
+                url: '',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: getOrder
+            },
+            {
+                name: 'get list total order',
+                method: 'GET',
+                url: '/get_list_total_order',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: getListTotalOrder
+            },
+            {
+                name: 'update order',
+                method: 'PUT',
+                url: '/update',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: updateOrder
+            },
+            {
+                name: 'delete order',
+                method: 'DELETE',
+                url: '/delete',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: deleteOrder
+            },
+            {
+                name: 'stats order',
+                method: 'GET',
+                url: '',
+                authenticate: authenticate,
+                authoriztion: authorizationAdmin,
+                validator: null,
+                handle: statsOrder
+            },
+            {
+                name: 'create order',
+                method: 'POST',
+                url: '',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: createOrder
+            }
         ]
     },
 ]

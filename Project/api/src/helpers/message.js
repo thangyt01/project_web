@@ -20,9 +20,8 @@ const USERS = {
     '2017': 'Username hoặc số điện thoại hoặc email đã được sử dụng!',
     '2018': 'Tên không hợp lệ!',
     '2019': 'Đăng ký tài khoản thành công.',
-    
-
 }
+
 const PRODUCTS = {
     '2020': 'Lấy danh sách sản phẩm thành công',
     '2021': 'Không tìm thấy sản phẩm',
@@ -39,6 +38,15 @@ const PRODUCTS = {
     '2032': 'Không có ảnh của sản phẩm này', 
 }
 
+const ORDER = {
+    '2024': 'Không tìm thấy hóa đơn',
+    '2025': 'Lấy danh sách hóa đơn thành công',
+    '2026': 'Cập nhật đơn hàng thành công',
+    '2027': 'Xóa đơn hàng thành công',
+    '2028': 'Lấy danh sách đơn hàng thành công',
+    '2029': 'Thống kê thành công',
+    '2030': 'Tạo đơn hàng thành công',
+}
 module.exports = {
-    USERS, PRODUCTS
+    USERS, PRODUCTS, ORDER
 }
