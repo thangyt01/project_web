@@ -49,29 +49,41 @@ export const Header = ({ selected }) => {
         <div className={"header"}>
             <div className="wrapper">
                 <div className="top padding___main">
-                    <div className="top___left">Bk watch</div>
+                    <Link style={{textDecoration: 'none'}} to={"/"}>
+                        <div className="top___left">Bk watch</div>
+                    </Link>
                     <div className="top___center">Hello summer, sale lớn bất ngờ !!</div>
                     <div className="top___right">
                         <ul>
                             <li><PhoneIcon></PhoneIcon> <span className="hidden___tablet" style={{ marginLeft: '5px' }}>0906 03 5225</span></li>
                             <li onClick={() => { handlePopupLogin(1) }}><PersonIcon></PersonIcon></li>
-                            <li>
-                                <IconButton aria-label="cart">
-                                    <StyledBadge badgeContent={4}>
-                                        <ShoppingCartIcon id='shoppingCart' />
-                                    </StyledBadge>
-                                </IconButton>
-                            </li>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={"/cart"}>
+                                <li>
+                                    <IconButton aria-label="cart">
+                                        <StyledBadge badgeContent={4}>
+                                            <ShoppingCartIcon id='shoppingCart' />
+                                        </StyledBadge>
+                                    </IconButton>
+                                </li>
+                            </Link>
                         </ul>
                     </div>
                 </div>
                 <div className={`bottom align-item___center ${selected !== 1 ? "first":""}`}>
                     <div className="bottom___left" onClick={handleClickMenu}>
                         <ul>
-                            <li className={`${selected === 1 ? "choose":""}`}>Trang chủ</li>
-                            <li className={`${selected === 2 ? "choose":""}`}>Sản phẩm</li>
-                            <li className={`${selected === 3 ? "choose":""}`}>Liên hệ</li>
-                            <li className={`${selected === 4 ? "choose":""}`}>Về chúng tôi</li>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={"/"}>
+                                <li className={`${selected === 1 ? "choose":""}`}>Trang chủ</li>
+                            </Link>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={"/products"}>
+                                <li className={`${selected === 2 ? "choose":""}`}>Sản phẩm</li>
+                            </Link>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={"/contact"}>
+                                <li className={`${selected === 3 ? "choose":""}`}>Liên hệ</li>
+                            </Link>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={"/about-me"}>
+                                <li className={`${selected === 4 ? "choose":""}`}>Về chúng tôi</li>
+                            </Link>
                         </ul>
                         <IconButton aria-label="menu" className="padding__side">
                             <MenuIcon className="menuIcon"></MenuIcon>

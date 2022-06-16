@@ -4,20 +4,20 @@ import Footer from "../../components/footer/Footer";
 import { Header } from "../../components/header/Header";
 import Products from "../../components/products/Products";
 import { orderSuccess } from "../../redux/orderRedux";
-import AddTaskIcon from "@mui/icons-material/AddTask";
 import "./productPage.scss";
 import { publicRequest } from "../../requestAxios";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckIcon from '@mui/icons-material/Check';
 
-var timeId;
 const ProductPage = ({ selected }) => {
   const [product, setProduct] = useState({});
   useEffect(() => {
+    const arr = window.location.href.split("/")
+    const index = arr.findIndex(i=>i === 'product')
     const getProduct = async () => {
       try {
-        const res = await publicRequest.get("api/product?id=74");
+        const res = await publicRequest.get(`api/product?id=${arr[index+1]}`);
         setProduct(res.data);
       } catch (err) {
         setProduct(err.response.data.data);
@@ -25,15 +25,8 @@ const ProductPage = ({ selected }) => {
     };
     getProduct();
   }, []);
-  // console.log(product)
   const [index, setIndex] = useState(0);
   const [imageWidth, setImageWidth] = useState(0);
-  // useEffect(() => {
-  //   timeId = setInterval(() => {
-  //     setIndex(index + 1 < product.image_path.length ? index + 1 : 0);
-  //   }, 3000);
-  //   return () => clearInterval(timeId);
-  // });
   const displayWidth =
     document.querySelector(".productBigImage")?.clientWidth || 320;
   useEffect(() => {
@@ -51,7 +44,7 @@ const ProductPage = ({ selected }) => {
   return (
     <div className="productPage">
       <Header selected={selected}></Header>
-      {Object.keys(product).length > 0 ? (
+      {product && Object.keys(product).length > 0 ? (
         <div className="productContainer padding___main">
           <div className="heading">
             <div className="heading__root">
