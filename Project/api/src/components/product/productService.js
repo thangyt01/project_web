@@ -147,7 +147,7 @@ async function fetchGetProduct(query) {
 async function fetchUpdateProduct(req) {
     console.log(req.body)
     let { image_path, ...dataUpdate } = req.body
-
+    dataUpdate.updatedBy = req.user.id
     try {
         let data = await find({
             attributes: [],
@@ -224,21 +224,56 @@ async function fetchDeleteProduct(query) {
 }
 
 async function fetchGetRecommendProduct(query) {
+    let type = query.type || 0
     try {
-        let data = await find({
-            attributes: [],
-            table: 'product',
-        })
+        let sql_query ={
+            attributes : ['product_id', "sum(quantity) as 'total_quantity'"],
+            limit: query.limit || 4,
+            table: '`order`',
+            groupBy: ['product_id'],
+            tableAttributes: 0,
+            orderBy: ` sum(quantity) desc`
+        }
+        if(type) sql_query.attributes = ['product_id', "sum(total_cost) as 'total_cost'"]
+        let listProduct = await find(sql_query)
+
+        sql_query = {
+            attributes : [],
+            includes: [{
+                attributes : ['path'],
+                table: 'image',
+                type: 'left join',
+                on: 'product.id = image.product_id',
+            }],
+            table: '`product`',
+            where: `product.id IN(${listProduct.map(i=>i.product_id).join(', ')})`
+        }
+        listProduct = []
+        let data = await find(sql_query)
+        for (let i of data) {
+            const index = listProduct.findIndex(e => e.id === i.id);
+           if(index < 0){
+            i.path = [i.path]
+            i.detail = i.detail.split('@@@')
+            i.descripion = i.descripion.split('\n')
+            i.color = i.color.split('@@@')
+            i.price = i.price.replace('₫', '').replace('₫', '').replace('.', '')
+            listProduct.push(i)
+           }else{
+            listProduct[index].path.push(i.path)
+           }
+            
+        }
         return {
             success: true,
-            data: data,
+            data: listProduct,
             message: PRODUCTS['2020']
         }
     } catch (error) {
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
-            message: `${e.message}: ${error['message'] || ''}`
+            message: `${error.message}: ${error['message'] || ''}`
         }
     }
 }
@@ -294,20 +329,14 @@ async function fetchCreateProduct(req) {
         }
         let dataProduct = await create({
             table: 'product',
-            data: data
-        })
-        const dataID = await find({
-            table: 'product',
-            attributes: ['id'],
-            orderBy: { id: 'desc' },
-            limit: 1
+            data: {createdBy: req.user.id,...data}
         })
         for (let i in image_path) {
             let dataImage = await create({
                 table: 'image',
                 data: {
                     path: image_path[i],
-                    product_id: dataID[0].id
+                    product_id: dataProduct.insertId
                 }
             })
         }

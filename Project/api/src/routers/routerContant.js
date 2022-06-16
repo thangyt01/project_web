@@ -176,7 +176,7 @@ const routers = [
             {
                 name: 'stats order',
                 method: 'GET',
-                url: '',
+                url: '/stats',
                 authenticate: authenticate,
                 authoriztion: authorizationAdmin,
                 validator: null,
