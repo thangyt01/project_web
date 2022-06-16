@@ -83,14 +83,14 @@ function buildQuery(params) {
         })
         query = 'SELECT ' + atts + ' FROM ' + table + ' ' + join  + ' WHERE ' + where;
 
-        if(orderBy){
-            query += ' ORDER BY ' + orderBy;
-        }
         if(groupBy.length > 0){
             query += ' GROUP BY ' + groupBy.join(', ');
         }
         if(having.length > 0){
             query += ' HAVING ' + having.join(', ');
+        }
+        if(orderBy){
+            query += ' ORDER BY ' + orderBy;
         }
         if(limit){
             query += ' LIMIT ' + limit;

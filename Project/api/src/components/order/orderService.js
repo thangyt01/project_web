@@ -131,7 +131,7 @@ async function fetchCreateOrder(credentials) {
         
         await create({
             table: '`order`',
-            data: credentials
+            data: {user_id: req.user.id,...credentials}
         })
         return {
             success: true,
@@ -192,7 +192,7 @@ async function fetchStatsOrder(query) {
         return {
             success: true,
             data: result,
-            message: USERS['2029']
+            message: ORDER['2029']
         }
     } catch (e) {
         const { errors = [] } = e;
