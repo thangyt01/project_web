@@ -1,6 +1,6 @@
 const { ERROR_CODE_SYSTEM_ERROR } = require('../../helpers/errorCodes')
 const { respondWithError, respondItemSuccess } = require('../../helpers/messageResponse');
-const { fetchGetListProducts, fetchGetProduct, fetchUpdateProduct, fetchDeleteProduct, fetchGetRecommendProduct, fetchCreateProduct, fetchGetListRecommendProducts } = require('./productService');
+const { fetchGetListProducts, fetchGetProduct, fetchUpdateProduct, fetchDeleteProduct, fetchGetRecommendProduct, fetchCreateProduct } = require('./productService');
 
 async function getListProducts(req, res) {
     let query = req.query;
