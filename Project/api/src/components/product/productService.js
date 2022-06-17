@@ -23,8 +23,6 @@ async function fetchGetListProducts(query) {
             on: 'product.id = image.product_id',
         }],
         where: '1=1',
-        limit,
-        offset: page * limit,
         orderBy: 'createdAt desc'
 
     }
@@ -68,6 +66,7 @@ async function fetchGetListProducts(query) {
         if(sort == 4){
             productData.sort((a, b)=> parseInt(b.price.split(' - ')[0])  - parseInt(a.price.split(' - ')[0]))
         }
+        productData = productData.slice(page * 16, page * 16 + limit)
         return {
             success: true,
             data: productData,
