@@ -2,7 +2,7 @@ const { login, register } = require("../components/auth/authController")
 const { getOrder, getListTotalOrder, updateOrder, deleteOrder, statsOrder, createOrder } = require("../components/order/orderController")
 const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct, getCreateProduct } = require("../components/product/productController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
-const { authenticate, authorizationAdmin, authorizationMyUser } = require("../middlewares/auth")
+const { authenticate, authorizationAdmin, authorizationMyUser, authenticateV2 } = require("../middlewares/auth")
 const { createProductValidator, updateProductValidator } = require("../components/product/productValidator")
 const { getListUsers, getUser, updateUser, deleteUser } = require("../components/user/userController")
 
@@ -186,7 +186,7 @@ const routers = [
                 name: 'create order',
                 method: 'POST',
                 url: '',
-                authenticate: null,
+                authenticate: authenticateV2,
                 authoriztion: null,
                 validator: null,
                 handle: createOrder

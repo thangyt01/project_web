@@ -144,7 +144,7 @@ const ProductPage = ({ selected }) => {
         <></>
       )}
 
-      <Products title={"Sản phẩm có liên quan"} />
+      <Products title={'Sản phẩm liên quan'} type={'1'} limit={4} />
       <Footer></Footer>
     </div>
   );

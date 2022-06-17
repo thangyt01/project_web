@@ -17,6 +17,32 @@ async function authenticate(req, res){
         
     } catch (error) {
         console.log(error)
+        return 0
+    }
+}
+
+async function authenticateV2(req, res){
+    try {
+        if(!(req.headers && req.headers.authorization)){
+            req.user = {}
+            return 1
+        } 
+        const auth =  req.headers ? req.headers.authorization : '{}'
+        const token =  JSON.parse(auth)
+        let user = await find({
+            attributes: ['id', 'username', 'isAdmin', 'firstname', 'lastname', 'address', 'phone', 'email'],
+            table: 'user',
+            where: `id = ${token.user_id} AND privateKey = ${token.pk}`
+        })
+        if (!user.length){ // không tìm thấy user nào
+            return 0
+        }
+        req.user = user[0]
+        return 1;
+        
+    } catch (error) {
+        console.log(error)
+        return 0
     }
 }
 
@@ -41,5 +67,6 @@ function authorizationMyUser(req, res){
 module.exports = {
     authenticate,
     authorizationAdmin,
-    authorizationMyUser
+    authorizationMyUser,
+    authenticateV2
 }

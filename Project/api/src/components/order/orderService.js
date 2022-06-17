@@ -128,10 +128,9 @@ async function fetchDeleteOrder(query) {
 
 async function fetchCreateOrder(credentials) {
     try {
-        
         await create({
             table: '`order`',
-            data: {user_id: req.user.id,...credentials}
+            data: {user_id: credentials.user.id || null,...credentials.body}
         })
         return {
             success: true,

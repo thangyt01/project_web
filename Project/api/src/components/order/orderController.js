@@ -58,7 +58,7 @@ async function statsOrder(req, res) {
 
 async function createOrder(req, res) {
     try {
-        const results = await fetchCreateOrder(req.body);
+        const results = await fetchCreateOrder(req);
         if(results.success) res.end(respondItemSuccess(results.data, results.message))
         else res.end(respondWithError(results.code, results.message, {}))
     } catch (error) {

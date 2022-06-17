@@ -11,9 +11,9 @@ export const publicRequest = axios.create({
 
 export const privateRequest = axios.create({
 
-    baseURL: `${config.REQUEST_URL}`,
-    timeout: 2000,
-    headers: {
-        auhthoriztion: JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.token,
-    }
+    // baseURL: `${config.REQUEST_URL}`,
+    // timeout: 2000,
+    // headers: {
+    //     auhthoriztion: JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.token,
+    // }
 })

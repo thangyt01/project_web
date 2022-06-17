@@ -13,6 +13,7 @@ async function fetchGetListProducts(query) {
         color,
         name,
     } = query
+    sort = parseInt(sort, 10)
     sql_query ={
         attributes: ['id', 'name', 'detail', 'descripion', 'price', 'color', 'createdAt'],
         table: 'product',
@@ -52,7 +53,7 @@ async function fetchGetListProducts(query) {
             i.detail = i.detail.split('@@@')
             i.descripion = i.descripion.split('\n')
             i.color = i.color.split('@@@')
-            i.price = i.price.replace('₫', '').replace('₫', '').replace('.', '')
+            i.price = i.price.replaceAll('₫', '').replaceAll('.', '')
             productData.push(i)
            }else{
             productData[index].path.push(i.path)
@@ -65,10 +66,15 @@ async function fetchGetListProducts(query) {
         if(sort == 4){
             productData.sort((a, b)=> parseInt(b.price.split(' - ')[0])  - parseInt(a.price.split(' - ')[0]))
         }
+        let numPage = Math.ceil(productData.length / limit)
+        console.log(productData.length)
         productData = productData.slice(page * limit, page * limit + limit)
         return {
             success: true,
-            data: productData,
+            data: {
+                numPage,
+                productData
+            },
             message: PRODUCTS['2020']
         }
     } catch (error) {
