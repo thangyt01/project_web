@@ -66,7 +66,7 @@ async function fetchGetListProducts(query) {
         if(sort == 4){
             productData.sort((a, b)=> parseInt(b.price.split(' - ')[0])  - parseInt(a.price.split(' - ')[0]))
         }
-        productData = productData.slice(page * 16, page * 16 + limit)
+        productData = productData.slice(page * limit, page * limit + limit)
         return {
             success: true,
             data: productData,
