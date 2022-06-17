@@ -17,9 +17,9 @@ const Home = ({selected}) => {
         <div className="home">
             <Header selected={selected}></Header>
             <Slider></Slider>
-            <Products title={'Sản phẩm mới nhất'}></Products>
-            <Products title={'Sản phẩm bán chạy nhất'}></Products>
-            <Products title={'Sản phẩm của chúng tôi'}></Products>
+            <Products title={'Sản phẩm mới nhất'} type={'new'} limit={4}></Products>
+            <Products title={'Sản phẩm bán chạy nhất'} type={'most'} limit={4}></Products>
+            <Products title={'Sản phẩm của chúng tôi'} type={'new'} limit={4}></Products>
             <Footer></Footer>
         </div>
     )

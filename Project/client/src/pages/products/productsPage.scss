@@ -1,0 +1,17 @@
+.productsPage{
+    margin-top: 20px;
+    .stack{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0 0px 0;
+    }
+}
+.productsPage__content{
+    display: flex;
+    justify-content: space-between;
+    select{
+       border-radius: 10px; 
+       padding: 5px;
+    }
+}

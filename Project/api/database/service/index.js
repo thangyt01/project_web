@@ -37,6 +37,7 @@ function buildQuery(params) {
     let {
         attributes = [],
         table = null,
+        tableAttributes = 1,
         includes = [],
         where = 1,
         offset = null,
@@ -68,7 +69,7 @@ function buildQuery(params) {
     if (type === 'select') {
         let atts = '';
         let join = '';
-        atts = setAttributies(table, attributes);
+        atts = setAttributies(table, attributes, tableAttributes);
         includes.map(item => {
             if (!item.table){
                 return {
@@ -77,19 +78,19 @@ function buildQuery(params) {
                     data: {}
                 }
             }
-            atts += ', ' + setAttributies(item.table, item.attributes || []);
+            atts += ', ' + setAttributies(item.table, item.attributes || [], tableAttributes);
             join += item.type + ' ' + item.table + ' ON ' + item.on + ' ';
         })
         query = 'SELECT ' + atts + ' FROM ' + table + ' ' + join  + ' WHERE ' + where;
 
-        if(orderBy){
-            query += ' ORDER BY ' + orderBy;
-        }
         if(groupBy.length > 0){
             query += ' GROUP BY ' + groupBy.join(', ');
         }
         if(having.length > 0){
             query += ' HAVING ' + having.join(', ');
+        }
+        if(orderBy){
+            query += ' ORDER BY ' + orderBy;
         }
         if(limit){
             query += ' LIMIT ' + limit;
@@ -116,7 +117,10 @@ function buildQuery(params) {
     return query;
 }
 
-function setAttributies(tableName, attributes = []){
+function setAttributies(tableName, attributes = [], tableAttributes){
+    if(!tableAttributes){
+        return attributes.join(', ')
+    }
     if (!tableName) {
         return {
             error: true,

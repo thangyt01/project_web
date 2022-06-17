@@ -1,6 +1,6 @@
-const { update, find, create, destroy} = require("../../../database/service");
-const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD, ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../helpers/errorCodes");
-const { USER, USERS } = require("../../helpers/message");
+const { update, find, destroy} = require("../../../database/service");
+const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../helpers/errorCodes");
+const { USERS } = require("../../helpers/message");
 
 async function fetchGetListUsers(credentials) {
     let { 

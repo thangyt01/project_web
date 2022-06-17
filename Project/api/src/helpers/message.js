@@ -20,13 +20,33 @@ const USERS = {
     '2017': 'Username hoặc số điện thoại hoặc email đã được sử dụng!',
     '2018': 'Tên không hợp lệ!',
     '2019': 'Đăng ký tài khoản thành công.',
+}
+
+const PRODUCTS = {
     '2020': 'Lấy danh sách sản phẩm thành công',
     '2021': 'Không tìm thấy sản phẩm',
     '2022': 'Xóa sản phẩm thành công',
     '2023': 'Cập nhật sản phẩm thành công',
-    '2024': 'Lấy danh sách user thành công',
+    '2024': 'Thêm sản phẩm thành công',
+    '2025': 'Tên sản phẩm không được để trống',
+    '2026': 'Detail không được để trống',
+    '2027': 'Description không được để trống', 
+    '2028': 'Giá sản phẩm không được để trống', 
+    '2029': 'Màu sản phẩm không được để trống', 
+    '2030': 'Ảnh sản phẩm không được để trống', 
+    '2031': 'Sản phẩm không tồn tại', 
+    '2032': 'Không có ảnh của sản phẩm này', 
 }
 
+const ORDER = {
+    '2024': 'Không tìm thấy hóa đơn',
+    '2025': 'Lấy danh sách hóa đơn thành công',
+    '2026': 'Cập nhật đơn hàng thành công',
+    '2027': 'Xóa đơn hàng thành công',
+    '2028': 'Lấy danh sách đơn hàng thành công',
+    '2029': 'Thống kê thành công',
+    '2030': 'Tạo đơn hàng thành công',
+}
 module.exports = {
-    USERS
+    USERS, PRODUCTS, ORDER
 }
