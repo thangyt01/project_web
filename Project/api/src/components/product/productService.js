@@ -26,7 +26,6 @@ async function fetchGetListProducts(query) {
         orderBy: 'createdAt desc'
 
     }
-    if (page) sql_query.offset = page * 16;
     if (sort==2) {
         sql_query.orderBy = 'createdAt asc'
     }

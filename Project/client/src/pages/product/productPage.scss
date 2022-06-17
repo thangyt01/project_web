@@ -53,6 +53,8 @@
                    display: flex;
                 //    flex-wrap: wrap;
                    .productSmallImage{
+                    justify-content: flex-start;
+                    max-width: 25%;
                     button{
                         height: 100%;
                         img{
