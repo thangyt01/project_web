@@ -25,6 +25,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export const Header = ({ selected }) => {
     const dispatch = useDispatch()
     const [hiden, setHiden] = useState(true)
+    const [keyword, setKeyword] = useState('')
     const [popupLogin, setPopupLogin] = useState(0)
 
     const handleHiden = () => {  
@@ -45,6 +46,9 @@ export const Header = ({ selected }) => {
         bottom___left.classList.toggle('add')
     }
 
+    const handleChangeInput = (e)=>{
+        setKeyword(e.target.value)
+    }
     return (
         <div className={"header"}>
             <div className="wrapper">
@@ -91,10 +95,12 @@ export const Header = ({ selected }) => {
                     </div>
                     <div className="bottom___right">
                         <div className="searchContainer align-item___center">
-                            <input type="text" className="searchInput" />
-                            <IconButton aria-label="search" className="padding__side">
-                                <SearchIcon></SearchIcon>
-                            </IconButton>
+                            <input type="text" className="searchInput" onChange={(e)=>handleChangeInput(e)} />
+                            <Link to={'/products?search='+keyword}>
+                                <IconButton aria-label="search" className="padding__side">
+                                    <SearchIcon></SearchIcon>
+                                </IconButton>
+                            </Link>
                         </div>
                     </div>
                 </div>

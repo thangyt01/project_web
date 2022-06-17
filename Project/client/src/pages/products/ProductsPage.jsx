@@ -2,7 +2,7 @@ import "./productsPage.scss";
 import { Header } from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import Products from "../../components/products/Products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const ProductsPage = () => {
