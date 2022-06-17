@@ -19,6 +19,7 @@ const Products = ({title, type}) => {
     };
     getProducts();
   }, []);
+  console.log(products)
   return (
     <div className='products'>
         <div className="title">

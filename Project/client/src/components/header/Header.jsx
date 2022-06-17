@@ -49,7 +49,7 @@ export const Header = ({ selected }) => {
         <div className={"header"}>
             <div className="wrapper">
                 <div className="top padding___main">
-                    <Link style={{textDecoration: 'none'}} to={"/"}>
+                    <Link style={{textDecoration: 'none', flex: "1.5"}} to={"/"}>
                         <div className="top___left">Bk watch</div>
                     </Link>
                     <div className="top___center">Hello summer, sale lớn bất ngờ !!</div>
