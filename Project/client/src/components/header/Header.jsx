@@ -11,6 +11,8 @@ import { styled } from '@mui/material/styles';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { checkEmail, checkFullname, checkPassword, checkRePassword, checkUsername } from "../../helpers/validator";
+import { login, register } from "../../redux/apiCalls";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -27,10 +29,24 @@ export const Header = ({ selected }) => {
     const [hiden, setHiden] = useState(true)
     const [keyword, setKeyword] = useState('')
     const [popupLogin, setPopupLogin] = useState(0)
-
+    const [usernameLogin, setUsernameLogin] = useState('')
+    const [passwordLogin, setPasswordLogin] = useState('')
+    const [isValidLogin, setIsValidLogin] = useState(1)
+    const [userRegister, setUserRegister] = useState('')
+    const [usernameRegister, setUsernameRegister] = useState('')
+    const [passwordRegister, setPasswordRegister] = useState('')
+    const [re_passwordRegister, setRe_passwordRegister] = useState('')
+    const [emailRegister, setEmailRegister] = useState('')
+    const [checkboxRegister, setCheckboxRegister] = useState(false)
+    const [isValidRegister, setIsValidRegister] = useState(1)
+    const {isFetching, isSuccess, error, isSuccessRe, errorRe, msgErr} = useSelector((state)=> state.user)
     const handleHiden = () => {  
         setHiden(!hiden)
     }
+
+    useEffect(()=>{
+        console.log(isSuccess)
+    },[isSuccess])
 
     const handlePopupLogin = (value) => {        
         if(!popupLogin){
@@ -49,6 +65,29 @@ export const Header = ({ selected }) => {
     const handleChangeInput = (e)=>{
         setKeyword(e.target.value)
     }
+
+    const handleLogin = ()=>{
+        if(!checkUsername(usernameLogin) || !checkPassword(passwordLogin)){
+            setIsValidLogin(0)
+        }else{
+            setIsValidLogin(1)
+            login(dispatch, {username: usernameLogin, password: passwordLogin})
+        }
+    }
+
+    const handleRegister = ()=>{
+        if(!checkUsername(usernameRegister) || !checkPassword(passwordRegister) || !checkPassword(re_passwordRegister) 
+            || !checkRePassword(passwordRegister, re_passwordRegister) || !checkFullname(userRegister) || !checkEmail(emailRegister) || !checkboxRegister){
+            setIsValidRegister(0)
+        }else{
+            setIsValidRegister(1)
+            let arr = userRegister.split(' ')
+            let firstname = arr[arr.length - 1]
+            let lastname = arr.slice(0, -1).join(' ')
+            register(dispatch, {username: usernameRegister, password: passwordRegister, re_password: re_passwordRegister, firstname, lastname, email: emailRegister})
+        }
+    }
+    
     return (
         <div className={"header"}>
             <div className="wrapper">
@@ -113,7 +152,7 @@ export const Header = ({ selected }) => {
                             <CloseIcon></CloseIcon>
                         </IconButton>
                     </div>
-                    {popupLogin === 1 ? <div className="login same">
+                    {popupLogin === 1? <div className="login same">
                         <div className="login__left" style={{ background: "url('https://img.freepik.com/free-psd/presentation-back-front-smartwatches-with-screen-mock-up_23-2148787550.jpg?t=st=1653904478~exp=1653905078~hmac=d8c3f665f41ac9f899b82afa0b3156cfe414315df2c615c7040130167c175a87&w=1060') no-repeat center center / cover" }}>
                         </div>
                         <div className="login__right">
@@ -126,11 +165,11 @@ export const Header = ({ selected }) => {
                             </div>
                             <div className="login__container" >
                                 <label htmlFor="">Tên đăng nhập</label>
-                                <input type="text" placeholder="Username / Email / Số điện thoại" />
+                                <input onChange={(e)=>setUsernameLogin(e.target.value)} type="text" placeholder="Username / Email / Số điện thoại" />
                             </div>
                             <div className="login__container">
                                 <label htmlFor="">Mật khẩu</label>
-                                <input type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
+                                <input onChange={(e)=>setPasswordLogin(e.target.value)} type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
                                 <div onClick={handleHiden}><i className={`${!hiden ? "fa-solid fa-eye" : "fa-solid fa-eye hiden"}`}></i><i className={`${hiden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye-slash hiden"}`}></i></div>
                             </div>
                             <div className="login__container__checkbox">
@@ -140,7 +179,10 @@ export const Header = ({ selected }) => {
                                 </div>
                                 <label htmlFor="">Quên mật khẩu ?</label>
                             </div>
-                            <button>Đăng nhập ngay</button>
+                            {isValidLogin ? <></> : <p className="isValid">Thông tin không hợp lệ</p>}
+                            {!error ? <></> : <p className="isValid">Sai tên đăng nhập hoặc mật khẩu</p>}
+                            {!isSuccess ? <></> : <p className="isSuccess">Đăng nhập thành công</p>}
+                            <button onClick={handleLogin} disabled={isFetching}>Đăng nhập ngay</button>
                         </div>
                     </div> : <></>
                     }
@@ -157,33 +199,36 @@ export const Header = ({ selected }) => {
                             </div>
                             <div className="login__container" >
                                 <label htmlFor="">Nhập họ và tên</label>
-                                <input type="text" placeholder="Nguyễn Văn A" />
+                                <input onChange={(e)=>setUserRegister(e.target.value)} type="text" placeholder="Nguyễn Văn A" />
                             </div>
                             <div className="login__container" >
                                 <label htmlFor="">Nhập tên đăng nhập</label>
-                                <input type="text" placeholder="Username / Email / Số điện thoại" />
+                                <input onChange={(e)=>setUsernameRegister(e.target.value)} type="text" placeholder="Username / Email / Số điện thoại" />
                             </div>
                             <div className="login__container">
                                 <label htmlFor="">Nhập mật khẩu</label>
-                                <input type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
+                                <input onChange={(e)=>setPasswordRegister(e.target.value)} type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
                                 <div onClick={handleHiden}><i className={`${!hiden ? "fa-solid fa-eye" : "fa-solid fa-eye hiden"}`}></i><i className={`${hiden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye-slash hiden"}`}></i></div>
                             </div>
                             <div className="login__container">
                                 <label htmlFor="">Nhập lại mật khẩu</label>
-                                <input type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
+                                <input onChange={(e)=>setRe_passwordRegister(e.target.value)} type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
                                 <div onClick={handleHiden}><i className={`${!hiden ? "fa-solid fa-eye" : "fa-solid fa-eye hiden"}`}></i><i className={`${hiden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye-slash hiden"}`}></i></div>
                             </div>
                             <div className="login__container" >
                                 <label htmlFor="">Nhập email</label>
-                                <input type="text" placeholder="info@bkwatch.vn" />
+                                <input onChange={(e)=>setEmailRegister(e.target.value)} type="text" placeholder="info@bkwatch.vn" />
                             </div>
                             <div className="login__container__checkbox">
                                 <div>
-                                    <input type="checkbox" name="" id="" />
+                                    <input onChange={(e)=>setCheckboxRegister(e.target.value)} type="checkbox" name="" id="" />
                                     <span>Tôi đã đọc và đồng ý điều khoản</span>
                                 </div>
                             </div>
-                            <button>Đăng ký ngay</button>
+                            {isValidRegister ? <></> : <p className="isValid">Thông tin không hợp lệ</p>}
+                            {!errorRe ? <></> : <p className="isValid">{msgErr}</p>}
+                            {!isSuccessRe ? <></> : <p className="isSuccess">Đăng ký tài khoản thành công</p>}
+                            <button onClick={handleRegister} disabled={isFetching}>Đăng ký ngay</button>
                         </div>
                     </div> : <></>
                     }

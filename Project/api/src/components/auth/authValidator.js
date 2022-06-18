@@ -15,8 +15,6 @@ function registerValidator(req, res){
         email,
         firstname,
         lastname,
-        phone,
-        address
     } = req.body
     let validatorUsername = (new Validator(username)).string().require().min(6)
     let validatorPassword = (new Validator(password)).string().require().min(6)
@@ -24,9 +22,7 @@ function registerValidator(req, res){
     let validatorEmail = (new Validator(email)).string().allow('').min(6)
     let validatorFirstname = (new Validator(firstname)).string().require()
     let validatorLastname = (new Validator(lastname)).string().require()
-    let validatorPhone = (new Validator(phone)).string().allow('').min(9).max(11)
-    let validatorAddress = (new Validator(address)).string().allow('')
-    return validatorUsername.check * validatorPassword.check * validatorEmail.check * validatorFirstname.check * validatorLastname.check * validatorPhone.check * validatorAddress.check * validatorRe_password.check
+    return validatorUsername.check * validatorPassword.check * validatorEmail.check * validatorFirstname.check * validatorLastname.check * validatorRe_password.check
 }
 
 

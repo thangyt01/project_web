@@ -23,8 +23,6 @@ async function register(req, res){
             password: req.body ? req.body.password : null,
             re_password: req.body ? req.body.re_password : null,
             email: req.body ? req.body.email : null,
-            phone: req.body ? req.body.phone : null,
-            address: req.body ? req.body.address : null,
             firstname: req.body ? req.body.firstname : null,
             lastname: req.body ? req.body.lastname : null,
             isAdmin: 0,

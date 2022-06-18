@@ -53,7 +53,7 @@ async function fetchGetListProducts(query) {
             i.detail = i.detail.split('@@@')
             i.descripion = i.descripion.split('\n')
             i.color = i.color.split('@@@')
-            i.price = i.price.replaceAll('₫', '').replaceAll('.', '')
+            i.price = i.price.replace('₫', '').replace('.', '').replace('₫', '').replace('.', '')
             productData.push(i)
            }else{
             productData[index].path.push(i.path)
