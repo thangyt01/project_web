@@ -4,13 +4,16 @@ import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { Link } from "react-router-dom"
 
 const Footer = () => {
     return (
         <div className="footer">
             <div className="wrapper padding___main">
                 <div className="col">
-                    <h1 className="logo">BK WATCH</h1>
+                    <Link style={{textDecoration: 'none', color: "#ccc"}} to={"/"}>
+                        <h1 className="logo">BK WATCH</h1>
+                    </Link>
                     <p>BK WATCH – Kênh mua sắm đồng hồ cao cấp</p>
                     <p>Địa chỉ: Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội.</p>
                     <b>Hotline: 0906052125</b>

@@ -1,6 +1,6 @@
 import "./header.scss"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import PhoneIcon from '@mui/icons-material/Phone';
 import SearchIcon from '@mui/icons-material/Search';
@@ -26,6 +26,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export const Header = ({ selected }) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const refPopup = useRef()
     const [hiden, setHiden] = useState(true)
     const [keyword, setKeyword] = useState('')
     const [popupLogin, setPopupLogin] = useState(0)
@@ -45,7 +47,12 @@ export const Header = ({ selected }) => {
     }
 
     useEffect(()=>{
-        console.log(isSuccess)
+        if(isSuccess){
+            setTimeout(()=>{
+                refPopup.current.style.display = 'none'
+                document.querySelector('body').style.overflowY = 'scroll'
+            }, 700)
+        }
     },[isSuccess])
 
     const handlePopupLogin = (value) => {        
@@ -88,6 +95,15 @@ export const Header = ({ selected }) => {
         }
     }
     
+    const handleClickUser = ()=>{
+        if(isSuccess){
+            navigate('/user')
+        }
+        else{
+            handlePopupLogin(1)
+        }
+    }
+
     return (
         <div className={"header"}>
             <div className="wrapper">
@@ -99,7 +115,7 @@ export const Header = ({ selected }) => {
                     <div className="top___right">
                         <ul>
                             <li><PhoneIcon></PhoneIcon> <span className="hidden___tablet" style={{ marginLeft: '5px' }}>0906 03 5225</span></li>
-                            <li onClick={() => { handlePopupLogin(1) }}><PersonIcon></PersonIcon></li>
+                            <li onClick={handleClickUser}><PersonIcon></PersonIcon></li>
                             <Link style={{textDecoration: 'none', color: 'black'}} to={"/cart"}>
                                 <li>
                                     <IconButton aria-label="cart">
@@ -135,7 +151,7 @@ export const Header = ({ selected }) => {
                     <div className="bottom___right">
                         <div className="searchContainer align-item___center">
                             <input type="text" className="searchInput" onChange={(e)=>handleChangeInput(e)} />
-                            <Link to={'/products?search='+keyword}>
+                            <Link to={'/search?keyword='+keyword}>
                                 <IconButton aria-label="search" className="padding__side">
                                     <SearchIcon></SearchIcon>
                                 </IconButton>
@@ -145,7 +161,7 @@ export const Header = ({ selected }) => {
                 </div>
             </div>
             {!popupLogin? <></> : 
-                <div className="fill" >
+                <div className="fill" ref={refPopup} >
                     <div className="fill2" onClick={()=>{ handlePopupLogin(0) }}></div>
                     <div className="exit" onClick={() => { handlePopupLogin(0) }}>
                         <IconButton aria-label="exit">
