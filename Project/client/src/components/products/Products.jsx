@@ -13,11 +13,7 @@ const Products = ({ title, type, limit, isPaging }) => {
     const getProducts = async () => {
       try {
         let path;
-        if(window.location.search.split('=')[1]){
-          path = `api/product/get_list_products?name=${window.location.search.split('=')[1]}&limit=${limit}&page=${
-            currentPage - 1
-          }`
-        }else if (type === "most") {
+        if (type === "most") {
           path = `api/product/recommend?limit=${limit}&page=${currentPage - 1}`;
         } else {
           path = `api/product/get_list_products?sort=${type}&limit=${limit}&page=${

@@ -8,7 +8,11 @@ export const login = async(dispatch, user)=>{
         const res = await publicRequest.post('/api/auth/login', user)
         dispatch(loginSuccess(res.data))
     }catch(e){
-        dispatch(loginFailure())
+        if(e.response.data.code !== 200){
+            dispatch(loginFailure())
+        }else{
+            dispatch(loginSuccess(e.response.data.data))
+        }
     }
 }
 
@@ -18,7 +22,11 @@ export const register = async(dispatch, user)=>{
         const res = await publicRequest.post("/api/auth/register", user)
         dispatch(registerSuccess(res.data))
     }catch(e){
-        dispatch(registerFailure())
+        if(e.response.data.code !== 200){
+            dispatch(registerFailure(e.response.data.message))
+        }else{
+            dispatch(registerSuccess())
+        }
     }
 }
 

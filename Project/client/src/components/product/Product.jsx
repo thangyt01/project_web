@@ -18,7 +18,7 @@ const Product = ({product}) => {
       </div>
       {
       product.discount ? 
-        <div className="discount">{product.discount}</div>
+        <div className="discount">-{product.discount + "%"}</div>
         :
         <></>
       }

@@ -10,10 +10,17 @@ export const publicRequest = axios.create({
 })
 
 export const privateRequest = axios.create({
-
-    // baseURL: `${config.REQUEST_URL}`,
-    // timeout: 2000,
-    // headers: {
-    //     auhthoriztion: JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.token,
-    // }
+    baseURL: `${config.REQUEST_URL}`,
+    timeout: 2000,
+    headers: {
+        auhthoriztion: getToken(localStorage.getItem("persist:root")),
+    }
 })
+
+function getToken(key){
+    if(!key) return '{}'
+    const storage = JSON.parse(key)
+    const user = JSON.parse(storage.user)
+    if(!user.currentUser) return '{}'
+    return JSON.stringify(user.currentUser.token)
+}

@@ -310,6 +310,13 @@
             display: inline-block;
             margin: 5px;
         }
+        .isValid{
+            margin-top: 15px;
+            color: red;
+        }
+        .isSuccess{
+            margin-top: 15px;
+        }
         button{
             border-radius: 20px;
             margin-top: 50px;

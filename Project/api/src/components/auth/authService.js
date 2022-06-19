@@ -69,7 +69,10 @@ async function fetchLogin(credentials) {
         return {
             success: true,
             data: {
-                pk: pk,
+                token: {
+                    pk,
+                    user_id: user.id
+                },
                 profile,
             },
             message: USERS['2008']

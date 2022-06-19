@@ -15,7 +15,7 @@ async function fetchGetListProducts(query) {
     } = query
     sort = parseInt(sort, 10)
     sql_query ={
-        attributes: ['id', 'name', 'detail', 'descripion', 'price', 'color', 'createdAt'],
+        attributes: ['id', 'name', 'detail', 'descripion', 'price', 'color', 'discount', 'createdAt'],
         table: 'product',
         includes: [{
             attributes : ['path'],
@@ -53,7 +53,7 @@ async function fetchGetListProducts(query) {
             i.detail = i.detail.split('@@@')
             i.descripion = i.descripion.split('\n')
             i.color = i.color.split('@@@')
-            i.price = i.price.replaceAll('₫', '').replaceAll('.', '')
+            i.price = i.price.replace('₫', '').replace('.', '').replace('₫', '').replace('.', '')
             productData.push(i)
            }else{
             productData[index].path.push(i.path)
@@ -67,8 +67,7 @@ async function fetchGetListProducts(query) {
             productData.sort((a, b)=> parseInt(b.price.split(' - ')[0])  - parseInt(a.price.split(' - ')[0]))
         }
         let numPage = Math.ceil(productData.length / limit)
-        console.log(productData.length)
-        productData = productData.slice(page * limit, page * limit + limit)
+        productData = productData.slice(page * limit, page * limit + parseInt(limit))
         return {
             success: true,
             data: {
@@ -228,7 +227,7 @@ async function fetchDeleteProduct(query) {
 }
 
 async function fetchGetRecommendProduct(query) {
-    let type = query.type || 0
+    let {type = 0, limit = 16, page = 0} = query
     try {
         let sql_query ={
             attributes : ['product_id', "sum(quantity) as 'total_quantity'"],
@@ -268,9 +267,14 @@ async function fetchGetRecommendProduct(query) {
            }
             
         }
+        let numPage = Math.ceil(listProduct.length / limit)
+        listProduct = listProduct.slice(page * limit, page * limit + parseInt(limit))
         return {
             success: true,
-            data: listProduct,
+            data: {
+                numPage,
+                productData: listProduct
+            },
             message: PRODUCTS['2020']
         }
     } catch (error) {
