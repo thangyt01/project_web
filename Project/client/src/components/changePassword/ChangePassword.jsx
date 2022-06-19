@@ -1,15 +1,9 @@
-import "./profiles.scss"
+import "./changePassword.scss"
 import PersonIcon from '@mui/icons-material/Person';
 import HistoryIcon from '@mui/icons-material/History';
 import LockIcon from '@mui/icons-material/Lock';
 
-const Profiles = () => {
-    // const handleUpdate = () =>{
-    //     let itemContent = window.getElementByClassName('item-content')
-    //     itemContent.addEventListener('click', function(){
-            
-    //     })
-    // }
+const ChangePassword = () => {
     return (
         <div className="profile">
             <div className="wrapper">
@@ -24,13 +18,13 @@ const Profiles = () => {
                     </div>
                     <div className="sideBar-content">
                         <div>
-                            <PersonIcon></PersonIcon>  
-                            <p>Thông tin cá nhân</p> 
+                            <PersonIcon></PersonIcon>
+                            <p>Thông tin cá nhân</p>
                         </div>
-                        
+
                         <div>
                             <HistoryIcon></HistoryIcon>
-                            <p>Lịch sử mua hàng</p> 
+                            <p>Lịch sử mua hàng</p>
                         </div>
 
                         <div>
@@ -41,35 +35,23 @@ const Profiles = () => {
                 </div>
 
                 <div className="content">
-                    <div className="content-head">Hồ sơ của tôi</div>
+                    <div className="content-head">Thay đổi mật khẩu</div>
                     <div className="content-wapper">
                         <div className="item">
-                            <label className="item-head">Họ và tên</label>
-                            <p className="item-content">Tran Van Quang</p>
+                            <label className="item-head">Nhập mật khẩu</label>
+                            <input className="item-content"></input>
                         </div>
 
                         <div className="item">
-                            <label className="item-head">Số điện thoại</label>
-                            <p className="item-content">0968207011</p>
-                        </div>
-
-                        <div className="item">
-                            <label className="item-head">Địa chỉ</label>
-                            <p className="item-content">Vu Ban - Nam Dinh</p>
-                        </div>
-
-                        <div className="item">
-                            <label className="item-head">Email</label>
-                            <p className="item-content">quang01696103588@gmail.com</p>
+                            <label className="item-head">Nhập lại mật khẩu</label>
+                            <input className="item-content"></input>
                         </div>
                     </div>
                     <button className="content-btn_update">Chỉnh sửa</button>
-                    <button className="content-btn_save">Lưu</button>
-
                 </div>
             </div>
         </div>
     )
 }
 
-export default Profiles
+export default ChangePassword
