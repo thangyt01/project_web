@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import ProductsPage from './pages/products/ProductsPage';
 import SearchProduct from './pages/searchProduct/SearchProduct';
+import Page404 from './pages/404/Page404';
 
 
 function App() {
@@ -16,10 +17,11 @@ function App() {
     <div className="app" >
       <Router>
         <Routes>
-          <Route path="/*" element={<Home selected={1}/>}/>
+          <Route path="/" element={<Home selected={1}/>}/>
           <Route path="/product/:id" element={<Product selected={2}/>}/>
           <Route path="/products/*" element={<ProductsPage selected={2}/>}/>
           <Route path="/search/*" element={<SearchProduct selected={2}/>}/>
+          <Route path="/*" element={<Page404 />}/>
         </Routes>
       </Router>
     </div>

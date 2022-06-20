@@ -12,7 +12,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { checkEmail, checkFullname, checkPassword, checkRePassword, checkUsername } from "../../helpers/validator";
-import { login, register } from "../../redux/apiCalls";
+import { login, logout, register } from "../../redux/apiCalls";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -52,6 +52,10 @@ export const Header = ({ selected }) => {
                 refPopup.current.style.display = 'none'
                 document.querySelector('body').style.overflowY = 'scroll'
             }, 700)
+        }else{
+            if (document.querySelector('.fill')) document.querySelector('.fill').style.display = 'flex'
+            document.querySelector('body').style.overflowY = 'hidden'
+            setPopupLogin(0)
         }
     },[isSuccess])
 
@@ -104,6 +108,10 @@ export const Header = ({ selected }) => {
         }
     }
 
+    const handleLogout = ()=>{
+        logout(dispatch)
+    }
+
     return (
         <div className={"header"}>
             <div className="wrapper">
@@ -115,7 +123,12 @@ export const Header = ({ selected }) => {
                     <div className="top___right">
                         <ul>
                             <li><PhoneIcon></PhoneIcon> <span className="hidden___tablet" style={{ marginLeft: '5px' }}>0906 03 5225</span></li>
-                            <li onClick={handleClickUser}><PersonIcon></PersonIcon></li>
+                            <li className="userIcon">
+                                <PersonIcon onClick={handleClickUser}></PersonIcon>
+                                {isSuccess && <p onClick={handleLogout}>
+                                   Logout 
+                                </p>}
+                            </li>
                             <Link style={{textDecoration: 'none', color: 'black'}} to={"/cart"}>
                                 <li>
                                     <IconButton aria-label="cart">
@@ -150,7 +163,7 @@ export const Header = ({ selected }) => {
                     </div>
                     <div className="bottom___right">
                         <div className="searchContainer align-item___center">
-                            <input type="text" className="searchInput" onChange={(e)=>handleChangeInput(e)} />
+                            <input type="text" className="searchInput" onKeyPress ={(e)=>{if(e.key === 'Enter') navigate('/search?keyword='+keyword)}} onChange={(e)=>handleChangeInput(e)} />
                             <Link to={'/search?keyword='+keyword}>
                                 <IconButton aria-label="search" className="padding__side">
                                     <SearchIcon></SearchIcon>
