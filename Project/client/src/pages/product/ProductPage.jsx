@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Footer from "../../components/footer/Footer";
 import { Header } from "../../components/header/Header";
 import Products from "../../components/products/Products";
@@ -9,6 +9,8 @@ import { publicRequest } from "../../requestAxios";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckIcon from '@mui/icons-material/Check';
+import Notfound from "../../components/notfound/Notfound";
+import { Link } from "react-router-dom";
 
 const ProductPage = ({ selected }) => {
   const [product, setProduct] = useState({});
@@ -48,11 +50,12 @@ const ProductPage = ({ selected }) => {
         <div className="productContainer padding___main">
           <div className="heading">
             <div className="heading__root">
-              <a>BK WATCH</a>
+              <Link style={{color: "blue", textDecoration: "none"}} to="/">BK WATCH</Link>
+
             </div>
             <ChevronRightIcon ></ChevronRightIcon>
             <div className="heading__parent">
-              <a>Đồng hồ</a>
+            <Link style={{color: "blue", textDecoration: "none"}}  to="/products">Đồng hồ</Link>
             </div>
             <ChevronRightIcon></ChevronRightIcon>
             <div className="heading__children">
@@ -141,10 +144,10 @@ const ProductPage = ({ selected }) => {
           </div>
         </div>
       ) : (
-        <></>
+        <Notfound title = "Sản phẩm này không tồn tại"></Notfound>
       )}
 
-      <Products title={'Sản phẩm liên quan'} type={'1'} limit={4} />
+      <Products title={'Sản phẩm của chúng tôi'} type={'1'} limit={4} />
       <Footer></Footer>
     </div>
   );

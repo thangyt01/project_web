@@ -43,6 +43,23 @@
                     align-items: center;
                     flex-direction: row;
                     margin-left: 15px;
+                    
+                }
+                .userIcon{
+                    position: relative;
+                    p{
+                        display: none;
+                        background-color: #fff;
+                        -webkit-box-shadow: 0px 0px 15px 8px rgba(0,0,0,0.31); 
+                        box-shadow: 0px 0px 15px 8px rgba(0,0,0,0.31);
+                        bottom: -20px;
+                        padding: 5px;
+                        left: -17px;
+                        position: absolute;
+                    }
+                }
+                .userIcon:hover p{
+                    display: block;
                 }
 
                 .MuiBadge-badge {

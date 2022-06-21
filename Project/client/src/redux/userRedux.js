@@ -52,6 +52,8 @@ const userSlice = createSlice({
             state.historySearch = []
             state.error = false
             state.isSuccess = false
+            state.errorRe = false
+            state.isSuccessRe = false
         },
         addHistory: (state, action)=>{
             const i = state.historySearch.findIndex(item=>item === action.payload)
