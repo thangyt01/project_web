@@ -10,6 +10,7 @@ function orderResponseFormat(e){
         },
         order: {
             order_id: e.order_id,
+            status: e.status,
             detail: [
                 {
                     product_id: e.product_id,

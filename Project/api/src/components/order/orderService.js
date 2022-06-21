@@ -10,6 +10,7 @@ async function fetchGetListTotalOrder(query) {
             page = 0,
             limit = 10,
             user,
+            status,
             fromDay,
             toDay,
         } = query
@@ -31,6 +32,9 @@ async function fetchGetListTotalOrder(query) {
         }
         if (user) {
             sql.where += ` AND (firstname LIKE '%${user}%' OR lastname LIKE '%${user}%' OR phone LIKE '%${user}%') `
+        }
+        if (status) {
+            sql.where += ` AND (status LIKE '${status}')  `
         }
         if(fromDay) sql.where += ` AND createdAt >= ${fromDay} `
         if(toDay) sql.where += ` AND createdAt <= ${toDay} `
