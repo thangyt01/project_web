@@ -2,6 +2,7 @@ import "./changePassword.scss"
 import PersonIcon from '@mui/icons-material/Person';
 import HistoryIcon from '@mui/icons-material/History';
 import LockIcon from '@mui/icons-material/Lock';
+import { Link } from "react-router-dom";
 
 const ChangePassword = () => {
     return (
@@ -17,20 +18,26 @@ const ChangePassword = () => {
                         </p>
                     </div>
                     <div className="sideBar-content">
-                        <div>
-                            <PersonIcon></PersonIcon>
-                            <p>Thông tin cá nhân</p>
-                        </div>
+                        <Link id="link" to={'/user'}>
+                            <div>
+                                <PersonIcon></PersonIcon>  
+                                <p>Thông tin cá nhân</p> 
+                            </div>
+                        </Link>
 
-                        <div>
-                            <HistoryIcon></HistoryIcon>
-                            <p>Lịch sử mua hàng</p>
-                        </div>
-
-                        <div>
-                            <LockIcon></LockIcon>
-                            <p>Thay đổi mật khẩu</p>
-                        </div>
+                        <Link id="link" to={'/user/history-order'}>
+                            <div>
+                                <HistoryIcon></HistoryIcon>
+                                <p>Lịch sử mua hàng</p> 
+                            </div>
+                        </Link>
+                        
+                        <Link id="link" to={'/user/change-password'}>
+                            <div style={{backgroundColor : '#125B50', color : '#fff'}}>
+                                <LockIcon></LockIcon>
+                                <p>Thay đổi mật khẩu</p>
+                            </div>
+                        </Link>
                     </div>
                 </div>
 

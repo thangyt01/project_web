@@ -9,7 +9,7 @@ import Profiles from "../../components/profiles/Profiles"
 
 import "./user.scss"
 
-const User = ({selected}) => {
+const User = ({selected, type=1}) => {
     const [isScroll, setIsScroll] = useState(false)
     const dispatch = useDispatch()
 
@@ -18,9 +18,21 @@ const User = ({selected}) => {
     return (
         <div className="user">
             <Header selected={selected}></Header>
-            <Profiles></Profiles>
-            {/* <HistoryOrder></HistoryOrder> */}
-            {/* <ChangePassword></ChangePassword> */}
+            {
+                type === 1 ?
+                <Profiles></Profiles>:<></>
+            }
+
+            {
+                type === 2 ?
+                <HistoryOrder></HistoryOrder>:<></>
+            }
+
+            {
+                type === 3 ?
+                <ChangePassword></ChangePassword>:<></>
+            }            
+
             <Footer></Footer>
         </div>
     )

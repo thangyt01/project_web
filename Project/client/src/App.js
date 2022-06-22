@@ -20,8 +20,10 @@ function App() {
           <Route path="/*" element={<Home selected={1}/>}/>
           <Route path="/product/:id" element={<Product selected={2}/>}/>
           <Route path="/products/*" element={<ProductsPage selected={2}/>}/>
-          <Route path="/user/*" element={<User selected={2}/>}/>
           <Route path="/search/*" element={<SearchProduct selected={2}/>}/>
+          <Route path="/user/*" element={<User selected={2} type={1}/>}/>
+          <Route exact path="/user/history-order" element={<User selected={2} type={2}/>}/>
+          <Route exact path="/user/change-password" element={<User selected={2} type={3}/>}/>
         </Routes>
       </Router>
     </div>

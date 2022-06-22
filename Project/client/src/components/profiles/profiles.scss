@@ -120,15 +120,36 @@
                     .item-content{
                         flex: 8;
                         color:black;
+                        position: relative;
+                        i{
+                            margin-left: 2%;
+                            display: none;
+                        }
+                        input{
+                            position: absolute;
+                            width: 50%;
+                            top: 0;
+                            transform: translateY(-25%);
+                            // display: none;
+                        }
+
+                    }
+                    .item-content:hover i{
+                        display: inline-block;
                     }
 
                 }
             }
 
+            .content-footer{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
             .content-btn_update,  
             .content-btn_save{
-                float: right;
-                padding: 1%;
+                border-radius: 12px;
+                padding: 1% 2%;
                 margin-right: 5%;
                 margin-top: 5%;
                 font-size: 1rem;
@@ -136,14 +157,9 @@
                 background-color: #125B50;
                 border: none;
                 cursor: pointer;
-
                 &:hover{
                     background-color: #219e8c;
                 }
-            }
-
-            .content-btn_save{
-                display: none;
             }
         }
 
