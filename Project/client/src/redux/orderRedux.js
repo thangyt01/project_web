@@ -15,9 +15,8 @@ const orderSlice = createSlice({
         orderSuccess: (state, action)=>{
             state.isFetching = false
             state.error = false
-            state.isPlaying = true
-            state.cost += action.payload.quantity * action.payload.price
-            const i = state.listOrder.findIndex(item => item.id === action.payload.id)
+            state.cost += action.payload.quantity * action.payload.price * (1 - action.payload.discount/100)
+            const i = state.listOrder.findIndex(item => item.id === action.payload.id && item.color === action.payload.color)
             if( i >= 0) {
                 action.payload.quantity += state.listOrder[i].quantity
                 state.listOrder.splice(i, 1) 
