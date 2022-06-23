@@ -16,7 +16,6 @@ async function authenticate(req, res){
         return 1;
         
     } catch (error) {
-        console.log(error)
         return 0
     }
 }
@@ -41,7 +40,6 @@ async function authenticateV2(req, res){
         return 1;
         
     } catch (error) {
-        console.log(error)
         return 0
     }
 }
@@ -50,7 +48,7 @@ function authorizationAdmin(req, res){
     try {
         return req.user ? req.user.isAdmin : 0
     } catch (error) {
-        console.log(error)
+        return 0
     }
 }
 
@@ -60,7 +58,7 @@ function authorizationMyUser(req, res){
         const id = req.query ? req.query.id : null
         return req.user.id === id
     } catch (error) {
-        console.log(error)
+        return 0
     }
 }
 

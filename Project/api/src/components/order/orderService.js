@@ -1,6 +1,7 @@
 const { update, find, create, destroy } = require("../../../database/service");
 const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../helpers/errorCodes");
 const { ORDER } = require("../../helpers/message");
+const { orderResponseFormat } = require('./orderConstant')
 const moment = require('moment')
 
 async function fetchGetListTotalOrder(query) {
@@ -9,14 +10,21 @@ async function fetchGetListTotalOrder(query) {
             page = 0,
             limit = 10,
             user,
-            productName,
-            productId,
+            status,
             fromDay,
             toDay,
         } = query
 
         let sql = {
             attributes: [],
+            includes: [
+                {
+                    attributes: ['name'],
+                    table: 'product',
+                    on: '`order`.product_id = `product`.id',
+                    type: 'LEFT JOIN'
+                }
+            ],
             table: '`order`',
             limit,
             offset: limit * page,
@@ -25,21 +33,31 @@ async function fetchGetListTotalOrder(query) {
         if (user) {
             sql.where += ` AND (firstname LIKE '%${user}%' OR lastname LIKE '%${user}%' OR phone LIKE '%${user}%') `
         }
-        if (productName) {
-            const listProduct = await find({
-                attributes: [],
-                table: 'product',
-                where: `name LIKE '${productName}'`,
-            })
-            if (listProduct.length > 0) sql.where += ` AND product_id IN(${listProduct.map(i => i.id).join(',')}) `
+        if (status) {
+            sql.where += ` AND (status LIKE '${status}')  `
         }
-        if(productId) sql.where += ` AND product_id = ${productId} `
         if(fromDay) sql.where += ` AND createdAt >= ${fromDay} `
         if(toDay) sql.where += ` AND createdAt <= ${toDay} `
-        const result = await find(sql)
+        const list_order = await find(sql)
+        let rs = []
+        for(let e of list_order){
+            const index = rs.findIndex(i => i.order.order_id === e.order_id)
+            if(index < 0){
+                rs.push(orderResponseFormat(e))
+            } else {
+                rs[index].order.detail.push({
+                    product_id: e.product_id,
+                    name: e.name,
+                    color: e.color,
+                    quantity: e.quantity,
+                    total_cost: e.total_cost
+                })
+                rs[index].order.total_cost += e.total_cost
+            }
+        }
         return {
             success: true,
-            data: result,
+            data: rs,
             message: ORDER['2028']
         }
     } catch (error) {
@@ -56,7 +74,15 @@ async function fetchGetOrder(query) {
         let data = await find({
             attributes: [],
             table: '`order`',
-            where: `id = '${query.id}'`,
+            includes: [
+                {
+                    attributes: ['name'],
+                    table: 'product',
+                    on: '`order`.product_id = `product`.id',
+                    type: 'LEFT JOIN'
+                }
+            ],
+            where: `order_id = '${query.id}'`,
         })
 
         if (data.length < 1) {
@@ -67,11 +93,21 @@ async function fetchGetOrder(query) {
             }
         }
 
-        data = data[0]
+        let rs = orderResponseFormat(data[0])
+        for(let i = 1; i < data.length; i++){
+            rs.order.detail.push({
+                product_id: data[i].product_id,
+                name: data[i].name,
+                color: data[i].color,
+                quantity: data[i].quantity,
+                total_cost: data[i].total_cost
+            })
+            rs.order.total_cost += data[i].total_cost
+        }
 
         return {
             success: true,
-            data: data,
+            data: rs,
             message: ORDER['2025']
         }
     } catch (error) {
