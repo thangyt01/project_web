@@ -1,0 +1,168 @@
+.profile {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: #ebebeb;
+
+    .wrapper {
+        margin: 5px 150px;
+
+        @media only screen and (max-width: 1075px) {
+            margin: 5px 30px;
+        }
+
+        @media only screen and (max-width: 500px) {
+            margin: 5px 10px;
+        }
+
+        background-color: #fff;
+
+        border-radius: 10px;
+        box-shadow: 3px 3px 15px -3px #666;
+        display: flex;
+        padding: 12px;
+
+        .sideBar {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+
+            .sideBar-header {
+                flex: 4;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .icon {
+                    background-color: var(--color-bg-1);
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 999px;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    p {
+                        align-items: center;
+                        font-size: 3.5rem;
+                        color: #fff;
+                        font-weight: 800;
+                    }
+                }
+
+                p{
+                    padding: 4%;
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
+
+            }
+
+            .sideBar-content {
+                flex: 6;
+                background-color: var(--color-bg-2);
+                border-radius: 2%;
+                div{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 5% 10%;
+
+                    PersonIcon, HistoryIcon, LockIcon{
+                        flex: 2;
+                    }
+
+                    p{
+                        padding-left: 3%;
+                        flex: 8;
+                        font-weight: 500;
+                        cursor: pointer;
+                    }
+                    
+                    &:hover{
+                        background-color: #125B50;
+                        color: #FAF5E4;
+                    }
+                }
+
+            }
+
+        }
+
+        .content {
+            flex: 9;
+
+            .content-head{
+                padding: 3% 3% 0 ;
+                font-size: 1.5rem;
+                font-weight: 600;
+                border-bottom: 1px solid #ccc;
+
+            }
+
+            .content-wapper{
+                display: flex;
+                flex-direction: column;
+                padding: 5%;
+                
+                .item{
+                    display: flex;
+                    padding: 2%;
+                    font-size: 1rem;
+                    font-weight: 500;
+
+                    .item-head{
+                        flex: 2;
+                    }
+
+                    .item-content{
+                        flex: 8;
+                        color:black;
+                        position: relative;
+                        i{
+                            margin-left: 2%;
+                            display: none;
+                        }
+                        input{
+                            position: absolute;
+                            width: 50%;
+                            top: 0;
+                            transform: translateY(-25%);
+                            // display: none;
+                        }
+
+                    }
+                    .item-content:hover i{
+                        display: inline-block;
+                    }
+
+                }
+            }
+
+            .content-footer{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .content-btn_update,  
+            .content-btn_save{
+                border-radius: 12px;
+                padding: 1% 2%;
+                margin-right: 5%;
+                margin-top: 5%;
+                font-size: 1rem;
+                color: #fff;
+                background-color: #125B50;
+                border: none;
+                cursor: pointer;
+                &:hover{
+                    background-color: #219e8c;
+                }
+            }
+        }
+
+    }
+
+}
