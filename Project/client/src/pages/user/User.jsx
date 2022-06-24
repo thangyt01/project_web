@@ -1,18 +1,22 @@
 import {useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router"
 import ChangePassword from "../../components/changePassword/ChangePassword"
 import Footer from "../../components/footer/Footer"
 import { Header } from "../../components/header/Header"
 import HistoryOrder from "../../components/historyOrder/HistoryOrder"
 import Profiles from "../../components/profiles/Profiles"
+import { checkCurrentUser } from "../../helpers/utils"
 
 
 import "./user.scss"
 
 const User = ({selected, type=1}) => {
-    const [isScroll, setIsScroll] = useState(false)
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
+    useEffect(()=>{
+        if (!checkCurrentUser(localStorage.getItem("persist:root"))) navigate('/')
+    }, [])
     
 
     return (
