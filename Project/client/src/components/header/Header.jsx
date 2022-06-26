@@ -50,21 +50,14 @@ export const Header = ({ selected }) => {
         if(isSuccess){
             setTimeout(()=>{
                 refPopup.current.style.display = 'none'
-                document.querySelector('body').style.overflowY = 'scroll'
             }, 700)
         }else{
             if (document.querySelector('.fill')) document.querySelector('.fill').style.display = 'flex'
-            document.querySelector('body').style.overflowY = 'hidden'
             setPopupLogin(0)
         }
     },[isSuccess])
 
     const handlePopupLogin = (value) => {        
-        if(!popupLogin){
-            document.querySelector('body').style.overflowY = 'hidden'
-        } else{
-            document.querySelector('body').style.overflowY = 'scroll'
-        }
         setPopupLogin(value)
     }
 
@@ -110,6 +103,7 @@ export const Header = ({ selected }) => {
 
     const handleLogout = ()=>{
         logout(dispatch)
+        navigate('/')
     }
 
     return (

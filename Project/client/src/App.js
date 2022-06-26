@@ -11,9 +11,15 @@ import ProductsPage from './pages/products/ProductsPage';
 import User from './pages/user/User';
 import SearchProduct from './pages/searchProduct/SearchProduct';
 import Page404 from './pages/404/Page404';
+import { checkCurrentUser } from './helpers/utils';
 
 
 function App() {
+  const checkUser = ()=>{
+    const key = localStorage.getItem("persist:root")
+    console.log(checkCurrentUser(key))
+    return checkCurrentUser(key)
+  }
   return (
     <div className="app" >
       <Router>

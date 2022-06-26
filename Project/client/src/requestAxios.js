@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "./config/config";
+import { getToken } from "./helpers/utils";
 
 export const publicRequest = axios.create({
     baseURL: `${config.REQUEST_URL}`,
@@ -16,11 +17,3 @@ export const privateRequest = axios.create({
         auhthoriztion: getToken(localStorage.getItem("persist:root")),
     }
 })
-
-function getToken(key){
-    if(!key) return '{}'
-    const storage = JSON.parse(key)
-    const user = JSON.parse(storage.user)
-    if(!user.currentUser) return '{}'
-    return JSON.stringify(user.currentUser.token)
-}
