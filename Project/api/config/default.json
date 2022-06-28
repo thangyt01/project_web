@@ -1,8 +1,7 @@
 {
     "database": {
-        "host": "projectbk-az2001.mysql.database.azure.com",
-        "user": "project_bk_web@projectbk-az2001",
-        "password": "az270-azv",
+        "host": "localhost",
+        "user": "root",
         "database": "test"
     }
 }

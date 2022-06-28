@@ -1,5 +1,5 @@
 const { login, register } = require("../components/auth/authController")
-const { getOrder, getListTotalOrder, updateOrder, deleteOrder, statsOrder, createOrder } = require("../components/order/orderController")
+const { getOrder, getListTotalOrder, updateOrder, deleteOrder, statsOrder, createOrder, getUserOrder } = require("../components/order/orderController")
 const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct, getCreateProduct } = require("../components/product/productController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
 const { authenticate, authorizationAdmin, authorizationMyUser, authenticateV2 } = require("../middlewares/auth")
@@ -141,10 +141,19 @@ const routers = [
                 name: 'get order',
                 method: 'GET',
                 url: '',
-                authenticate: null,
+                authenticate: authenticate,
                 authoriztion: null,
                 validator: null,
                 handle: getOrder
+            },
+            {
+                name: 'get user order',
+                method: 'GET',
+                url: '/get_user_order',
+                authenticate: authenticate,
+                authoriztion: null,
+                validator: null,
+                handle: getUserOrder
             },
             {
                 name: 'get list total order',

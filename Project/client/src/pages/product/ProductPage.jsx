@@ -10,23 +10,24 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckIcon from '@mui/icons-material/Check';
 import Notfound from "../../components/notfound/Notfound";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const ProductPage = ({ selected }) => {
   const [product, setProduct] = useState({});
+  const location = useLocation();
+  let index1 = location.pathname.split("/")[2];
   useEffect(() => {
-    const arr = window.location.href.split("/")
-    const index = arr.findIndex(i=>i === 'product')
     const getProduct = async () => {
       try {
-        const res = await publicRequest.get(`api/product?id=${arr[index+1]}`);
+        const res = await publicRequest.get(`api/product?id=${index1}`);
         setProduct(res.data);
       } catch (err) {
         setProduct(err.response.data.data);
       }
     };
     getProduct();
-  }, []);
+    window.scrollTo(0, 0)
+  }, [index1]);
   const [index, setIndex] = useState(0);
   const [imageWidth, setImageWidth] = useState(0);
   const displayWidth =
