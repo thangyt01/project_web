@@ -10,7 +10,6 @@ export function checkCurrentUser(key){
     if(!key) return 0
     const storage = JSON.parse(key)
     const user = JSON.parse(storage.user)
-    console.log("user", user)
     if(!user.currentUser) return 0
     return 1
 }
@@ -20,4 +19,26 @@ export function getAvatar(fullName){
     const arr = fullName.split(' ')
     if(arr.length < 2) return arr[0].splice(0, 2).toUpperCase()
     return (arr[0][0] + arr[1][0] + '').toUpperCase()
+}
+
+export function getName(fullName){
+    if(!fullName || fullName === ''){
+        return {
+            firstname: null,
+            lastname: null
+        }
+    }
+    let obj = {
+        firstname: null,
+        lastname: null
+    }
+    let arr = fullName.split(' ')
+    if(arr.length < 2){
+        obj.lastname = arr[0]
+    }else{
+        obj.lastname = arr[arr.length - 1]
+        arr.pop()
+        obj.firstname = arr.join(' ')
+    }     
+    return obj
 }

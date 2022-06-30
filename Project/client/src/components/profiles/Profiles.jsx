@@ -5,7 +5,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getAvatar } from "../../helpers/utils";
+import { getAvatar, getName } from "../../helpers/utils";
+import { privateRequest } from "../../requestAxios";
 
 const Profiles = () => {
     const {currentUser} = useSelector(state => state.user)
@@ -19,9 +20,31 @@ const Profiles = () => {
     const [address, setAddress] = useState(currentUser.profile.address);
     const [email, setEmail] = useState(currentUser.profile.email);
 
-    const handleUpdateUser = () => {
-        console.log(name, phone, address, email)
+    const handleUpdateUser = async () => {
+        try {
+            let _name = getName(name)
+            await privateRequest.put('/api/user/update?id=' + currentUser.profile.id, {..._name, phone, address, email})
+        } catch (error) {
+            alert(error.response.data.message)
+        }
     }
+
+    useEffect(()=>{
+        const getProfile = async()=>{
+            try {
+                const res = await privateRequest.get('/api/user?id='+ currentUser.profile.id)
+            } catch (error) {
+                const res = error.response.data
+                if(res.code == 200){
+                    setName(res.data.firstname + ' ' + res.data.lastname)
+                    setPhone(res.data.phone)
+                    setAddress(res.data.address)
+                    setEmail(res.data.email)
+                }                
+            }
+        }
+        getProfile()
+    }, [])
     
     return (
         <div className="profile">

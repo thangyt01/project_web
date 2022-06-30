@@ -107,6 +107,11 @@
                 flex-direction: column;
                 padding: 5%;
                 border-bottom: 1px solid #ccc;
+                overflow-y: scroll;
+                max-height: 60vh;
+                &::-webkit-scrollbar{
+                    display: none;
+                }
 
                 .item-history{
                     display: flex;

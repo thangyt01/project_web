@@ -46,13 +46,13 @@ const ChangePassword = () => {
 
                 <div className="content">
                     <div className="content-head">Thay đổi mật khẩu</div>
-                    <div className="content-wapper">
-                        <div className="item">
+                    <div className="content-wapper1">
+                        <div className="item1">
                             <label className="item-head">Nhập mật khẩu</label>
                             <input className="item-content"></input>
                         </div>
 
-                        <div className="item">
+                        <div className="item1">
                             <label className="item-head">Nhập lại mật khẩu</label>
                             <input className="item-content"></input>
                         </div>

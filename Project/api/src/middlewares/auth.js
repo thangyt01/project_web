@@ -56,7 +56,7 @@ function authorizationMyUser(req, res){
     try {
         if(req.user && req.user.isAdmin) return 1
         const id = req.query ? req.query.id : null
-        return req.user.id === id
+        return req.user.id == id
     } catch (error) {
         return 0
     }
