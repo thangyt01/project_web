@@ -24,7 +24,9 @@ const HistoryOrder = () => {
         }
         getHistory();
     }, [])
-    console.log(history)
+    
+    
+    // console.log(COLOR_STATUS['Hoàn thành'])
 
     return (
         <div className="profile">
@@ -70,18 +72,18 @@ const HistoryOrder = () => {
                                 <div className="item-history">
                                     <div className="top__">
                                         <label className="item-head">Mã đơn hàng: #{h.order_id}</label>
-                                        <p className="status" style={{backgroundColor: `${COLOR_STATUS[h.status]}`}}>{h.status}</p>
+                                        <p className="status" style={{color: `${COLOR_STATUS[h.status]}`}}>{h.status}</p>
                                     </div>
                                     <div className="item-content">
                                         {
                                             h.detail.map(product =>(
                                                 <div className="product-history">
-                                                    <img src="https://cf.shopee.vn/file/492f47a75235713830fd70ea861e00ab_tn" alt="" className="product-img" />
+                                                    <img src={product.image} alt="" className="product-img" />
                                                     <div className="product-description">
                                                         <p className="p1">{product.name}</p>
                                                         <div>
                                                             <p className="p2">số lượng: {product.quantity}</p>
-                                                            <p className="p2">màu sắc: {product.color}</p>
+                                                            {product.color&&<p className="p2">màu sắc: {product.color}</p>}
                                                         </div>
                                                     </div>
                                                     <div className="product-cost">{product.total_cost} đ</div>

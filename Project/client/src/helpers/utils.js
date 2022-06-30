@@ -57,5 +57,8 @@ export function checkValidPass(password, re_password){
 }
 
 export const COLOR_STATUS = {
-    'hủy': 'red'
+    'Hủy': '#d32f2f',
+    'Hoàn Thành': '#3949ab',
+    'Đặt Hàng': '#ffb300'
+
 }
