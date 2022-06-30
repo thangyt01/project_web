@@ -3,18 +3,37 @@ import PersonIcon from '@mui/icons-material/Person';
 import HistoryIcon from '@mui/icons-material/History';
 import LockIcon from '@mui/icons-material/Lock';
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { privateRequest } from "../../requestAxios";
+import { getAvatar } from "../../helpers/utils";
+import { useSelector } from "react-redux";
 
 const HistoryOrder = () => {
+    const [history, setHistory] = useState([])
+    const {currentUser} = useSelector(state => state.user)
+
+    // useEffect(() => {
+    //     const getHistory = async () => {
+    //         try{
+    //             const res = await privateRequest.get(`api/order/`);
+    //             setHistory(res.data);
+    //         } catch(err){
+    //             setHistory(err.response.data.data)
+    //         }
+    //     }
+    //     getHistory();
+    // }, [])
+
     return (
         <div className="profile">
             <div className="wrapper">
                 <div className="sideBar">
                     <div className="sideBar-header">
                         <div className="icon">
-                            <p>TV</p>
+                            <p>{getAvatar(currentUser.profile.fullName)}</p>
                         </div>
                         <p>
-                            quang1501
+                            {currentUser.profile.username}
                         </p>
                     </div>
                     <div className="sideBar-content">

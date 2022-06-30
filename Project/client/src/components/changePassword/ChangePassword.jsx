@@ -3,18 +3,21 @@ import PersonIcon from '@mui/icons-material/Person';
 import HistoryIcon from '@mui/icons-material/History';
 import LockIcon from '@mui/icons-material/Lock';
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getAvatar } from "../../helpers/utils";
 
 const ChangePassword = () => {
+    const {currentUser} = useSelector(state => state.user)
     return (
         <div className="profile">
             <div className="wrapper">
                 <div className="sideBar">
                     <div className="sideBar-header">
                         <div className="icon">
-                            <p>TV</p>
+                            <p>{getAvatar(currentUser.profile.fullName)}</p>
                         </div>
                         <p>
-                            quang1501
+                            {currentUser.profile.username}
                         </p>
                     </div>
                     <div className="sideBar-content">
@@ -54,7 +57,9 @@ const ChangePassword = () => {
                             <input className="item-content"></input>
                         </div>
                     </div>
-                    <button className="content-btn_update">Chỉnh sửa</button>
+                    <div className="content-footer">
+                        <button className="content-btn_save">Lưu</button>
+                    </div>
                 </div>
             </div>
         </div>
