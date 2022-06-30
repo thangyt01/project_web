@@ -11,15 +11,10 @@ import ProductsPage from './pages/products/ProductsPage';
 import User from './pages/user/User';
 import SearchProduct from './pages/searchProduct/SearchProduct';
 import Page404 from './pages/404/Page404';
-import { checkCurrentUser } from './helpers/utils';
+import Admin from './pages/admin/Admin';
 
 
 function App() {
-  const checkUser = ()=>{
-    const key = localStorage.getItem("persist:root")
-    console.log(checkCurrentUser(key))
-    return checkCurrentUser(key)
-  }
   return (
     <div className="app" >
       <Router>
@@ -32,6 +27,7 @@ function App() {
           <Route path="/user/*" element={<User selected={2} type={1}/>}/>
           <Route exact path="/user/history-order" element={<User selected={2} type={2}/>}/>
           <Route exact path="/user/change-password" element={<User selected={2} type={3}/>}/>
+          <Route path="/admin/*" element={<Admin selected={2} type={3}/>}/>
         </Routes>
       </Router>
     </div>

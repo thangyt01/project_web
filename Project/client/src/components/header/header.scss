@@ -47,18 +47,26 @@
                 }
                 .userIcon{
                     position: relative;
-                    p{
+                    div{
+                        p{
+                            padding: 8px 4px;
+                            min-width: 8vw;
+                            &:hover{
+                                background-color: var(--color-bg-1);
+                            }
+                        }
                         display: none;
+                        z-index: 100;
                         background-color: #fff;
                         -webkit-box-shadow: 0px 0px 15px 8px rgba(0,0,0,0.31); 
                         box-shadow: 0px 0px 15px 8px rgba(0,0,0,0.31);
-                        bottom: -20px;
+                        bottom: -75px;
                         padding: 5px;
                         left: -17px;
                         position: absolute;
                     }
                 }
-                .userIcon:hover p{
+                .userIcon:hover div{
                     display: block;
                 }
 

@@ -119,9 +119,12 @@ export const Header = ({ selected }) => {
                             <li><PhoneIcon></PhoneIcon> <span className="hidden___tablet" style={{ marginLeft: '5px' }}>0906 03 5225</span></li>
                             <li className="userIcon">
                                 <PersonIcon onClick={handleClickUser}></PersonIcon>
-                                {isSuccess && <p onClick={handleLogout}>
-                                   Logout 
-                                </p>}
+                                {isSuccess && 
+                                    <div>
+                                        <p onClick={()=>{navigate('/admin')}}>Quản lý web</p>
+                                        <p onClick={handleLogout}>Logout</p>
+                                    </div>
+                                }
                             </li>
                             <Link style={{textDecoration: 'none', color: 'black'}} to={"/cart"}>
                                 <li>
