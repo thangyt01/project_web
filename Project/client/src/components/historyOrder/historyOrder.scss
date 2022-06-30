@@ -121,6 +121,15 @@
                     font-weight: 500;
                     background-color: rgb(247, 245, 245);
                     margin-bottom: 2%;
+                
+                    .top__{
+                        display: flex;
+                        .status{
+                            margin-right: 15px;
+                            font-size: 1.5rem;
+                            color: white;
+                        }
+                    }
 
                     .item-head{
                         flex: 2;
@@ -148,13 +157,16 @@
                             .product-description{
                                 flex: 7;
                                 padding: 0 5% 2% 2%;
-
+                                div{
+                                    display: flex;
+                                }
                                 .p1{
                                     font-size: 1rem;
                                     margin-bottom: 1%;
                                 }
                                 .p2{
-                                    color: rgba(0,0,0,.54);;
+                                    margin-right: 20px;
+                                    color: rgba(0,0,0,.6);;
                                 }
                             }
                             .product-cost{

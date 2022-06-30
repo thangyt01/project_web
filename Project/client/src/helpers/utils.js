@@ -55,3 +55,7 @@ export function checkValidPass(password, re_password){
    
     return 1
 }
+
+export const COLOR_STATUS = {
+    'hủy': 'red'
+}

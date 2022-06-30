@@ -36,13 +36,13 @@ async function fetchGetListTotalOrder(query) {
         if (status) {
             sql.where += ` AND (status LIKE '${status}')  `
         }
-        if(fromDay) sql.where += ` AND createdAt >= ${fromDay} `
-        if(toDay) sql.where += ` AND createdAt <= ${toDay} `
+        if (fromDay) sql.where += ` AND createdAt >= ${fromDay} `
+        if (toDay) sql.where += ` AND createdAt <= ${toDay} `
         const list_order = await find(sql)
         let rs = []
-        for(let e of list_order){
+        for (let e of list_order) {
             const index = rs.findIndex(i => i.order.order_id === e.order_id)
-            if(index < 0){
+            if (index < 0) {
                 rs.push(orderResponseFormat(e))
             } else {
                 rs[index].order.detail.push({
@@ -69,7 +69,7 @@ async function fetchGetListTotalOrder(query) {
     }
 }
 
-async function fetchGetOrder(query) {
+async function fetchGetOrder(req) {
     try {
         let data = await find({
             attributes: [],
@@ -82,9 +82,9 @@ async function fetchGetOrder(query) {
                     type: 'LEFT JOIN'
                 }
             ],
-            where: `order_id = '${query.id}'`,
+            where: `order_id = '${req.query.id}'`,
         })
-
+        
         if (data.length < 1) {
             return {
                 error: true,
@@ -92,9 +92,17 @@ async function fetchGetOrder(query) {
                 message: ORDER['2024']
             }
         }
+        
+        if(!(req.user.id == data[0].user_id || req.user.isAdmin)){
+            return {
+                error: true,
+                code: ERROR_CODE_SYSTEM_ERROR,
+                message: `Bạn không có quyền truy cập api này`
+            }
+        }
 
         let rs = orderResponseFormat(data[0])
-        for(let i = 1; i < data.length; i++){
+        for (let i = 1; i < data.length; i++) {
             rs.order.detail.push({
                 product_id: data[i].product_id,
                 name: data[i].name,
@@ -118,13 +126,101 @@ async function fetchGetOrder(query) {
         }
     }
 }
+async function fetchGetUserOrder(req) {
+    try {
+        let data = await find({
+            attributes: [],
+            table: '`order`',
+            includes: [
+                {
+                    attributes: ['name'],
+                    table: 'product',
+                    on: '`order`.product_id = `product`.id',
+                    type: 'LEFT JOIN'
+                }
+            ],
+            where: `user_id = '${req.user.id}'`,
+        })
+        console.log(data)
+        if (data.length < 1) {
+            return {
+                error: true,
+                code: ERROR_CODE_ITEM_NOT_EXIST,
+                message: ORDER['2024']
+            }
+        }
+        rs = {
+            user_id: data[0].user_id,
+            firstname: data[0].firstname,
+            lastname: data[0].lastname,
+            phone: data[0].phone,
+            address: data[0].address,
+            orders: []
+        }
+        for (let e of data) {
+            const index = rs.orders.findIndex(i => i.order_id === e.order_id)
+            if (index < 0) {
+                rs.orders.push({
+                    status: e.status,
+                    order_id: e.order_id,
+                    date: e.date,
+                    month: e.month,
+                    year: e.year,
+                    createdAt: e.createdAt,
+                    updatedAt: e.updatedAt,
+                    total_cost: e.total_cost,
+                    detail: [
+                        {
+                            product_id: e.product_id,
+                            name: e.name,
+                            quantity: e.quantity,
+                            color: e.color,
+                            total_cost: e.total_cost,
+                        }
+                    ]
+                })
+            } else {
+                rs.orders[index].detail.push(                        {
+                    product_id: e.product_id,
+                    name: e.name,
+                    quantity: e.quantity,
+                    color: e.color,
+                    total_cost: e.total_cost,
+                })
+                rs.orders[index].total_cost += e.total_cost
+            }
+        }
+
+        return {
+            success: true,
+            data: rs,
+            message: ORDER['2025']
+        }
+    } catch (error) {
+        return {
+            error: true,
+            code: ERROR_CODE_SYSTEM_ERROR,
+            message: `${error.message}: ${error['message'] || ''}`
+        }
+    }
+}
 
 async function fetchUpdateOrder(req) {
     try {
+        let order = await find({
+            attributes: [],
+            table: '`order`',
+            where: `order_id = '${req.query.id}'`,
+        })
+        if (order.length == 0) return {
+            success: true,
+            data: {},
+            message: ORDER['2024']
+        }
         await update({
             table: '`order`',
             data: req.body,
-            where: `id = '${req.query.id}'`,
+            where: `order_id = '${req.query.id}'`,
         })
 
         return {
@@ -144,9 +240,19 @@ async function fetchUpdateOrder(req) {
 
 async function fetchDeleteOrder(query) {
     try {
+        let order = await find({
+            attributes: [],
+            table: '`order`',
+            where: `order_id = '${query.id}'`,
+        })
+        if (order.length == 0) return {
+            success: true,
+            data: {},
+            message: ORDER['2024']
+        }
         await destroy({
             table: '`order`',
-            where: `id = ${query.id}`
+            where: `order_id = ${query.id}`
         })
         return {
             success: true,
@@ -163,11 +269,35 @@ async function fetchDeleteOrder(query) {
 }
 
 async function fetchCreateOrder(credentials) {
+
     try {
-        await create({
+        let order = await find({
+            attributes: [],
             table: '`order`',
-            data: {user_id: credentials.user.id || null,...credentials.body}
+            // tableAttributes: 0,
+            orderBy: 'order_id desc'
         })
+        order_id = order[0].order_id
+        for (const key of credentials.order) {
+            const order_insert = {
+                order_id: order_id + 1,
+                date: credentials.date,
+                month: credentials.month,
+                year: credentials.year,
+                ...key
+            }
+            if(credentials.user_id) order_insert.user_id = credentials.user_id
+            if(credentials.firstname) order_insert.firstname = credentials.firstname
+            if(credentials.lastname) order_insert.lastname = credentials.lastname
+            if(credentials.phone) order_insert.phone = credentials.phone
+            if(credentials.address) order_insert.address = credentials.address
+            // console.log(order_insert)
+            await create({
+                table: '`order`',
+                data: order_insert
+            })
+        }
+
         return {
             success: true,
             data: {},
@@ -247,5 +377,6 @@ module.exports = {
     fetchUpdateOrder,
     fetchDeleteOrder,
     fetchStatsOrder,
-    fetchCreateOrder
+    fetchCreateOrder,
+    fetchGetUserOrder
 }
