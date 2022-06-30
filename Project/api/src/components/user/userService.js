@@ -80,6 +80,7 @@ async function fetchUpdateUser(credentials) {
         lastname,
         firstname,
         address, 
+        password
     } = credentials
 
     try {
@@ -109,6 +110,9 @@ async function fetchUpdateUser(credentials) {
         }
         if(address && address != ''){
             data.address = address
+        }
+        if(password && password != ''){
+            data.password = password
         }
         await update ({
             table: 'user',

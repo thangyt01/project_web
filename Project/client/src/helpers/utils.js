@@ -42,3 +42,16 @@ export function getName(fullName){
     }     
     return obj
 }
+
+export function checkValidPass(password, re_password){
+    if(password === '' || re_password === ''){
+        alert("Không được để trống mật khẩu")
+        return 0
+    }   
+    if(password !== re_password) {
+        alert("Mật khẩu không trùng khớp") 
+        return 0
+    }
+   
+    return 1
+}

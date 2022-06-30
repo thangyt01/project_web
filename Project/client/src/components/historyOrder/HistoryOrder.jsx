@@ -12,17 +12,20 @@ const HistoryOrder = () => {
     const [history, setHistory] = useState([])
     const {currentUser} = useSelector(state => state.user)
 
-    // useEffect(() => {
-    //     const getHistory = async () => {
-    //         try{
-    //             const res = await privateRequest.get(`api/order/`);
-    //             setHistory(res.data);
-    //         } catch(err){
-    //             setHistory(err.response.data.data)
-    //         }
-    //     }
-    //     getHistory();
-    // }, [])
+
+    useEffect(() => {
+        const getHistory = async () => {
+            try{
+                const res = await privateRequest.get(`/api/order/get_user_order`);
+                setHistory(res.data);
+            } catch(err){
+                console.log(err.response);
+                setHistory(err.response.data.data)
+            }
+        }
+        getHistory();
+    }, [])
+    // console.log(history)
 
     return (
         <div className="profile">
