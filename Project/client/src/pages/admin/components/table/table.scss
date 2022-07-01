@@ -1,0 +1,42 @@
+.table{
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 40px 0 rgb(0 0 0 / 15%);
+    margin-bottom: 40px;
+    .table-head{
+        th{
+            font-weight: 500;
+            font-size: 18px;
+            color: #fff;
+            line-height: 1.4;
+            background-color: var(--color-bg-1);
+            padding-top: 18px;
+            padding-bottom: 18px;
+        }
+    }
+    .table-body{
+        td{
+            font-size: 15px;
+            color: rgb(67, 67, 67);
+            padding-top: 16px;
+            padding-bottom: 16px;
+            line-height: 1.4;
+        }
+        tr:nth-child(even) {
+            background-color: var(--color-bg-2);
+        }
+    }
+}
+
+th, td{
+    font-weight: unset;
+    padding-right: 10px;
+}
+
+th{
+    text-align: left;
+}
+
+table{
+    border-collapse: collapse;
+}
