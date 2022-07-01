@@ -25,6 +25,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export const Header = ({ selected }) => {
+    const {currentUser} = useSelector(state => state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const refPopup = useRef()
@@ -121,7 +122,7 @@ export const Header = ({ selected }) => {
                                 <PersonIcon onClick={handleClickUser}></PersonIcon>
                                 {isSuccess && 
                                     <div>
-                                        <p onClick={()=>{navigate('/admin')}}>Quản lý web</p>
+                                        {!currentUser.profile.isAdmin ? <></> :<p onClick={()=>{navigate('/admin')}}>Quản lý web</p>}
                                         <p onClick={handleLogout}>Logout</p>
                                     </div>
                                 }
@@ -191,11 +192,11 @@ export const Header = ({ selected }) => {
                             </div>
                             <div className="login__container" >
                                 <label htmlFor="">Tên đăng nhập</label>
-                                <input onChange={(e)=>setUsernameLogin(e.target.value)} type="text" placeholder="Username / Email / Số điện thoại" />
+                                <input onKeyDown={e => {if(e.key === 'Enter') handleLogin()}} onChange={(e)=>setUsernameLogin(e.target.value)} type="text" placeholder="Username / Email / Số điện thoại" />
                             </div>
                             <div className="login__container">
                                 <label htmlFor="">Mật khẩu</label>
-                                <input onChange={(e)=>setPasswordLogin(e.target.value)} type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
+                                <input onKeyDown={e => {if(e.key === 'Enter') handleLogin()}} onChange={(e)=>setPasswordLogin(e.target.value)} type={`${hiden ? "password" : "text"}`} placeholder="0123456" />
                                 <div onClick={handleHiden}><i className={`${!hiden ? "fa-solid fa-eye" : "fa-solid fa-eye hiden"}`}></i><i className={`${hiden ? "fa-solid fa-eye-slash" : "fa-solid fa-eye-slash hiden"}`}></i></div>
                             </div>
                             <div className="login__container__checkbox">

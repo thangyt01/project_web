@@ -22,6 +22,10 @@ const Profiles = () => {
 
     const handleUpdateUser = async () => {
         try {
+            setState1(false)
+            setState2(false)
+            setState3(false)
+            setState4(false)
             let _name = getName(name)
             await privateRequest.put('/api/user/update?id=' + currentUser.profile.id, {..._name, phone, address, email})
         } catch (error) {

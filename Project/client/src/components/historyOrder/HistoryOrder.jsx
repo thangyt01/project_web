@@ -16,14 +16,18 @@ const HistoryOrder = () => {
     useEffect(() => {
         const getHistory = async () => {
             try{
-                const res = await privateRequest.get(`/api/order/get_user_order`);
+                const res = await privateRequest.get(`/api/order/get_user_order`,{
+                    headers: {
+                        authorization: JSON.stringify(currentUser.token),
+                    }
+                });
                 setHistory(res.data);
             } catch(err){
                 setHistory(err.response.data.data.orders)
             }
         }
         getHistory();
-    }, [])
+    }, [currentUser.profile.id])
     
     
     // console.log(COLOR_STATUS['Hoàn thành'])
@@ -80,7 +84,9 @@ const HistoryOrder = () => {
                                                 <div className="product-history">
                                                     <img src={product.image} alt="" className="product-img" />
                                                     <div className="product-description">
+                                                        <Link style={{color: "black", textDecoration: 'none'}} to={'/product/'+product.product_id}>
                                                         <p className="p1">{product.name}</p>
+                                                        </Link>
                                                         <div>
                                                             <p className="p2">số lượng: {product.quantity}</p>
                                                             {product.color&&<p className="p2">màu sắc: {product.color}</p>}

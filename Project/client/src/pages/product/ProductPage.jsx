@@ -85,7 +85,7 @@ const ProductPage = ({ selected }) => {
               </div>
               <div className="productSmallImageList">
                 {product.image_path.map((item, index1) => (
-                  <div
+                  (index1 < 5 ) && <div
                     className={
                       index === index1
                         ? "productSmallImage selected"
