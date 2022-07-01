@@ -14,6 +14,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const ProductPage = ({ selected }) => {
   const [product, setProduct] = useState({});
+  const [detail, setDetail] = useState({quantity: 1});
   const location = useLocation();
   let index1 = location.pathname.split("/")[2];
   useEffect(() => {
@@ -41,9 +42,18 @@ const ProductPage = ({ selected }) => {
 
   const dispatch = useDispatch();
   const handleSubmit = () => {
-    dispatch(orderSuccess({ quantity: 1, price: 2 }));
+    dispatch(orderSuccess({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      discount: product.discount,
+      image: product.image_path[0],
+      color: product.color[0],
+      ...detail,
+    }));
   };
 
+ 
   return (
     <div className="productPage">
       <Header selected={selected}></Header>
@@ -114,7 +124,7 @@ const ProductPage = ({ selected }) => {
                 <span>
                   <b>Màu sắc: </b>
                 </span>
-                <select name="color" id="color">
+                <select name="color" id="color" onChange={(e)=>{setDetail({...detail, color: e.target.value})}}>
                   {product.color.map((item, key) => (
                     <option value={item}>{item}</option>
                   ))}
@@ -124,7 +134,7 @@ const ProductPage = ({ selected }) => {
                 <span>
                   <b>Số lượng: </b>
                 </span>
-                  <input type="number" id="quantity" defaultValue={1} name="quantity" min="1" max="10"></input>
+                  <input type="number" onChange={(e)=>{setDetail({...detail, quantity: parseInt(e.target.value)})}} id="quantity" defaultValue={1} name="quantity" min="1" max="10"></input>
               </div>
               <div className="product--submit" onClick={handleSubmit}>
                 <button type="button">Thêm vào giỏ hàng</button>

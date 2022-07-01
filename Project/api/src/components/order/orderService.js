@@ -84,7 +84,7 @@ async function fetchGetOrder(req) {
             ],
             where: `order_id = '${req.query.id}'`,
         })
-        
+
         if (data.length < 1) {
             return {
                 error: true,
@@ -92,8 +92,8 @@ async function fetchGetOrder(req) {
                 message: ORDER['2024']
             }
         }
-        
-        if(!(req.user.id == data[0].user_id || req.user.isAdmin)){
+
+        if (!(req.user.id == data[0].user_id || req.user.isAdmin)) {
             return {
                 error: true,
                 code: ERROR_CODE_SYSTEM_ERROR,
@@ -141,7 +141,21 @@ async function fetchGetUserOrder(req) {
             ],
             where: `user_id = '${req.user.id}'`,
         })
-        console.log(data)
+        product_arr = []
+        data.map(item => product_arr.push(item.product_id))
+        product_arr = product_arr.join(', ')
+        let data_image_path = await find({
+            attributes: ["product_id", "max(path)"],
+            tableAttributes: 0,
+            table: '`image`',
+            where: `product_id in (${product_arr})`,
+            groupBy: ['product_id']
+        })
+        console.log(data_image_path)
+        data_image_path.map((item) => {
+            index = data.findIndex(e => e.product_id === item.product_id)
+            data[index].image = item['max(path)']
+        })
         if (data.length < 1) {
             return {
                 error: true,
@@ -172,6 +186,7 @@ async function fetchGetUserOrder(req) {
                     detail: [
                         {
                             product_id: e.product_id,
+                            image: e.image,
                             name: e.name,
                             quantity: e.quantity,
                             color: e.color,
@@ -180,9 +195,10 @@ async function fetchGetUserOrder(req) {
                     ]
                 })
             } else {
-                rs.orders[index].detail.push(                        {
+                rs.orders[index].detail.push({
                     product_id: e.product_id,
                     name: e.name,
+                    image: e.image,
                     quantity: e.quantity,
                     color: e.color,
                     total_cost: e.total_cost,
@@ -286,11 +302,11 @@ async function fetchCreateOrder(credentials) {
                 year: credentials.year,
                 ...key
             }
-            if(credentials.user_id) order_insert.user_id = credentials.user_id
-            if(credentials.firstname) order_insert.firstname = credentials.firstname
-            if(credentials.lastname) order_insert.lastname = credentials.lastname
-            if(credentials.phone) order_insert.phone = credentials.phone
-            if(credentials.address) order_insert.address = credentials.address
+            if (credentials.user_id) order_insert.user_id = credentials.user_id
+            if (credentials.firstname) order_insert.firstname = credentials.firstname
+            if (credentials.lastname) order_insert.lastname = credentials.lastname
+            if (credentials.phone) order_insert.phone = credentials.phone
+            if (credentials.address) order_insert.address = credentials.address
             // console.log(order_insert)
             await create({
                 table: '`order`',

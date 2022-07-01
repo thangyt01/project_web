@@ -14,6 +14,6 @@ export const privateRequest = axios.create({
     baseURL: `${config.REQUEST_URL}`,
     timeout: 2000,
     headers: {
-        auhthoriztion: getToken(localStorage.getItem("persist:root")),
+        authorization: getToken(localStorage.getItem("persist:root")),
     }
 })

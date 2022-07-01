@@ -126,11 +126,8 @@
                             display: none;
                         }
                         input{
-                            position: absolute;
                             width: 50%;
-                            top: 0;
-                            transform: translateY(-25%);
-                            // display: none;
+                            padding: 8px;
                         }
 
                     }
@@ -145,11 +142,13 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-            }
-            .content-btn_update,  
+                button{
+                    margin: 5% auto;
+                }
+            }  
             .content-btn_save{
                 border-radius: 12px;
-                padding: 1% 2%;
+                padding: 1% 4%;
                 margin-right: 5%;
                 margin-top: 5%;
                 font-size: 1rem;
