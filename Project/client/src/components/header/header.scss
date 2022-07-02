@@ -163,8 +163,9 @@
                     list-style: none;
                     cursor: pointer;
 
-                    &:hover {
-                        background-color: 110%;
+                    &:hover{
+                        background-color: rgb(17, 109, 95);
+                        color: white;
                     }
 
                     @media only screen and (max-width: 850px) {

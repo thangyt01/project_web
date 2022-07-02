@@ -27,7 +27,7 @@ function App() {
           <Route path="/user/*" element={<User selected={2} type={1}/>}/>
           <Route exact path="/user/history-order" element={<User selected={2} type={2}/>}/>
           <Route exact path="/user/change-password" element={<User selected={2} type={3}/>}/>
-          <Route path="/admin/*" element={<Admin selected={2} type={3}/>}/>
+          <Route path="/admin/*" element={<Admin selected={2} type={3} choose={2}/>}/>
         </Routes>
       </Router>
     </div>

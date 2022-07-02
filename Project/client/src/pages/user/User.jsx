@@ -1,5 +1,4 @@
-import {useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import {useEffect } from "react"
 import { useNavigate } from "react-router"
 import ChangePassword from "../../components/changePassword/ChangePassword"
 import Footer from "../../components/footer/Footer"
@@ -12,7 +11,6 @@ import { checkCurrentUser } from "../../helpers/utils"
 import "./user.scss"
 
 const User = ({selected, type=1}) => {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect(()=>{
         if (!checkCurrentUser(localStorage.getItem("persist:root"))) navigate('/')

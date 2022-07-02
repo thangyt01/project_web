@@ -40,6 +40,8 @@ async function updateUser(req, res){
             firstname: req.body ? req.body.firstname : null,
             address: req.body ? req.body.address : null,
             password: req.body ? req.body.password : null,
+            re_password: req.body ? req.body.re_password : null,
+            old_password: req.body ? req.body.old_password : null,
         }
         const result = await fetchUpdateUser(credentials);
         if(result.success) res.end(respondItemSuccess(result.data, result.message))

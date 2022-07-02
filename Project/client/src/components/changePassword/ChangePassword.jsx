@@ -5,21 +5,34 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { checkValidPass, getAvatar } from "../../helpers/utils";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { privateRequest } from "../../requestAxios";
 
 
 const ChangePassword = () => {
     const {currentUser} = useSelector(state => state.user)
     const [password, setPassword] = useState('')
+    const [old_password, setOld_password] = useState('')
     const [re_password, setRe_password] = useState('')
-
+    const inputRef1 = useRef()
+    const inputRef2 = useRef()
+    const inputRef3 = useRef()
     const handleClick = async () => {
         if(checkValidPass(password, re_password)){
             try {
-                await privateRequest.put('/api/user/update?id=' + currentUser.profile.id, {password})
+                await privateRequest.put('/api/user/update?id=' + currentUser.profile.id, {password, old_password, re_password}, {
+                    headers: {
+                        authorization: JSON.stringify(currentUser.token)
+                    }
+                })
+                inputRef1.current.value = ''
+                inputRef2.current.value = ''
+                inputRef3.current.value = ''
             } catch (error) {
                 alert(error.response.data.message)
+                inputRef1.current.value = ''
+                inputRef2.current.value = ''
+                inputRef3.current.value = ''
             }
         }
     }
@@ -64,13 +77,16 @@ const ChangePassword = () => {
                     <div className="content-head">Thay đổi mật khẩu</div>
                     <div className="content-wapper1">
                         <div className="item1">
-                            <label className="item-head">Nhập mật khẩu</label>
-                            <input onChange={e=>setPassword(e.target.value)} className="item-content"></input>
+                            <label className="item-head">Nhập mật khẩu cũ</label>
+                            <input ref={inputRef1} onChange={e=>setOld_password(e.target.value)} className="item-content"></input>
                         </div>
-
+                        <div className="item1">
+                            <label className="item-head">Nhập mật khẩu</label>
+                            <input ref={inputRef2} onChange={e=>setPassword(e.target.value)} className="item-content"></input>
+                        </div>
                         <div className="item1">
                             <label className="item-head">Nhập lại mật khẩu</label>
-                            <input onChange={e=>setRe_password(e.target.value)} className="item-content"></input>
+                            <input ref={inputRef3} onChange={e=>setRe_password(e.target.value)} className="item-content"></input>
                         </div>
                     </div>
                     <div className="content-footer">

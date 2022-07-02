@@ -3,7 +3,19 @@
     overflow: hidden;
     box-shadow: 0 0 40px 0 rgb(0 0 0 / 15%);
     margin-bottom: 40px;
-    .table-head{
+    .table-body{
+        max-height: 380px;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+            display: none;
+        }
+        table{
+            width: 100%;
+            thead{
+                position: sticky;
+                top: 0;
+            }
+        }
         th{
             font-weight: 500;
             font-size: 18px;
@@ -13,8 +25,6 @@
             padding-top: 18px;
             padding-bottom: 18px;
         }
-    }
-    .table-body{
         td{
             font-size: 15px;
             color: rgb(67, 67, 67);
@@ -27,7 +37,9 @@
         }
     }
 }
-
+.col1{
+    padding-left: 15px;
+}
 th, td{
     font-weight: unset;
     padding-right: 10px;
@@ -39,4 +51,15 @@ th{
 
 table{
     border-collapse: collapse;
+}
+.action{
+    width: 50px;
+    display: flex;
+    justify-content: space-between;
+    i{
+        cursor: pointer;
+        &:hover{
+            color: #ff3d00;
+        }
+    }
 }

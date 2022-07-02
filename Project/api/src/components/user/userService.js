@@ -1,5 +1,5 @@
 const { update, find, destroy} = require("../../../database/service");
-const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../helpers/errorCodes");
+const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST, ERROR_CODE_OLD_PASSWORD_NOT_CORRECT } = require("../../helpers/errorCodes");
 const { USERS } = require("../../helpers/message");
 
 async function fetchGetListUsers(credentials) {
@@ -80,7 +80,9 @@ async function fetchUpdateUser(credentials) {
         lastname,
         firstname,
         address, 
-        password
+        password,
+        re_password,
+        old_password,
     } = credentials
 
     try {
@@ -112,6 +114,20 @@ async function fetchUpdateUser(credentials) {
             data.address = address
         }
         if(password && password != ''){
+            if(old_password != user[0].password){
+                return {
+                    error:true,
+                    code: ERROR_CODE_OLD_PASSWORD_NOT_CORRECT,
+                    message: `Mật khẩu cũ không đúng.`
+                }
+            }
+            if(password != re_password){
+                return {
+                    error:true,
+                    code: ERROR_CODE_OLD_PASSWORD_NOT_CORRECT,
+                    message: `Mật khẩu mới không trùng khớp.`
+                }
+            }
             data.password = password
         }
         await update ({
