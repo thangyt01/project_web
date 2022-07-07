@@ -1,4 +1,11 @@
+.header__top{
+    text-align: center;
+    margin: 40px 0;
+    font-size: 2.5rem;
+}
+
 .container{
+    margin-bottom: 40px;
     background-color: #fff;
     display: flex;
     .productCart{
@@ -9,30 +16,47 @@
             display: flex;
             position: relative;
             .image{
-                // padding: 10px;
                 max-width: 150px;
+                position: relative;
                 img{
                     max-width: 100%;
                     height: auto;
                     object-fit: cover;
                 }
+                .discount{
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    background-color: var(--color-text-1);
+                    height: 45px;
+                    width: 45px;
+                    border-radius: 999px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--color-text-2);
+                }
             }
             .productCart{
                 margin-left: 20px;
                 max-width: 70%;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
                 .name{
                     font-size: 28px;
                     font-weight: 500;
                 }
                 .color{
-                    font-size: 15px;
-                    padding-left: 30px;
+                    margin-bottom: 16px;
+                    font-size: 1.3rem;
                 }
             }
             .title1{
                 position: absolute;
                 right: 30px;
                 top: 50%;
+                font-size: 2rem;
                 transform: translateY(-50%);
                 .quantity{
                     display: flex;
@@ -41,7 +65,6 @@
                     align-items: center;
                     span{
                         text-align: center;
-                        font-size: 2rem;
                         margin: 0 10px;
                     }
                     .button{
@@ -51,13 +74,19 @@
 
                     }
                 }
+                .priceCart{
+                    font-size: 1.2rem;
+                }
             }
             .deleteBox{
-               
+                cursor: pointer;
                 position: absolute;
-                top: 0;
-                right: 0;
+                top: 10px;
+                right: 10px;
                 .deleteButton{
+                    &:hover{
+                        background-color: #1c9280;
+                    }
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -69,11 +98,73 @@
                     text-align: center;
                 }
             }
-            
         }
     }
     .userInfo{
         flex: 1;
         margin-left: 30px;
+        .total__cart{
+            border: 2px solid rgba(0, 0, 0, 0.285);
+            border-radius: 12px;
+            padding: 16px;
+            h1{
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 2rem;
+            }
+            div{
+                font-size: 1.5rem;
+                display: flex;
+                justify-content: space-between;
+                p{
+                    margin: 8px 0;
+                }
+            }
+            .total__cost{
+                font-weight: 700;
+            }
+        }
+        .user__cart{
+            margin-top: 40px;
+            border: 2px solid rgba(0, 0, 0, 0.285);
+            border-radius: 12px;
+            padding: 16px;
+            h1{
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 2rem;
+            }
+            .input{
+                margin-top: 20px !important; 
+                display: flex;
+                flex-direction: column;
+                margin-top: 8px;
+                position: relative;
+                label{
+                    padding: 0 5px;
+                    position: absolute;
+                    font-weight: 600;
+                    top: 0;
+                    left: 30px;
+                    transform: translateY(-50%);
+                    background-color: #fff;
+                }
+            }
+            button{
+                width: 100%;
+                border-radius: 20px;
+                margin-top: 16px;
+                border: 0;
+                padding: 10px 20px;
+                color: var(--color-text-2);
+                background-color: var(--color-bg-3);
+                height: 50px;
+                text-transform: uppercase;
+                cursor: pointer;
+                &:hover{
+                    background-color: #ff9691;
+                }
+            }
+        }
     }
 }
