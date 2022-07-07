@@ -1,6 +1,8 @@
 const { update, find, destroy} = require("../../../database/service");
 const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST, ERROR_CODE_OLD_PASSWORD_NOT_CORRECT } = require("../../helpers/errorCodes");
 const { USERS } = require("../../helpers/message");
+const Log = require('../../../hac/util/log')
+const log = new Log()
 
 async function fetchGetListUsers(credentials) {
     let { 
@@ -33,6 +35,7 @@ async function fetchGetListUsers(credentials) {
             message: USERS['2024']
         }
     } catch(error){
+        log.error('userService fetchGetListUsers có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -65,6 +68,7 @@ async function fetchGetUser(credentials) {
             message: USERS['2024']
         }
     } catch (error) {
+        log.error('userService fetchGetUser có lỗi khi thực thi', error)
         return {
             error: true,
             code:ERROR_CODE_SYSTEM_ERROR,
@@ -142,6 +146,7 @@ async function fetchUpdateUser(credentials) {
             message: 'Cập nhật thông tin người dùng thành công'
         }
     } catch(error) {
+        log.error('userService fetchUpdateUser có lỗi khi thực thi', error)
         return {
             error:true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -177,6 +182,7 @@ async function fetchDeleteUser(credentials) {
         }
         
     } catch(error) {
+        log.error('userService fetchDeleteUser có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,

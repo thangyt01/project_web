@@ -1,7 +1,8 @@
 const { update, find, create, destroy } = require("../../../database/service");
 const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST, ERROR_CODE_UPLOAD_ERROR } = require("../../helpers/errorCodes");
 const { PRODUCTS } = require("../../helpers/message");
-
+const Log = require('../../../hac/util/log')
+const log = new Log()
 
 async function fetchGetListProducts(query) {
     let sql_query = {};
@@ -77,6 +78,7 @@ async function fetchGetListProducts(query) {
             message: PRODUCTS['2020']
         }
     } catch (error) {
+        log.error('productService fetchGetListProducts có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -139,6 +141,7 @@ async function fetchGetProduct(query) {
             }
         }
     } catch (error) {
+        log.error('productService fetchGetProduct có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -181,6 +184,7 @@ async function fetchUpdateProduct(req) {
             message: PRODUCTS['2023']
         }
     } catch (error) {
+        log.error('productService fetchGetProduct có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -218,6 +222,7 @@ async function fetchDeleteProduct(query) {
             message: PRODUCTS['2022']
         }
     } catch (error) {
+        log.error('productService fetchDeleteProduct có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -278,6 +283,7 @@ async function fetchGetRecommendProduct(query) {
             message: PRODUCTS['2020']
         }
     } catch (error) {
+        log.error('productService fetchGetRecommendProduct có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -354,6 +360,7 @@ async function fetchCreateProduct(req) {
             message: PRODUCTS['2024']
         }
     } catch (error) {
+        log.error('productService fetchCreateProduct có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,

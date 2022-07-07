@@ -2,6 +2,8 @@ const { update, find, create } = require("../../../database/service");
 const { ERROR_CODE_CREDENTIAL_NOT_EXIST, ERROR_CODE_FORBIDDEN, ERROR_CODE_INCORRECT_PASSWORD, ERROR_CODE_SYSTEM_ERROR } = require("../../helpers/errorCodes");
 const { USERS } = require("../../helpers/message");
 const {genPrivateKey} =  require('../../helpers/utils')
+const Log = require('../../../hac/util/log')
+const log = new Log()
 
 async function fetchLogin(credentials) {
     try {
@@ -78,7 +80,7 @@ async function fetchLogin(credentials) {
             message: USERS['2008']
         }
     } catch (e) {
-        console.error(`authService fetchLogin Dang nhap bang username (SDT) : ${e.stack || JSON.stringify(e)}`);
+        log.error(`authService fetchLogin Dang nhap bang username (SDT) : ${e.stack || JSON.stringify(e)}`);
         const { errors = [] } = e;
         const [error = {}] = errors;
         return {
@@ -137,7 +139,7 @@ async function fetchRegister(credentials) {
             message: USERS['2019']
         }
     } catch (e) {
-        console.error(`authService fetchRegister Dang ky : ${e.stack || JSON.stringify(e)}`);
+        log.error(`authService fetchRegister Dang ky : ${e.stack || JSON.stringify(e)}`);
         const { errors = [] } = e;
         const [error = {}] = errors;
         return {

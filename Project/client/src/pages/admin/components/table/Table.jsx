@@ -25,7 +25,7 @@ function getThead(type){
     }
 }
 
-const Table = ({users}) => {
+const Table = ({users, product, order}) => {
     const [thead, setThead] = useState(getThead('user'))
     return (
         <div className='table'>

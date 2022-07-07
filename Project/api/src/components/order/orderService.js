@@ -3,6 +3,8 @@ const { ERROR_CODE_SYSTEM_ERROR, ERROR_CODE_ITEM_NOT_EXIST } = require("../../he
 const { ORDER } = require("../../helpers/message");
 const { orderResponseFormat } = require('./orderConstant')
 const moment = require('moment')
+const Log = require('../../../hac/util/log')
+const log = new Log()
 
 async function fetchGetListTotalOrder(query) {
     try {
@@ -61,6 +63,7 @@ async function fetchGetListTotalOrder(query) {
             message: ORDER['2028']
         }
     } catch (error) {
+        log.error('orderService fetchGetListTotalOrder có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -119,6 +122,7 @@ async function fetchGetOrder(req) {
             message: ORDER['2025']
         }
     } catch (error) {
+        log.error('orderService fetchGetOrder có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -213,6 +217,7 @@ async function fetchGetUserOrder(req) {
             message: ORDER['2025']
         }
     } catch (error) {
+        log.error('orderService fetchGetUserOrder có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -246,6 +251,7 @@ async function fetchUpdateOrder(req) {
         }
 
     } catch (error) {
+        log.error('orderService fetchUpdateOrder có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -276,6 +282,7 @@ async function fetchDeleteOrder(query) {
             message: ORDER['2027']
         }
     } catch (error) {
+        log.error('orderService fetchDeleteOrder có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -320,6 +327,7 @@ async function fetchCreateOrder(credentials) {
             message: ORDER['2030']
         }
     } catch (error) {
+        log.error('orderService fetchCreateOrder có lỗi khi thực thi', error)
         return {
             error: true,
             code: ERROR_CODE_SYSTEM_ERROR,
@@ -376,6 +384,7 @@ async function fetchStatsOrder(query) {
             message: ORDER['2029']
         }
     } catch (e) {
+        log.error('orderService fetchCreateOrder có lỗi khi thực thi',  `${e.stack || JSON.stringify(e)}`)
         const { errors = [] } = e;
         const [error = {}] = errors;
         return {

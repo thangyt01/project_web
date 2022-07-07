@@ -3,5 +3,9 @@
         "host": "localhost",
         "user": "root",
         "database": "test"
+    },
+    "log": {
+        "log_path": "logs",
+        "console_log": true
     }
 }
