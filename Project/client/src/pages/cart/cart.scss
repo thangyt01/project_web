@@ -1,0 +1,79 @@
+.container{
+    background-color: #fff;
+    display: flex;
+    .productCart{
+        flex: 2;
+        .item{
+            border-bottom: 2px solid #125B50;
+            padding: 10px;
+            display: flex;
+            position: relative;
+            .image{
+                // padding: 10px;
+                max-width: 150px;
+                img{
+                    max-width: 100%;
+                    height: auto;
+                    object-fit: cover;
+                }
+            }
+            .productCart{
+                margin-left: 20px;
+                max-width: 70%;
+                .name{
+                    font-size: 28px;
+                    font-weight: 500;
+                }
+                .color{
+                    font-size: 15px;
+                    padding-left: 30px;
+                }
+            }
+            .title1{
+                position: absolute;
+                right: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                .quantity{
+                    display: flex;
+                    width: 50px;
+                    justify-content: space-between;
+                    align-items: center;
+                    span{
+                        text-align: center;
+                        font-size: 2rem;
+                        margin: 0 10px;
+                    }
+                    .button{
+                        font-size: 3rem;
+                        border-radius: 3px;
+                        cursor: pointer;
+
+                    }
+                }
+            }
+            .deleteBox{
+               
+                position: absolute;
+                top: 0;
+                right: 0;
+                .deleteButton{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #125B50;
+                    color: white;
+                    font-weight: 900;
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                }
+            }
+            
+        }
+    }
+    .userInfo{
+        flex: 1;
+        margin-left: 30px;
+    }
+}

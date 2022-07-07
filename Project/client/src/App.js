@@ -12,6 +12,7 @@ import User from './pages/user/User';
 import SearchProduct from './pages/searchProduct/SearchProduct';
 import Page404 from './pages/404/Page404';
 import Admin from './pages/admin/Admin';
+import { Cart } from './pages/cart/Cart';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/product/:id" element={<Product selected={2}/>}/>
           <Route path="/products/*" element={<ProductsPage selected={2}/>}/>
           <Route path="/search/*" element={<SearchProduct selected={2}/>}/>
+          <Route path="/cart" element={<Cart />}/>
           <Route path="/*" element={<Page404 />}/>
           <Route path="/user/*" element={<User selected={2} type={1}/>}/>
           <Route exact path="/user/history-order" element={<User selected={2} type={2}/>}/>
