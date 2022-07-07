@@ -33,7 +33,7 @@ const Admin = ({choose}) => {
       <div className="content padding___main">
         <p className="admin-header">Quản lý người dùng</p>
         <div className='over'>
-          <div className="selected">
+          <div className="selected1">
             <p>Tổng quan</p>
             <p className={choose === 2 && 'choose'}>Người dùng</p>
             <p>Sản phẩm</p>
