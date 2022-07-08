@@ -26,6 +26,19 @@ const orderSlice = createSlice({
         orderFailure: (state)=>{
             state.isFetching = false
             state.error = true
+        },
+        orderAdd: (state, action)=>{
+            const i = state.listOrder.findIndex(item => item.id === action.payload.id && item.color === action.payload.color)
+            if(i < 0) return 
+            state.listOrder[i].quantity += 1
+            state.cost += action.payload.quantity * action.payload.price * (1 - action.payload.discount/100)
+        },
+        orderSub: (state, action)=>{
+            const i = state.listOrder.findIndex(item => item.id === action.payload.id && item.color === action.payload.color)
+            if(i < 0) return 
+            state.cost -= action.payload.quantity * action.payload.price * (1 - action.payload.discount/100)
+            if(state.listOrder[i].quantity > 0) state.listOrder[i].quantity -= 1
+            else state.listOrder.splice(i, 1)
         }
     }
 })
