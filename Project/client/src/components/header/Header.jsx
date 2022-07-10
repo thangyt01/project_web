@@ -151,7 +151,7 @@ export const Header = ({ selected }) => {
                             <Link style={{textDecoration: 'none', color: 'black'}} to={"/contact"}>
                                 <li className={`${selected === 3 ? "choose":""}`}>Liên hệ</li>
                             </Link>
-                            <Link style={{textDecoration: 'none', color: 'black'}} to={"/about-me"}>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={"/about-us"}>
                                 <li className={`${selected === 4 ? "choose":""}`}>Về chúng tôi</li>
                             </Link>
                         </ul>
