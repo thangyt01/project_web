@@ -16,7 +16,14 @@ function getThead(type){
             ]
         case 'product':
             return [
-
+                'ID',
+                'Hình ảnh',
+                'Tên sản phẩm',
+                'Giá',
+                'Màu sắc',
+                'Chi tiết',
+                'Mô tả',
+                'Giảm giá(%)',
             ]
         case 'order':
             return [
@@ -26,9 +33,51 @@ function getThead(type){
 }
 
 const Table = ({users, product, order}) => {
-    const [thead, setThead] = useState(getThead('user'))
+    let threadName = ""
+    if(users) threadName = 'user'
+    if(product) threadName = 'product'
+    if(order) threadName = 'order'
+    console.log(threadName)
+    const [thead, setThead] = useState(getThead(threadName))
     return (
+
         <div className='table'>
+            {product &&
+            <div className="table-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th className='col1'>STT</th>
+                            {thead && thead.length > 0 && thead.map(i=>(
+                                <th>{i}</th>
+                            ))}
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {
+                                product && product.length > 0 && product.map((product, index)=>(
+                                    <tr>
+                                        <td className='col1'>{index + 1}</td>
+                                        <td>{product.id}</td>
+                                        <td style={{maxWidth:"80px"}}><img src={product.path[0]} alt="" /></td>
+                                        <td style={{maxWidth:"130px"}}>{product.name}</td>
+                                        <td style={{maxWidth:"70px"}}>{product.price}</td>
+                                        <td style={{maxWidth:"130px"}}>{product.color.join(', ')||'Mặc định'}</td>
+                                        <td style={{maxWidth:"130px"}}>{product.detail[0]+" "+ product.detail[1]+ " " + product.detail[2]}</td>
+                                        <td className='td2' style={{maxWidth:"200px",maxHeight:"100px", textOverflow: "ellipsis"}}>{product.descripion[0] || " "+ product.descripion[1] || " "}</td>
+                                        <td>{product.discount}</td>
+                                        <td className='action'>
+                                            <i class="fa-solid fa-wrench"></i>
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                    </tbody>
+                </table>
+            </div>}
+            {users &&
             <div className="table-body">
                 <table>
                     <thead>
@@ -62,7 +111,7 @@ const Table = ({users, product, order}) => {
                             }
                     </tbody>
                 </table>
-            </div>
+            </div>}
         </div>
     )
 }

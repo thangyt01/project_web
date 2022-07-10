@@ -4,7 +4,7 @@
     box-shadow: 0 0 40px 0 rgb(0 0 0 / 15%);
     margin-bottom: 40px;
     .table-body{
-        max-height: 380px;
+        max-height: 500px;
         overflow-y: auto;
         &::-webkit-scrollbar{
             display: none;
@@ -31,6 +31,19 @@
             padding-top: 16px;
             padding-bottom: 16px;
             line-height: 1.4;
+            overflow: hidden;
+           
+            img{
+                max-width: 100px;
+                height: auto;
+            }
+        }
+        .td2{
+            text-overflow: ellipsis;
+            display: block;
+            -webkit-line-clamp: 5;
+                line-clamp: 5; 
+            margin: 0px;
         }
         tr:nth-child(even) {
             background-color: var(--color-bg-2);
@@ -56,6 +69,7 @@ table{
     width: 50px;
     display: flex;
     justify-content: space-between;
+    
     i{
         cursor: pointer;
         &:hover{
