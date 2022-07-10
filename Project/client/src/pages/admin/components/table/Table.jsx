@@ -1,3 +1,4 @@
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from 'react'
 import './table.scss'
 
@@ -66,9 +67,11 @@ const Table = ({users, product, order}) => {
                                         <td style={{maxWidth:"130px"}}>{product.color.join(', ')||'Mặc định'}</td>
                                         <td style={{maxWidth:"130px"}}>{product.detail[0]+" "+ product.detail[1]+ " " + product.detail[2]}</td>
                                         <td className='td2' style={{maxWidth:"200px",maxHeight:"100px", textOverflow: "ellipsis"}}>{product.descripion[0] || " "+ product.descripion[1] || " "}</td>
-                                        <td>{product.discount}</td>
+                                        <td >{product.discount}</td>
                                         <td className='action'>
-                                            <i class="fa-solid fa-wrench"></i>
+                                            <Link to ={`./productChange/${product.id}`}>
+                                                <i class="fa-solid fa-wrench"></i>
+                                            </Link>
                                             <i class="fa-solid fa-trash-can"></i>
                                         </td>
                                     </tr>

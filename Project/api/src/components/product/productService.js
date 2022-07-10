@@ -152,7 +152,7 @@ async function fetchGetProduct(query) {
 
 async function fetchUpdateProduct(req) {
     console.log(req.body)
-    let { image_path, ...dataUpdate } = req.body
+    let { image_path_add, image_path_remove, ...dataUpdate } = req.body
     dataUpdate.updatedBy = req.user.id
     try {
         let data = await find({
@@ -172,12 +172,26 @@ async function fetchUpdateProduct(req) {
             data: dataUpdate,
             where: `id = '${req.query.id}'`,
         })
-
-        if (image_path) await update({
-            table: 'image',
-            data: { path: image_path },
-            where: `id = '${req.query.id}'`,
-        })
+        if(image_path_add){
+            for(item of image_path_add){
+                await create({
+                    table: 'image',
+                    data: { 
+                        path: item,
+                        product_id: req.query.id
+                    }
+                })
+            }
+        }
+        if(image_path_remove){
+            for(item of image_path_remove){
+                await destroy({
+                    table: 'image',
+                    where: `path = '${item}'`
+                    
+                })
+            }
+        }
         return {
             success: true,
             data: {},
@@ -343,7 +357,11 @@ async function fetchCreateProduct(req) {
         }
         let dataProduct = await create({
             table: 'product',
-            data: {createdBy: req.user.id,...data}
+            data: {
+                createdBy: req.user.id,
+                updatedBy: req.user.id,
+                deletedBy: 0,
+                ...data}
         })
         for (let i in image_path) {
             let dataImage = await create({

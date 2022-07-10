@@ -12,6 +12,8 @@ import User from './pages/user/User';
 import SearchProduct from './pages/searchProduct/SearchProduct';
 import Page404 from './pages/404/Page404';
 import Admin from './pages/admin/Admin';
+import { ChangeProduct } from './pages/admin/components/product/ChangeProduct';
+import { NewProduct } from './pages/admin/components/product/NewProduct';
 
 
 function App() {
@@ -27,7 +29,9 @@ function App() {
           <Route path="/user/*" element={<User selected={2} type={1}/>}/>
           <Route exact path="/user/history-order" element={<User selected={2} type={2}/>}/>
           <Route exact path="/user/change-password" element={<User selected={2} type={3}/>}/>
-          <Route path="/admin/*" element={<Admin selected={2} type={3} choose={2}/>}/>
+          <Route path="/admin/productChange/:id" element={<ChangeProduct/>}/>
+          <Route path="/admin/newproduct" element={<NewProduct/>}/>
+          <Route path="/admin" element={<Admin selected={2} type={3} choose={2}/>}/>
         </Routes>
       </Router>
     </div>

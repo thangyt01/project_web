@@ -100,7 +100,7 @@ function buildQuery(params) {
         }
     }
     if(type === 'update'){
-        let set = Object.keys(data).map(item => `${item} = '${data[item]}'`).join(', ');
+        let set = Object.keys(data).map(item => `\`${item}\` = '${data[item]}'`).join(', ');
         query = 'UPDATE ' + table + ' SET ' + set + ' WHERE ' + where;
     }
     if(type === 'create'){
