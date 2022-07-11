@@ -23,6 +23,12 @@ export const ChangeProduct = () => {
     let image_path_arr = []
     const location = useLocation();
     let index1 = location.pathname.split("/")[3];
+    const handleAddImg = (e)=>{
+        const [file] = document.querySelector('div.addImage input').files
+        const url = URL.createObjectURL(file)
+        setProductImage([...productImage, url])
+        setFiles(e.target.files)
+    }
     useEffect(() => {
         const getProduct = async () => {
             try {
@@ -30,6 +36,7 @@ export const ChangeProduct = () => {
                 setProduct(res.data);
             } catch (err) {
                 setProduct(err.response.data.data);
+                setProductImage(err.response.data.data.image_path)
                 image_path_arr = err.response.data.data.image_path
             }
         };
@@ -81,10 +88,11 @@ export const ChangeProduct = () => {
     };
   
     const handleRemoveImage = (item) => {
-        var index = product.image_path.indexOf(item);
+        var index = productImage.indexOf(item);
         if (index !== -1) {
-            product.image_path.splice(index, 1);
+            productImage.splice(index, 1);
         };
+        setProductImage(productImage)
         imageDelete.push(item)
         setCheck(!check)
     }
@@ -98,7 +106,7 @@ export const ChangeProduct = () => {
                     <div className="title__image">Danh sách hình ảnh</div>
                     <div className="imageContainer">
                         {product && product.image_path != undefined ? (
-                            product.image_path.map((item, index) =>
+                            productImage.map((item, index) =>
                             (
                                 <div className="imageItem">
                                     <img src={item} alt="" />
@@ -115,7 +123,7 @@ export const ChangeProduct = () => {
                                 type="file"
                                 id="file"
                                 multiple
-                                onChange={(e) => setFiles(e.target.files)}
+                                onChange={(e) => {handleAddImg(e)}}
                             />
                         </div>
                     </div>
