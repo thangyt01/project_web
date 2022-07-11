@@ -29,3 +29,46 @@
     background-color: var(--color-bg-1) !important;
     color: white;
 }
+
+.overview{
+    padding: 20px 0;
+    .container{
+        padding-bottom: 20px;
+        h1{
+            padding: 20px;
+        }
+        .element{
+            flex: 1;
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            border-radius: 10px;
+            h2{
+                margin-bottom: 20px;
+            }
+            p{
+                font-size: 2rem;
+                font-weight: 600;
+            }
+            span{
+                font-weight: 300;
+                font-size: 1.5rem;
+            }
+            >div{
+                display: flex;
+                align-items: center;
+            }
+            i{
+                margin-right: 8px;
+                font-size: 2rem;
+                color: #ff6363;
+            }
+            .fa-angle-up{
+                color: rgb(33, 192, 33);
+            }
+        }
+        >div{
+            display: flex;
+        }
+    }
+}
