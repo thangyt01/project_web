@@ -26,6 +26,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export const Header = ({ selected }) => {
     const {currentUser} = useSelector(state => state.user)
+    const {listOrder} = useSelector(state => state.order)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const refPopup = useRef()
@@ -130,7 +131,7 @@ export const Header = ({ selected }) => {
                             <Link style={{textDecoration: 'none', color: 'black'}} to={"/cart"}>
                                 <li>
                                     <IconButton aria-label="cart">
-                                        <StyledBadge badgeContent={4}>
+                                        <StyledBadge badgeContent={listOrder.length}>
                                             <ShoppingCartIcon id='shoppingCart' />
                                         </StyledBadge>
                                     </IconButton>
