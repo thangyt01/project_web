@@ -2,14 +2,59 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Footer from '../../components/footer/Footer'
 import { Header } from '../../components/header/Header'
-import { orderAdd, orderDelete, orderSub } from '../../redux/orderRedux'
-
+import { getName } from '../../helpers/utils'
+import { orderAdd, orderDelete, orderEnd, orderSub } from '../../redux/orderRedux'
+import { publicRequest } from '../../requestAxios'
 import "./cart.scss"
 export const Cart = () => {
+    // const persist_root = localStorage.getItem('persist:root');
+    // console.log(persist_root);
     const { listOrder, cost } = useSelector(state => state.order)
     const { currentUser } = useSelector(state => state.user)
     const dispatch =  useDispatch()
+    const [name, setName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [address, setAddress] = useState('')
     const [info, setInfo] = useState({})
+    const handleSubmit = ()=>{
+        if(name){
+            let fullName = getName(name)
+            info.firstName = fullName.firstname
+            info.lastName = fullName.lastname
+        }
+        if(address) info.address = address
+        if(phone) info.phone = phone
+        let date = new Date()
+        // console.log(listOrder);
+        let list_Order = []
+        listOrder.map((item, index)=>{
+            list_Order.push({
+                product_id: item.id,
+                quantity: item.quantity,
+                color: item.color,
+                total_cost:parseInt(item.price.split(' - ')[0]) * ( 1 - item.discount /100) * item.quantity
+            })
+        })
+        let order_cart = {
+            order:list_Order,
+            user_id: info.user_id||null,
+            firstname: info.firstName,
+            lastname: info.lastName,
+            total_cost: cost + (cost*0.01 > 30000 ? cost*0.01 : 30000) - 15000,
+            date: date.getDate(),
+            month: date.getMonth() + 1,
+            year: date.getFullYear()
+
+        }
+        // console.log(order_cart);
+        try {
+            const res = publicRequest.post(`/api/order`, order_cart);
+            console.log(res);
+          } catch (err) {
+            console.log(err);
+          }
+          dispatch(orderEnd())
+    }
     useEffect(()=>{
         if(currentUser && currentUser.profile){
             document.getElementById('cart-name').value = currentUser.profile.fullName
@@ -100,17 +145,17 @@ export const Cart = () => {
                             <h1>Thông tin khách hàng</h1>
                             <div className="input" >
                                 <label htmlFor="">Họ và Tên</label>
-                                <input id='cart-name' onKeyDown={e => { if (e.key === 'Enter') return }} onChange={(e) => setInfo(e.target.value)} type="text" placeholder="Nhập họ tên" />
+                                <input id='cart-name' onKeyDown={e => { if (e.key === 'Enter') return }} onChange={(e) => setName(e.target.value)} type="text" placeholder="Nhập họ tên" />
                             </div>
                             <div className="input" >
                                 <label htmlFor="">Số điện thoại</label>
-                                <input id='cart-phone' onKeyDown={e => { if (e.key === 'Enter') return }} onChange={(e) => setInfo(e.target.value)} type="text" placeholder="Nhập số điện thoại" />
+                                <input id='cart-phone' onKeyDown={e => { if (e.key === 'Enter') return }} onChange={(e) => setPhone(e.target.value)} type="text" placeholder="Nhập số điện thoại" />
                             </div>
                             <div className="input" >
                                 <label htmlFor="">Địa chỉ</label>
-                                <input id='cart-address' onKeyDown={e => { if (e.key === 'Enter') return }} onChange={(e) => setInfo(e.target.value)} type="text" placeholder="Nhập địa chỉ" />
+                                <input id='cart-address' onKeyDown={e => { if (e.key === 'Enter') return }} onChange={(e) => setAddress(e.target.value)} type="text" placeholder="Nhập địa chỉ" />
                             </div>
-                            <button>Đặt hàng ngay</button>
+                            <button onClick={handleSubmit}>Đặt hàng ngay</button>
                         </div>
                     </div>
                 </div>

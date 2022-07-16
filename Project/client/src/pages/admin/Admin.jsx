@@ -63,7 +63,7 @@ const Admin = ({choose}) => {
             <p onClick={()=>setPage(4)} className={page === 4 && 'choose'}>Đơn hàng</p>
           </div>
         </div>
-        {page === 1 && <Overview/>}
+        {/* {page === 1 && <Overview/>} */}
         {users && users.length > 0 && page === 2 && <User users={users}/>}
         {products && products.length > 0 && page === 3 && <Product product={products}/>}
       </div>

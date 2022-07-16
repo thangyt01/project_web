@@ -46,10 +46,13 @@ const orderSlice = createSlice({
             if(i < 0) return
             state.cost -= action.payload.quantity * getPrice(action.payload.price) * (1 - action.payload.discount/100)
             state.listOrder.splice(i, 1)
-        }
+        },
+        orderEnd: (state)=>{
+            state.listOrder = []
+        },
     }
 })
 
-export const {orderStart, orderFailure, orderSuccess, orderAdd, orderSub, orderDelete
+export const {orderStart, orderFailure, orderSuccess, orderAdd, orderSub, orderDelete, orderEnd
 } = orderSlice.actions
 export default orderSlice.reducer
