@@ -71,7 +71,6 @@ export const ChangeProduct = () => {
             image_path_add: [...productImage],
             image_path_remove: [...imageDelete],
         };
-        let dataImageUpdate = [...productImage, ...product.image_path]
         try {
             const res = await privateRequest.put(`api/product/update?id=${index1}`, dataProductUpdate, {
                 headers: {

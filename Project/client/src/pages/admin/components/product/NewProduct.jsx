@@ -47,7 +47,7 @@ export const NewProduct = () => {
             descripion:
                 productDesc.split(". "),
             detail:
-                productDetail.split(". ").join("@@@"),
+                productDetail.split(". "),
             discount: parseInt(productDiscount),
             image_path: [...productImage],
         };
@@ -175,7 +175,7 @@ export const NewProduct = () => {
                                         onChange={(e) => setProductColor(e.target.value)}
                                         className="textColorInput"
                                         type="text"
-                                        placeholder="Màu sắc"
+                                        placeholder="Màu sắc, các màu cách nhau bởi dấu (, )"
                                     />
                                 </div>
                             </div>
