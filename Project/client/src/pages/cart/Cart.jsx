@@ -8,9 +8,8 @@ import { getName } from '../../helpers/utils'
 import { orderAdd, orderDelete, orderEnd, orderSub } from '../../redux/orderRedux'
 import { publicRequest } from '../../requestAxios'
 import "./cart.scss"
+
 export const Cart = () => {
-    // const persist_root = localStorage.getItem('persist:root');
-    // console.log(persist_root);
     const { listOrder, cost } = useSelector(state => state.order)
     const { currentUser } = useSelector(state => state.user)
     const dispatch =  useDispatch()
@@ -101,7 +100,7 @@ export const Cart = () => {
                     <div className="productCart">
                         <div>
                             {
-                                listOrder && listOrder.length && listOrder.map(item => (
+                                listOrder && listOrder.length ? listOrder.map(item => (
                                     <div className='item' key={item.id}>
                                         <div className='image'>
                                             <img src={item.image} alt="" />
@@ -132,6 +131,8 @@ export const Cart = () => {
                                         </div>
                                     </div>
                                 ))
+                                :
+                                <></>
                             }
                         </div>
                     </div>

@@ -252,6 +252,7 @@ async function fetchGetRecommendProduct(query) {
             attributes : ['product_id', "sum(quantity) as 'total_quantity'"],
             limit: query.limit || 4,
             table: '`order`',
+            where: `status != 'Hủy'`,
             groupBy: ['product_id'],
             tableAttributes: 0,
             orderBy: ` sum(quantity) desc`

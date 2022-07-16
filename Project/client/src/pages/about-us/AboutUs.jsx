@@ -6,7 +6,7 @@ const AboutUs = ({selected}) => {
     return (
         <div className='about-us'>
             <Header selected={selected}/>
-            <div className="container">
+            <div className="container1">
                 <div className="header__contact padding___main">
                     <div>
                         <h2>Về chúng tôi</h2> 
