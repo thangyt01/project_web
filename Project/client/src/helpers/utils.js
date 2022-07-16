@@ -56,6 +56,14 @@ export function checkValidPass(password, re_password){
     return 1
 }
 
+export function getPrice(price){
+    if(typeof price === 'number') return price
+    if(typeof price === 'string'){
+        return +price.split(' - ')[0]
+    }
+    return 0
+}
+
 export const COLOR_STATUS = {
     'Hủy': '#d32f2f',
     'Hoàn Thành': '#3949ab',
