@@ -4,6 +4,7 @@ async function authenticate(req, res){
     try {
         const auth =  req.headers ? req.headers.authorization : '{}'
         const token =  JSON.parse(auth)
+        console.log(token)
         let user = await find({
             attributes: ['id', 'username', 'isAdmin', 'firstname', 'lastname', 'address', 'phone', 'email'],
             table: 'user',

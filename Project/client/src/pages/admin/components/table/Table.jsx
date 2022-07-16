@@ -64,6 +64,12 @@ const Table = ({users, product, order}) => {
     return (
         <div className='table'>
             {product &&
+            <>
+            <div className="addProduct">
+                <Link to={'/admin/newproduct'}>
+                    <button>Thêm mới</button>
+                </Link>
+            </div>
             <div className="table-body">
                 <table>
                     <thead>
@@ -99,7 +105,7 @@ const Table = ({users, product, order}) => {
                             }
                     </tbody>
                 </table>
-            </div>}
+            </div></>}
             {users &&
             <div className="table-body">
                 <table>
