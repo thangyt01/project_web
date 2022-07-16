@@ -1,0 +1,50 @@
+.contact{
+    .container{
+        background-color: white;
+        .header__contact{
+            padding: 30px 0;
+            background-color: #ebebeb;
+            text-align: center;
+        }
+        .content{
+            padding: 30px 0;
+            display: flex;
+            justify-content: center;
+            p{
+                margin: 10px 0;
+                text-align: center;
+            }
+            b{
+                margin: 10px 0;
+                text-align: center;
+                display: block;
+            }
+            h2{
+                margin: 20px 0;
+                font-size: 2rem;
+                text-align: center;
+                text-transform: uppercase;
+            }
+            .content__top{
+                div{
+                    display: flex;
+                    justify-content: center;
+                    input{
+                        flex: 1;
+                        margin: 5px 5px;
+                        border-radius: 0;
+                    }
+                }
+                .btn{
+                    text-align: center;
+                    background-color: #ff6363;
+                    color: white;
+                    margin-top: 25px;
+                    padding: 15px 80px;
+                    cursor: pointer;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+}

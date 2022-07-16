@@ -6,12 +6,13 @@ import './admin.scss'
 import User from './components/User'
 import { useSelector } from 'react-redux'
 import Product from './components/Product'
+import Overview from './components/Overview'
 
 const Admin = ({choose}) => {
   const { currentUser } = useSelector(state => state.user)
   const [users, setUsers] = useState([])
   const [products, setProducts] = useState([])
-  const [page, setPage] = useState(3)
+  const [page, setPage] = useState(1)
   useEffect(()=>{
     const getUsers = async () => {
       try {
@@ -62,8 +63,9 @@ const Admin = ({choose}) => {
             <p onClick={()=>setPage(4)} className={page === 4 && 'choose'}>Đơn hàng</p>
           </div>
         </div>
-        {users && users.length > 0 &&page == 2 && <User users={users}/>}
-        {products && products.length > 0 && page == 3 && <Product product={products}/>}
+        {page === 1 && <Overview/>}
+        {users && users.length > 0 && page === 2 && <User users={users}/>}
+        {products && products.length > 0 && page === 3 && <Product product={products}/>}
       </div>
       <Footer></Footer>
     </div>
