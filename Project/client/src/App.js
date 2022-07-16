@@ -11,14 +11,12 @@ import User from './pages/user/User';
 import SearchProduct from './pages/searchProduct/SearchProduct';
 import Page404 from './pages/404/Page404';
 import Admin from './pages/admin/Admin';
-<<<<<<< HEAD
 import { ChangeProduct } from './pages/admin/components/product/ChangeProduct';
 import { NewProduct } from './pages/admin/components/product/NewProduct';
-=======
 import Contact from './pages/contact/Contact';
 import AboutUs from './pages/about-us/AboutUs';
 import { Cart } from './pages/cart/Cart';
->>>>>>> be796670dd2cdef0eb14b7aab27b45933b756c95
+
 
 
 function App() {
