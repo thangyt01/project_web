@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { checkEmail, checkFullname, checkPassword, checkRePassword, checkUsername } from "../../helpers/validator";
 import { login, logout, register } from "../../redux/apiCalls";
+import { orderEnd } from "../../redux/orderRedux";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -105,6 +106,7 @@ export const Header = ({ selected }) => {
 
     const handleLogout = ()=>{
         logout(dispatch)
+        dispatch(orderEnd())
         navigate('/')
     }
 

@@ -6,9 +6,8 @@ import { getName } from '../../helpers/utils'
 import { orderAdd, orderDelete, orderEnd, orderSub } from '../../redux/orderRedux'
 import { publicRequest } from '../../requestAxios'
 import "./cart.scss"
+
 export const Cart = () => {
-    // const persist_root = localStorage.getItem('persist:root');
-    // console.log(persist_root);
     const { listOrder, cost } = useSelector(state => state.order)
     const { currentUser } = useSelector(state => state.user)
     const dispatch =  useDispatch()
@@ -25,7 +24,6 @@ export const Cart = () => {
         if(address) info.address = address
         if(phone) info.phone = phone
         let date = new Date()
-        // console.log(listOrder);
         let list_Order = []
         listOrder.map((item, index)=>{
             list_Order.push({
@@ -40,13 +38,13 @@ export const Cart = () => {
             user_id: info.user_id||null,
             firstname: info.firstName,
             lastname: info.lastName,
+            address: info.address,
+            phone: info.phone,
             total_cost: cost + (cost*0.01 > 30000 ? cost*0.01 : 30000) - 15000,
             date: date.getDate(),
             month: date.getMonth() + 1,
             year: date.getFullYear()
-
         }
-        // console.log(order_cart);
         try {
             const res = publicRequest.post(`/api/order`, order_cart);
             console.log(res);
@@ -87,7 +85,7 @@ export const Cart = () => {
                     <div className="productCart">
                         <div>
                             {
-                                listOrder && listOrder.length && listOrder.map(item => (
+                                listOrder && listOrder.length ? listOrder.map(item => (
                                     <div className='item' key={item.id}>
                                         <div className='image'>
                                             <img src={item.image} alt="" />
@@ -118,6 +116,8 @@ export const Cart = () => {
                                         </div>
                                     </div>
                                 ))
+                                :
+                                <></>
                             }
                         </div>
                     </div>
