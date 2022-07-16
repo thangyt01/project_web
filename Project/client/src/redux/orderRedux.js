@@ -49,6 +49,7 @@ const orderSlice = createSlice({
         },
         orderEnd: (state)=>{
             state.listOrder = []
+            state.cost = 0
         },
     }
 })

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react'
 import './table.scss'
 import { privateRequest } from "../../../../requestAxios"
+import moment from "moment"
 
 function getThead(type){
     switch (type){
@@ -29,7 +30,14 @@ function getThead(type){
             ]
         case 'order':
             return [
-
+                'Order ID',
+                'User ID',
+                'Trạng thái',
+                'Họ tên',
+                'Số điện thoại',
+                'Địa chỉ',
+                'Tổng giá',
+                'Ngày tạo'
             ]
     }
 }
@@ -54,7 +62,6 @@ const Table = ({users, product, order}) => {
     }
     const [thead, setThead] = useState(getThead(threadName))
     return (
-
         <div className='table'>
             {product &&
             <div className="table-body">
@@ -118,6 +125,42 @@ const Table = ({users, product, order}) => {
                                         <td>{user.phone}</td>
                                         <td>{user.address}</td>
                                         <td>{user.isAdmin ? "Admin": "User"}</td>
+                                        <td className='action'>
+                                            <i class="fa-solid fa-wrench"></i>
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                    </tbody>
+                </table>
+            </div>}
+            {order &&
+            <div className="table-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th className='col1'>STT</th>
+                            {thead && thead.length > 0 && thead.map(i=>(
+                                <th>{i}</th>
+                            ))}
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {
+                                order && order.length > 0 && order.map((o, index)=>(
+                                    <tr>
+                                        <td className='col1'>{index + 1}</td>
+                                        <td>{o.order.order_id}</td>
+                                        <td>{o.user.user_id}</td>
+                                        <td>{o.order.status}</td>
+                                        <td>{o.user.firstname || '' + o.user.lastname || ''}</td>
+                                        <td>{o.user.phone}</td>
+                                        <td>{o.user.address}</td>
+                                        <td>{o.order.total_cost}</td>
+                                        <td>{moment(o.createdAt).format('YYYY-MM-DD HH:mm:ss')}</td>
+
                                         <td className='action'>
                                             <i class="fa-solid fa-wrench"></i>
                                             <i class="fa-solid fa-trash-can"></i>

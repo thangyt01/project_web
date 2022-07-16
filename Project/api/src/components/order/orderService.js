@@ -353,13 +353,13 @@ async function fetchStatsOrder(query) {
             type = 2
         } = query
         let from = moment(fromDay).format('YYYY-MM-DD')
-        let to = moment(toDay).format('YYYY-MM-DD')
+        let to = moment(toDay).add(1, 'day').format('YYYY-MM-DD')
 
         let querySql = {
             attributes: ['sum(total_cost) as total_cost', 'sum(quantity) as quantity'],
             table: "`order`",
             tableAttributes: 0,
-            where: `createdAt >= '${from}' AND createdAt <= '${to}'`,
+            where: `createdAt >= '${from}' AND createdAt <= '${to}' AND status != 'Hủy'`,
             groupBy: [],
         }
 

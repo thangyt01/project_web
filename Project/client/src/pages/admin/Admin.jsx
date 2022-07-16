@@ -7,11 +7,13 @@ import User from './components/User'
 import { useSelector } from 'react-redux'
 import Product from './components/Product'
 import Overview from './components/Overview'
+import Order from './components/Order'
 
 const Admin = ({choose}) => {
   const { currentUser } = useSelector(state => state.user)
   const [users, setUsers] = useState([])
   const [products, setProducts] = useState([])
+  const [order, setOrder] = useState([])
   const [page, setPage] = useState(1)
   useEffect(()=>{
     const getUsers = async () => {
@@ -49,6 +51,24 @@ const Admin = ({choose}) => {
     }
     getProducts()
   }, [choose])
+  useEffect(()=>{
+    const getOrders = async () => {
+      try {
+        const res = await privateRequest.get('api/order/get_list_total_order?limit=999', {
+          headers: {
+            authorization: JSON.stringify(currentUser.token)
+          }
+        })
+        setOrder(res.data.productData)
+      } catch (error) {
+        const res = error.response.data
+        if(res.code === 200){
+          setOrder(res.data)
+        }
+      }
+    }
+    getOrders()
+  }, [choose])
   
   return (
     <div className='admin'>
@@ -63,9 +83,10 @@ const Admin = ({choose}) => {
             <p onClick={()=>setPage(4)} className={page === 4 && 'choose'}>Đơn hàng</p>
           </div>
         </div>
-        {/* {page === 1 && <Overview/>} */}
+        {page === 1 && <Overview/>}
         {users && users.length > 0 && page === 2 && <User users={users}/>}
         {products && products.length > 0 && page === 3 && <Product product={products}/>}
+        {page === 4 && <Order order={order}/>}
       </div>
       <Footer></Footer>
     </div>
