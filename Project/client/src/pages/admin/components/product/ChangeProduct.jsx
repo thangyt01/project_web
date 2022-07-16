@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router";
 import Footer from "../../../../components/footer/Footer";
 import { Header } from "../../../../components/header/Header";
@@ -7,8 +7,10 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import "./changeProduct.scss";
 import axios from "axios";
 import Notfound from "../../../../components/notfound/Notfound";
+import { useSelector } from "react-redux";
 
 export const ChangeProduct = () => {
+    const {currentUser} = useSelector(state => state.user)
     const [product, setProduct] = useState({});
     const [productName, setProductName] = useState();
     const [productPrice, setProductPrice] = useState(0);
@@ -71,7 +73,11 @@ export const ChangeProduct = () => {
         };
         let dataImageUpdate = [...productImage, ...product.image_path]
         try {
-            const res = await privateRequest.put(`api/product/update?id=${index1}`, dataProductUpdate);
+            const res = await privateRequest.put(`api/product/update?id=${index1}`, dataProductUpdate, {
+                headers: {
+                    authorization: JSON.stringify(currentUser.token) 
+                }
+            });
             console.log(res);
           } catch (err) {
             console.log(err);

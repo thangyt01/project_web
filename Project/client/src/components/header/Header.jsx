@@ -48,6 +48,7 @@ export const Header = ({ selected }) => {
     const handleHiden = () => {  
         setHiden(!hiden)
     }
+    window.scrollTo(0, 0)
 
     useEffect(()=>{
         if(isSuccess){

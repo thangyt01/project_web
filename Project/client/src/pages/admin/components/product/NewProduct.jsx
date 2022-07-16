@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useLocation } from "react-router";
+import { Navigate } from "react-router";
 import Footer from "../../../../components/footer/Footer";
 import { Header } from "../../../../components/header/Header";
-import { privateRequest, publicRequest } from "../../../../requestAxios";
+import { privateRequest } from "../../../../requestAxios";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import "./newProduct.scss";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const NewProduct = () => {
+    const {currentUser} = useSelector(state => state.user)
     const [product, setProduct] = useState({});
     const [productName, setProductName] = useState();
     const [productPrice, setProductPrice] = useState(0);
@@ -51,7 +53,11 @@ export const NewProduct = () => {
         };
         console.log(dataProductUpdate)
         try {
-            const res = await privateRequest.post(`api/product/create`, dataProductUpdate);
+            const res = await privateRequest.post(`api/product/create`, dataProductUpdate, {
+                headers: {
+                    authorization: JSON.stringify(currentUser.token) 
+                }
+            });
             console.log(res);
           } catch (err) {
             console.log(err);
