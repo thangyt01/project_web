@@ -24,7 +24,7 @@ async function fetchGetListProducts(query) {
             type: 'left join',
             on: 'product.id = image.product_id',
         }],
-        where: '1=1',
+        where: 'product.deletedAt <> 1',
         orderBy: 'createdAt desc'
 
     }
@@ -93,8 +93,9 @@ async function fetchGetProduct(query) {
         let data = await find({
             attributes: [],
             table: 'product',
-            where: `id = '${query.id}'`,
+            where: `id = '${query.id}' and product.deletedAt <> 1`,
         })
+        console.log(data.length)
         if (data.length == 0) {
             return {
                 error: true,
@@ -221,14 +222,13 @@ async function fetchDeleteProduct(query) {
                 message: PRODUCTS['2031']
             }
         }
-        await destroy({
-            table: 'image',
-            where: `product_id = ${query.id}`
-        })
 
-        await destroy({
+        await update({
             table: 'product',
-            where: `id = ${query.id}`
+            data: {
+                deletedAt: 1
+            },
+            where: `id = '${query.id}'`,
         })
         return {
             success: true,
@@ -268,7 +268,7 @@ async function fetchGetRecommendProduct(query) {
                 on: 'product.id = image.product_id',
             }],
             table: '`product`',
-            where: `product.id IN(${listProduct.map(i=>i.product_id).join(', ')})`
+            where: `product.id IN(${listProduct.map(i=>i.product_id).join(', ')}) and product.deletedAt <> 1`
         }
         listProduct = []
         let data = await find(sql_query)

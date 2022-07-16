@@ -1,0 +1,41 @@
+.popup-container{
+    padding: 10px 10px;
+    z-index: 20;
+    position: fixed;
+    right: 10px;
+    top: 150px;
+    height: 130px;
+    width: 250px;
+    border: 1px solid red;
+    background-color: #125B50;
+    border-radius: 5px;
+    .popup-header{
+        color: white;
+        height: 50px;
+        text-align: center;
+        font-size: 35px;
+        font-weight: 600;
+    }
+    .popup-content{
+        text-align: center;
+        font-size: 23px;
+        color: #fff;
+    }
+    animation: slide ease-in 0.7s, hide linear 4s forwards;
+    @keyframes hide {
+        from{
+            opacity: 1;
+        }
+        to{
+            opacity: 0;
+        }
+    }
+    @keyframes slide {
+        from{
+            transform: translateX(100%);
+        }
+        to{
+            transform: translate(0);
+        }
+    }
+}

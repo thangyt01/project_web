@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './table.scss'
+import { privateRequest } from "../../../../requestAxios"
 
 function getThead(type){
     switch (type){
@@ -34,11 +35,23 @@ function getThead(type){
 }
 
 const Table = ({users, product, order}) => {
+    const [check, setCheck] = useState(false)
     let threadName = ""
     if(users) threadName = 'user'
     if(product) threadName = 'product'
     if(order) threadName = 'order'
     console.log(threadName)
+    const handleDeleteProduct = (item)=>{
+         const index = product.findIndex(e => e.id == item)
+         product.splice(index, 1)
+         setCheck(!check)
+        try { 
+            const res = privateRequest.delete(`/api/product/delete?id=${item}`)
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const [thead, setThead] = useState(getThead(threadName))
     return (
 
@@ -72,7 +85,7 @@ const Table = ({users, product, order}) => {
                                             <Link to ={`./productChange/${product.id}`}>
                                                 <i class="fa-solid fa-wrench"></i>
                                             </Link>
-                                            <i class="fa-solid fa-trash-can"></i>
+                                            <i class="fa-solid fa-trash-can" onClick={()=>handleDeleteProduct(product.id)}></i>
                                         </td>
                                     </tr>
                                 ))

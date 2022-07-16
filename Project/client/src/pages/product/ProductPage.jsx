@@ -11,8 +11,10 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckIcon from '@mui/icons-material/Check';
 import Notfound from "../../components/notfound/Notfound";
 import { Link, useLocation } from "react-router-dom";
+import { PopupAnimation } from "../../components/PopupAnimation/PopupAnimation";
 
 const ProductPage = ({ selected }) => {
+  const [popup, setPopup] = useState(false)
   const [product, setProduct] = useState({});
   const [detail, setDetail] = useState({quantity: 1});
   const location = useLocation();
@@ -41,7 +43,11 @@ const ProductPage = ({ selected }) => {
   };
 
   const dispatch = useDispatch();
+  // useEffect(()=>{
+  //   setPopup(!popup)
+  // })
   const handleSubmit = () => {
+    setPopup(true)
     dispatch(orderSuccess({
       id: product.id,
       name: product.name,
@@ -56,6 +62,8 @@ const ProductPage = ({ selected }) => {
  
   return (
     <div className="productPage">
+      {popup && <PopupAnimation data={{header: "SUCCESS", body:"Thêm sản phẩm thành công"}}/>}
+
       <Header selected={selected}></Header>
       {product && Object.keys(product).length > 0 ? (
         <div className="productContainer padding___main">

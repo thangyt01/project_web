@@ -1,0 +1,46 @@
+.screen{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;   
+    height: 100vh;
+    z-index: 100;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    .container{
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 200px;
+        .header{
+            font-size: 30px;
+            text-align: center;
+            height: 50px;
+
+        }
+        .body{
+            text-align: center;
+            margin-top: 70px;
+            width: 400px;
+            height: 50px;
+            font-size: 22px;
+        }
+        .btn{
+            margin-top: 00px;
+            display: flex;
+            justify-content: space-around;
+            button{
+                width: 80px;
+                height: 35px;
+                border: none;
+                border-radius: 15px;
+                background-color: #FF6363;
+            }
+            button:hover{
+                opacity: 0.8;
+            }
+        }
+    }
+}

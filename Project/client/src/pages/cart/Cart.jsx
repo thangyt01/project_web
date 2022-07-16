@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Footer from '../../components/footer/Footer'
 import { Header } from '../../components/header/Header'
+import { Notification } from '../../components/notification/Notification'
+import { PopupAnimation } from '../../components/PopupAnimation/PopupAnimation'
 import { getName } from '../../helpers/utils'
 import { orderAdd, orderDelete, orderEnd, orderSub } from '../../redux/orderRedux'
 import { publicRequest } from '../../requestAxios'
@@ -16,44 +18,54 @@ export const Cart = () => {
     const [phone, setPhone] = useState('')
     const [address, setAddress] = useState('')
     const [info, setInfo] = useState({})
-    const handleSubmit = ()=>{
-        if(name){
-            let fullName = getName(name)
-            info.firstName = fullName.firstname
-            info.lastName = fullName.lastname
-        }
-        if(address) info.address = address
-        if(phone) info.phone = phone
-        let date = new Date()
-        // console.log(listOrder);
-        let list_Order = []
-        listOrder.map((item, index)=>{
-            list_Order.push({
-                product_id: item.id,
-                quantity: item.quantity,
-                color: item.color,
-                total_cost:parseInt(item.price.split(' - ')[0]) * ( 1 - item.discount /100) * item.quantity
+    const [dialog, setDialog] = useState(false)
+    const [popup, setPopup] = useState(false)
+    const handlePopup = ()=>{
+        setDialog(!dialog)
+    }
+    const handleSubmit = (choose)=>{
+        if(choose){
+            if(name){
+                let fullName = getName(name)
+                info.firstName = fullName.firstname
+                info.lastName = fullName.lastname
+            }
+            if(address) info.address = address
+            if(phone) info.phone = phone
+            let date = new Date()
+            let list_Order = []
+            listOrder.map((item, index)=>{
+                list_Order.push({
+                    product_id: item.id,
+                    quantity: item.quantity,
+                    color: item.color,
+                    total_cost:parseInt(item.price.split(' - ')[0]) * ( 1 - item.discount /100) * item.quantity
+                })
             })
-        })
-        let order_cart = {
-            order:list_Order,
-            user_id: info.user_id||null,
-            firstname: info.firstName,
-            lastname: info.lastName,
-            total_cost: cost + (cost*0.01 > 30000 ? cost*0.01 : 30000) - 15000,
-            date: date.getDate(),
-            month: date.getMonth() + 1,
-            year: date.getFullYear()
-
+            let order_cart = {
+                order:list_Order,
+                user_id: info.user_id||null,
+                firstname: info.firstName,
+                lastname: info.lastName,
+                total_cost: cost + (cost*0.01 > 30000 ? cost*0.01 : 30000) - 15000,
+                date: date.getDate(),
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+    
+            }
+            // console.log(order_cart);
+            try {
+                const res = publicRequest.post(`/api/order`, order_cart);
+                console.log(res);
+              } catch (err) {
+                console.log(err);
+              }
+              dispatch(orderEnd())
+              setDialog(!dialog)
+              setPopup(!popup)
         }
-        // console.log(order_cart);
-        try {
-            const res = publicRequest.post(`/api/order`, order_cart);
-            console.log(res);
-          } catch (err) {
-            console.log(err);
-          }
-          dispatch(orderEnd())
+        setDialog(!dialog)
+        
     }
     useEffect(()=>{
         if(currentUser && currentUser.profile){
@@ -80,6 +92,8 @@ export const Cart = () => {
     }
     return (
         <div>
+            {dialog && <Notification check = {handleSubmit} data={{header:'Thông báo', body:'Bạn chắc chắn đặt hàng chứ!'}}></Notification>}
+           {popup && <PopupAnimation data={{header:'SUCESS', body:"Đặt hàng thành công"}}/>}
             <Header />
             <div className="box padding___main">
                 <h2 className='header__top'>Chi tiết giỏ hàng</h2>
@@ -155,7 +169,7 @@ export const Cart = () => {
                                 <label htmlFor="">Địa chỉ</label>
                                 <input id='cart-address' onKeyDown={e => { if (e.key === 'Enter') return }} onChange={(e) => setAddress(e.target.value)} type="text" placeholder="Nhập địa chỉ" />
                             </div>
-                            <button onClick={handleSubmit}>Đặt hàng ngay</button>
+                            <button onClick={handlePopup}>Đặt hàng ngay</button>
                         </div>
                     </div>
                 </div>
