@@ -73,3 +73,64 @@
         }
     }
 }
+.order-detail{
+    .wrapper{
+        .top1{
+            margin: 20px 0;
+        }
+        .content{
+            margin-bottom: 40px;
+        }
+        .element{
+            margin: 10px 0;
+        }
+        .order-top{
+            display: flex;
+            flex-wrap: wrap;
+            h2{
+                width: 50%;
+                font-weight: 500;
+            }
+            .order-code{
+                font-style: italic;
+            }
+            .status{
+                text-align: center;
+                display: inline-block;
+                cursor: pointer;
+                select{
+                    font-weight: 500;
+                    font-size: 20px;
+                }
+            }
+        }
+        .order-user{
+            h3{
+                font-weight: 500;
+            }
+            span{
+                font-weight: 400;
+                margin-left: 4px;
+            }
+        }
+        .order-product{
+            >div{
+                background-color: #ebebeb;
+            }
+        }
+        .item-footer{
+            padding: 20px;   
+            display: flex;
+            justify-content: flex-end;
+            .item-footer-content{
+                font-size: 1.5rem;
+                color: #125b50;
+                font-weight: 500;
+            }
+            .cost{
+                margin-left: 10px;
+                font-size: 2rem;
+            }
+        }
+    }
+}

@@ -16,6 +16,7 @@ import { NewProduct } from './pages/admin/components/product/NewProduct';
 import Contact from './pages/contact/Contact';
 import AboutUs from './pages/about-us/AboutUs';
 import { Cart } from './pages/cart/Cart';
+import OrderDetail from './pages/admin/components/order/OrderDetail';
 
 
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/admin/productChange/:id" element={<ChangeProduct/>}/>
           <Route path="/admin/newproduct" element={<NewProduct/>}/>
           <Route path="/admin" element={<Admin selected={2} type={3} choose={2}/>}/>
+          <Route path="/admin/order-detail/:id" element={<OrderDetail/>}/>
         </Routes>
       </Router>
     </div>

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './table.scss'
 import { privateRequest } from "../../../../requestAxios"
 import moment from "moment"
@@ -45,10 +45,10 @@ function getThead(type){
 const Table = ({users, product, order}) => {
     const [check, setCheck] = useState(false)
     let threadName = ""
+    const navigate = useNavigate()
     if(users) threadName = 'user'
     if(product) threadName = 'product'
     if(order) threadName = 'order'
-    console.log(threadName)
     const handleDeleteProduct = (item)=>{
          const index = product.findIndex(e => e.id == item)
          product.splice(index, 1)
@@ -95,9 +95,7 @@ const Table = ({users, product, order}) => {
                                         <td className='td2' style={{maxWidth:"200px",maxHeight:"100px", textOverflow: "ellipsis"}}>{product.descripion[0] || " "+ product.descripion[1] || " "}</td>
                                         <td >{product.discount}</td>
                                         <td className='action'>
-                                            <Link to ={`./productChange/${product.id}`}>
-                                                <i class="fa-solid fa-wrench"></i>
-                                            </Link>
+                                            <i class="fa-solid fa-wrench" onClick={()=>{navigate(`./productChange/${product.id}`)}}></i>
                                             <i class="fa-solid fa-trash-can" onClick={()=>handleDeleteProduct(product.id)}></i>
                                         </td>
                                     </tr>
@@ -161,14 +159,13 @@ const Table = ({users, product, order}) => {
                                         <td>{o.order.order_id}</td>
                                         <td>{o.user.user_id}</td>
                                         <td>{o.order.status}</td>
-                                        <td>{o.user.firstname || '' + o.user.lastname || ''}</td>
+                                        <td>{(o.user.firstname || '')  + ' ' + (o.user.lastname || '')}</td>
                                         <td>{o.user.phone}</td>
                                         <td>{o.user.address}</td>
                                         <td>{o.order.total_cost}</td>
                                         <td>{moment(o.createdAt).format('YYYY-MM-DD HH:mm:ss')}</td>
-
                                         <td className='action'>
-                                            <i class="fa-solid fa-wrench"></i>
+                                            <i class="fa-solid fa-wrench" onClick={()=>{navigate('/admin/order-detail/' + o.order.order_id)}}></i>
                                             <i class="fa-solid fa-trash-can"></i>
                                         </td>
                                     </tr>
