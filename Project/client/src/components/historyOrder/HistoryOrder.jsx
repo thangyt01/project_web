@@ -12,7 +12,6 @@ const HistoryOrder = () => {
     const [history, setHistory] = useState([])
     const {currentUser} = useSelector(state => state.user)
 
-
     useEffect(() => {
         const getHistory = async () => {
             try{
@@ -100,7 +99,6 @@ const HistoryOrder = () => {
                                         <p className="item-footer-content">Tổng tiền</p>
                                         <p className="cost">{h.total_cost} đ</p>
                                     </div>
-                                    {/* <div className="clear"></div> */}
                                 </div>
                             ))
                         }

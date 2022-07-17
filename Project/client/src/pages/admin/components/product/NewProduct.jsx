@@ -44,11 +44,6 @@ export const NewProduct = () => {
           } catch (err) {
             console.log(err);
         }
-        setPopup(true)
-        setTimeout(
-            () => {
-              setPopup(false)
-         }, 2000);
     };
        const handleRemoveImage = (item) => {
         var index = productImage.indexOf(item);

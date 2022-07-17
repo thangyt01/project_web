@@ -155,7 +155,6 @@ async function fetchGetUserOrder(req) {
             where: `product_id in (${product_arr})`,
             groupBy: ['product_id']
         })
-        console.log(data_image_path)
         data_image_path.map((item) => {
             index = data.findIndex(e => e.product_id === item.product_id)
             data[index].image = item['max(path)']

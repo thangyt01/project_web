@@ -67,6 +67,9 @@ export function getPrice(price){
 export const COLOR_STATUS = {
     'Hủy': '#d32f2f',
     'Hoàn Thành': '#3949ab',
-    'Đặt Hàng': '#ffb300'
-
+    'Đặt Hàng': '#ffb300',
+    'Xác Nhận': '#007a00'
 }
+
+export const DEFAULT_IMAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/zing-mp3-d3a0b.appspot.com/o/Untitled.png?alt=media&token=16eb8199-3c36-4056-b0a5-32849af56001'
+export const DEFAULT_IMAGE_URL_V2 = 'https://firebasestorage.googleapis.com/v0/b/zing-mp3-d3a0b.appspot.com/o/MoWat.png?alt=media&token=838c134e-886c-4d17-a2f3-2aca33c9e6be'
