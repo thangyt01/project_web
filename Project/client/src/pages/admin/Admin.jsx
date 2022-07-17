@@ -16,7 +16,7 @@ const Admin = ({choose}) => {
   const [order, setOrder] = useState([])
   const [page, setPage] = useState(1)
   const [dialog, setDialog] = useState(false)
-    const [popup, setPopup] = useState(false)
+  const [popup, setPopup] = useState(false)
   useEffect(()=>{
     const getUsers = async () => {
       try {

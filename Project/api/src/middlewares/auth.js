@@ -1,5 +1,6 @@
 const { find } = require("../../database/service");
 
+// check role user
 async function authenticate(req, res){
     try {
         const auth =  req.headers ? req.headers.authorization : '{}'
@@ -21,6 +22,7 @@ async function authenticate(req, res){
     }
 }
 
+// check role user or guest
 async function authenticateV2(req, res){
     try {
         if(!(req.headers && req.headers.authorization)){
@@ -45,6 +47,7 @@ async function authenticateV2(req, res){
     }
 }
 
+// check role admin
 function authorizationAdmin(req, res){
     try {
         return req.user ? req.user.isAdmin : 0
@@ -53,6 +56,7 @@ function authorizationAdmin(req, res){
     }
 }
 
+// check role exact user
 function authorizationMyUser(req, res){
     try {
         if(req.user && req.user.isAdmin) return 1
