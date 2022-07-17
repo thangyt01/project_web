@@ -1,6 +1,6 @@
 const { login, register } = require("../components/auth/authController")
 const { getOrder, getListTotalOrder, updateOrder, deleteOrder, statsOrder, createOrder, getUserOrder } = require("../components/order/orderController")
-const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct, getCreateProduct } = require("../components/product/productController")
+const { getListProducts, getProduct, updateProduct, deleteProduct, getRecommendProduct, getCreateProduct, getRandomProduct } = require("../components/product/productController")
 const { loginValidator, registerValidator } = require("../components/auth/authValidator")
 const { authenticate, authorizationAdmin, authorizationMyUser, authenticateV2 } = require("../middlewares/auth")
 const { createProductValidator, updateProductValidator } = require("../components/product/productValidator")
@@ -79,6 +79,15 @@ const routers = [
                 authoriztion: null,
                 validator: null,
                 handle: getRecommendProduct
+            },
+            {
+                name: 'get random product',
+                method: 'GET',
+                url: '/random',
+                authenticate: null,
+                authoriztion: null,
+                validator: null,
+                handle: getRandomProduct
             },
             {
                 name: 'create product',

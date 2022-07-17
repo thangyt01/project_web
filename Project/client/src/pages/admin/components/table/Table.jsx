@@ -65,11 +65,6 @@ const Table = ({users, product, order}) => {
         <div className='table'>
             {product &&
             <>
-            <div className="addProduct">
-                <Link to={'/admin/newproduct'}>
-                    <button>Thêm mới</button>
-                </Link>
-            </div>
             <div className="table-body">
                 <table>
                     <thead>
@@ -78,7 +73,11 @@ const Table = ({users, product, order}) => {
                             {thead && thead.length > 0 && thead.map(i=>(
                                 <th>{i}</th>
                             ))}
-                            <th></th>
+                            <th>
+                                <Link style={{color: 'white', textDecoration:'none'}} to={'/admin/newproduct'}>
+                                Thêm mới
+                                </Link>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,7 +87,7 @@ const Table = ({users, product, order}) => {
                                         <td className='col1'>{index + 1}</td>
                                         <td>{product.id}</td>
                                         <td style={{maxWidth:"80px"}}><img src={product.path[0]} alt="" /></td>
-                                        <td style={{maxWidth:"130px"}}>{product.name}</td>
+                                        <td style={{maxWidth:"130px", paddingLeft: "15px"}}>{product.name}</td>
                                         <td style={{maxWidth:"70px"}}>{product.price}</td>
                                         <td style={{maxWidth:"130px"}}>{product.color.join(', ')||'Mặc định'}</td>
                                         <td style={{maxWidth:"130px"}}>{product.detail[0]+" "+ product.detail[1]+ " " + product.detail[2]}</td>

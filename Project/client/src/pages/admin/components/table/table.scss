@@ -65,10 +65,12 @@ th{
 table{
     border-collapse: collapse;
 }
+
 .action{
     width: 50px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     
     i{
         cursor: pointer;
@@ -76,18 +78,4 @@ table{
             color: #ff3d00;
         }
     }
-}
-.addProduct{
-    margin: 15px;
-    button{
-        font-size: 20px;
-        border: none;
-        border-radius: 10px;
-        background-color: #125B50;
-        color: white;
-        width: 120px;
-        height: 30px;
-        cursor: pointer;
-    }
-    
 }

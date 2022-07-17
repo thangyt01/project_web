@@ -22,6 +22,7 @@ export const Cart = () => {
     const handlePopup = ()=>{
         setDialog(!dialog)
     }
+   
     const handleSubmit = (choose)=>{
         if(choose){
             if(name){
@@ -62,6 +63,8 @@ export const Cart = () => {
               dispatch(orderEnd())
               setDialog(!dialog)
               setPopup(!popup)
+              const timeout = setTimeout(() => setPopup(!popup), 1000);
+              clearTimeout(timeout)
         }
         setDialog(!dialog)
         
@@ -149,11 +152,11 @@ export const Cart = () => {
                             </div>
                             <div>
                                 <p>Giảm giá ship</p>
-                                <p>-15000 đ</p>
+                                <p>-30000 đ</p>
                             </div>
                             <div className='total__cost'>
                                 <p>Tổng cộng</p>
-                                <p>{cost + (cost*0.01 > 30000 ? cost*0.01 : 30000) - 15000} đ</p>
+                                <p>{cost} đ</p>
                             </div>
                         </div>
                         <div className='user__cart'>

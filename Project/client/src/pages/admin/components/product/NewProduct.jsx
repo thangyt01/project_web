@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navigate, useLocation } from "react-router";
 import Footer from "../../../../components/footer/Footer";
 import { Header } from "../../../../components/header/Header";
@@ -6,8 +6,12 @@ import { privateRequest, publicRequest } from "../../../../requestAxios";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import "./newProduct.scss";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { PopupAnimation } from "../../../../components/PopupAnimation/PopupAnimation";
 
 export const NewProduct = () => {
+    const [check, setCheck] = useState(0)
+    const {currentUser} = useSelector(state => state.user)
     const [product, setProduct] = useState({});
     const [productName, setProductName] = useState();
     const [productPrice, setProductPrice] = useState(0);
@@ -17,8 +21,45 @@ export const NewProduct = () => {
     const [productColor, setProductColor] = useState("");
     const [productImage, setProductImage] = useState([]);
     const [files, setFiles] = useState("");
+    const [popup, setPopup] = useState(false)
     const handeUpdate = async (e) => {
         e.preventDefault();
+        let dataProductUpdate = {
+            name: productName,
+            price: productPrice,
+            color: productColor.split(", "),
+            descripion:
+                productDesc.split(". "),
+            detail:
+                productDetail.split(". "),
+            discount: parseInt(productDiscount),
+            image_path: [...productImage],
+        };
+        console.log(dataProductUpdate)
+        try {
+            const res = await privateRequest.post(`api/product/create`, dataProductUpdate, {headers: {
+                authorization: JSON.stringify(currentUser.token),
+            }});
+            console.log(res);
+          } catch (err) {
+            console.log(err);
+        }
+        setPopup(true)
+        setTimeout(
+            () => {
+              setPopup(false)
+         }, 2000);
+    };
+       const handleRemoveImage = (item) => {
+        var index = productImage.indexOf(item);
+        if (index !== -1) {
+            productImage.splice(index, 1);
+        };
+        setCheck(!check)
+    }
+    const inputRef = useRef()
+    const handleAddImage = async (item)=>{
+        const files = inputRef.current.files
         try {
             const list = await Promise.all(
                 Object.values(files).map(async (file) => {
@@ -35,74 +76,21 @@ export const NewProduct = () => {
                     return url;
                 })
             );
+        setCheck(!check)
         } catch (err) {
             console.log(err);
         }
-        let dataProductUpdate = {
-            name: productName,
-            price: productPrice,
-            color: productColor.split(", "),
-            descripion:
-                productDesc.split(". "),
-            detail:
-                productDetail.split(". "),
-            discount: parseInt(productDiscount),
-            image_path: [...productImage],
-        };
-        console.log(dataProductUpdate)
-        try {
-            const res = await privateRequest.post(`api/product/create`, dataProductUpdate);
-            console.log(res);
-          } catch (err) {
-            console.log(err);
-        }
-        Navigate('./')
-        window.scrollTo(0, 0)
-    };
-  
-      // const handleAddImage = async (e) => {
-    //     setFiles(e.target.files)
-    //     try {
-    //         const list = await Promise.all(
-    //             Object.values(files).map(async (file) => {
-    //                 const data = new FormData();
-    //                 data.append("file", file);
-    //                 data.append("upload_preset", "upload");
-    //                 const uploadRes = await axios.post(
-    //                     "https://api.cloudinary.com/v1_1/trungkien2022001/image/upload",
-    //                     data
-    //                 );
-    //                 const { url } = uploadRes.data;
-    //                 console.log(url)
-    //                 productImage.push(url)
-    //                 return url;
-    //             })
-    //         );
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-    // useEffect(()=>{
-    //     setImageDisplay(productImage)
-    // }, [imageDisplay])
-
-    // const handleRemoveImage = (item) => {
-    //     var index = imageDisplay.image_path.indexOf(item);
-    //     if (index !== -1) {
-    //         imageDisplay.image_path.splice(index, 1);
-    //     };
-    //     imageDisplay.push(item)
-    //     setCheck(!check)
-    // }
+    }
     return (
         <div>
             <Header />
+            {popup && <PopupAnimation data={{header: "SUCCESS", body:"Thêm sản phẩm thành công"}}/>}
             <div className="container padding___main">
                 <div className="left">
                     <div className="title__image">Danh sách hình ảnh</div>
                     <div className="imageContainer">
-                        {/* {productImage ? (
-                            product.image_path.map((item, index) =>
+                        {productImage ? (
+                            productImage.map((item, index) =>
                             (
                                 <div className="imageItem">
                                     <img src={item} alt="" />
@@ -112,14 +100,15 @@ export const NewProduct = () => {
                             )
                         ) : (
                             <>Không có ảnh</>
-                        )} */}
+                        )}
                         <div className="addImage">
                             <AddPhotoAlternateIcon />
                             <input
                                 type="file"
                                 id="file"
                                 multiple
-                                onChange={(e) => setFiles(e.target.files)}
+                                onChange={(e) => handleAddImage(e)}
+                                ref = {inputRef}
                             />
                         </div>
                     </div>

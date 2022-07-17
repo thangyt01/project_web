@@ -289,11 +289,75 @@ async function fetchGetRecommendProduct(query) {
         }
         let numPage = Math.ceil(listProduct.length / limit)
         listProduct = listProduct.slice(page * limit, page * limit + parseInt(limit))
+
         return {
             success: true,
             data: {
                 numPage,
                 productData: listProduct
+            },
+            message: PRODUCTS['2020']
+        }
+    } catch (error) {
+        log.error('productService fetchGetRecommendProduct có lỗi khi thực thi', error)
+        return {
+            error: true,
+            code: ERROR_CODE_SYSTEM_ERROR,
+            message: `${error.message}: ${error['message'] || ''}`
+        }
+    }
+}
+function getRandom(count){
+    let arr = []
+    while(arr.length != 4){
+        let item = Math.floor(Math.random()*count)
+        console.log(item)
+        if(!arr.includes(item)) arr.push(item)
+    }
+    return(arr)
+}
+async function fetchGetRandomProduct(query) {
+    let {type = 0, limit = 16, page = 0} = query
+    try {
+        sql_query ={
+            attributes: ['id', 'name', 'detail', 'descripion', 'price', 'color', 'discount', 'createdAt'],
+            table: 'product',
+            includes: [{
+                attributes : ['path'],
+                table: 'image',
+                type: 'left join',
+                on: 'product.id = image.product_id',
+            }],
+            where: 'product.deletedAt <> 1',
+        }
+        listProduct = []
+        let data = await find(sql_query)
+        for (let i of data) {
+            const index = listProduct.findIndex(e => e.id === i.id);
+           if(index < 0){
+            i.path = [i.path]
+            i.detail = i.detail.split('@@@')
+            i.descripion = i.descripion.split('\n')
+            i.color = i.color.split('@@@')
+            i.price = i.price.replace('₫', '').replace('₫', '').replace('.', '')
+            listProduct.push(i)
+           }else{
+            listProduct[index].path.push(i.path)
+           }
+            
+        }
+        let numPage = Math.ceil(listProduct.length / limit)
+        console.log(listProduct.length)
+        const arr = getRandom(listProduct.length)
+        let new_listProduct = []
+        arr.map(item=>{
+            new_listProduct.push(listProduct[item])
+        })
+        return {
+            success: true,
+            data: {
+                numPage,
+                productData: new_listProduct
             },
             message: PRODUCTS['2020']
         }
@@ -394,5 +458,6 @@ module.exports = {
     fetchUpdateProduct,
     fetchDeleteProduct,
     fetchGetRecommendProduct,
-    fetchCreateProduct
+    fetchCreateProduct,
+    fetchGetRandomProduct
 }

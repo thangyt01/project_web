@@ -48,6 +48,7 @@ const ProductPage = ({ selected }) => {
   // })
   const handleSubmit = () => {
     setPopup(true)
+    // setPopup(!popup)
     dispatch(orderSuccess({
       id: product.id,
       name: product.name,
@@ -57,6 +58,11 @@ const ProductPage = ({ selected }) => {
       color: product.color[0],
       ...detail,
     }));
+    setTimeout(
+      () => {
+        setPopup(false)
+    console.log("first")}, 2000);
+    // clearTimeout(timeout)
   };
 
  
@@ -166,7 +172,7 @@ const ProductPage = ({ selected }) => {
         <Notfound title = "Sản phẩm này không tồn tại"></Notfound>
       )}
 
-      <Products title={'Sản phẩm của chúng tôi'} type={'1'} limit={4} />
+      <Products title={'Sản phẩm của chúng tôi'} type={'random'} limit={4} />
       <Footer></Footer>
     </div>
   );

@@ -12,7 +12,7 @@ const Home = ({selected}) => {
             <Slider></Slider>
             <Products title={'Sản phẩm mới nhất'} type={'new'} limit={4}></Products>
             <Products title={'Sản phẩm bán chạy nhất'} type={'most'} limit={4}></Products>
-            <Products title={'Sản phẩm của chúng tôi'} type={'new'} limit={4}></Products>
+            <Products title={'Sản phẩm của chúng tôi'} type={'random'} limit={4}></Products>
             <Footer></Footer>
         </div>
     )

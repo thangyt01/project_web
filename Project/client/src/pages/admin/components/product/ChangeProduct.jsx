@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navigate, useLocation } from "react-router";
 import Footer from "../../../../components/footer/Footer";
 import { Header } from "../../../../components/header/Header";
@@ -7,8 +7,12 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import "./changeProduct.scss";
 import axios from "axios";
 import Notfound from "../../../../components/notfound/Notfound";
+import { getToken } from "../../../../helpers/utils";
+import { useSelector } from "react-redux";
+import { PopupAnimation } from "../../../../components/PopupAnimation/PopupAnimation";
 
 export const ChangeProduct = () => {
+    const {currentUser} = useSelector(state => state.user)
     const [product, setProduct] = useState({});
     const [productName, setProductName] = useState();
     const [productPrice, setProductPrice] = useState(0);
@@ -17,20 +21,23 @@ export const ChangeProduct = () => {
     const [productDesc, setProductDesc] = useState("");
     const [productColor, setProductColor] = useState("");
     const [productImage, setProductImage] = useState([]);
-    const [files, setFiles] = useState("");
+    const [popup, setPopup] = useState(false);
     const [check, setCheck] = useState(0)
     const [imageDelete, setImageDelete] = useState([])
-    let image_path_arr = []
+    const [imageAdd, setImageAdd] = useState([])
     const location = useLocation();
     let index1 = location.pathname.split("/")[3];
     useEffect(() => {
         const getProduct = async () => {
             try {
-                const res = await publicRequest.get(`api/product?id=${index1}`);
+                const res = await privateRequest.get(`api/product?id=${index1}`, {headers: {
+                    authorization: JSON.stringify(currentUser.token),
+                }});
                 setProduct(res.data);
             } catch (err) {
-                setProduct(err.response.data.data);
-                image_path_arr = err.response.data.data.image_path
+                setProduct(err.response.data.data);         
+                setProductImage(err.response.data.data.image_path)
+
             }
         };
         getProduct();
@@ -38,6 +45,52 @@ export const ChangeProduct = () => {
     }, [index1]);
     const handeUpdate = async (e) => {
         e.preventDefault();
+        let dataProductUpdate = {
+            name: productName || product.name,
+            price: productPrice || product.price,
+            color: productColor.split(", ").join("@@@") || product.color.join("@@@"),
+            descripion:
+                productDesc.split(". ").join("\n") || product.descripion.join("\n"),
+            detail:
+                productDetail.split(". ").join("@@@") || product.detail.join("@@@"),
+            discount: parseInt(productDiscount)||product.discount,
+            image_path_add: imageAdd,
+            image_path_remove: [...imageDelete],
+        };
+        try {
+            const res = await privateRequest.put(`api/product/update?id=${index1}`, dataProductUpdate, {headers: {
+                authorization: JSON.stringify(currentUser.token),
+            }});
+            console.log(res);
+          } catch (err) {
+            console.log(err);
+        }
+        setPopup(true)
+        setTimeout(
+            () => {
+              setPopup(false)
+         }, 2000);
+    };
+    const handleRemoveImage = (item) => {
+        var index = product.image_path.indexOf(item);
+        console.log(index);
+        if (index !== -1) {
+             imageDelete.push(item)
+         };
+        index = productImage.indexOf(item);
+        if (index !== -1) {
+            productImage.splice(index, 1);
+            setProductImage(productImage)
+        };
+        index = imageAdd.indexOf(item);
+        if (index !== -1) {
+            imageAdd.splice(index, 1);
+        };
+        setCheck(!check)
+    }
+    const inputRef = useRef()
+    const handleAddImage = async (item)=>{
+        const files = inputRef.current.files
         try {
             const list = await Promise.all(
                 Object.values(files).map(async (file) => {
@@ -51,53 +104,27 @@ export const ChangeProduct = () => {
                     const { url } = uploadRes.data;
                     console.log(url)
                     productImage.push(url)
+                    imageAdd.push(url)
                     return url;
                 })
             );
+        setCheck(!check)
         } catch (err) {
             console.log(err);
         }
-        let dataProductUpdate = {
-            name: productName || product.name,
-            price: productPrice || product.price,
-            color: productColor.split(", ").join("@@@") || product.color.join("@@@"),
-            descripion:
-                productDesc.split(". ").join("\n") || product.descripion.join("\n"),
-            detail:
-                productDetail.split(". ").join("@@@") || product.detail.join("@@@"),
-            discount: parseInt(productDiscount)||product.discount,
-            image_path_add: [...productImage],
-            image_path_remove: [...imageDelete],
-        };
-        try {
-            const res = await privateRequest.put(`api/product/update?id=${index1}`, dataProductUpdate);
-            console.log(res);
-          } catch (err) {
-            console.log(err);
-        }
-        Navigate('./')
-        window.scrollTo(0, 0)
-    };
-  
-    const handleRemoveImage = (item) => {
-        var index = product.image_path.indexOf(item);
-        if (index !== -1) {
-            product.image_path.splice(index, 1);
-        };
-        imageDelete.push(item)
-        setCheck(!check)
     }
 
     return (
         <div>
             <Header />
+            {popup && <PopupAnimation data={{header: "SUCCESS", body:"Cập nhật sản phẩm thành công"}}/>}
             {product ?
             <div className="container padding___main">
                 <div className="left">
                     <div className="title__image">Danh sách hình ảnh</div>
                     <div className="imageContainer">
                         {product && product.image_path != undefined ? (
-                            product.image_path.map((item, index) =>
+                            productImage.map((item, index) =>
                             (
                                 <div className="imageItem">
                                     <img src={item} alt="" />
@@ -114,7 +141,8 @@ export const ChangeProduct = () => {
                                 type="file"
                                 id="file"
                                 multiple
-                                onChange={(e) => setFiles(e.target.files)}
+                                onChange={(e) => handleAddImage(e)}
+                                ref = {inputRef}
                             />
                         </div>
                     </div>
