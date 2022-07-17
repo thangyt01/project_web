@@ -4,6 +4,8 @@ import './table.scss'
 import { privateRequest } from "../../../../requestAxios"
 import moment from "moment"
 import { useSelector } from "react-redux"
+import { Notification } from "../../../../components/notification/Notification"
+import { PopupAnimation } from "../../../../components/PopupAnimation/PopupAnimation"
 
 function getThead(type){
     switch (type){
@@ -44,6 +46,15 @@ function getThead(type){
 }
 
 const Table = ({users, product, order}) => {
+    // Hiển thị cái xác nhận và popup thông báo kết quả
+    const [productDialog, setProductDialog] = useState(false)
+    const [orderDialog, setOrderDialog] = useState(false)
+    const [userDialog, setUserDialog] = useState(false)
+    const [popup, setPopup] = useState(false)
+    const [dataPopup, setDataPopup] = useState({})
+    const [dataProductPopup, setDataProductPopup] = useState(0)
+    const [dataOrderPopup, setDataOrderPopup] = useState(0)
+    const [dataUserPopup, setDataUserPopup] = useState(0)
     const { currentUser } = useSelector(state => state.user)
     const [check, setCheck] = useState(false)
     let threadName = ""
@@ -51,57 +62,81 @@ const Table = ({users, product, order}) => {
     if(users) threadName = 'user'
     if(product) threadName = 'product'
     if(order) threadName = 'order'
-    const handleDeleteProduct = (item)=>{
-        const index = product.findIndex(e => e.id === item)
-        if(index < 0) return 
-        product.splice(index, 1)
-        setCheck(!check)
-        try { 
-            const res = privateRequest.delete(`/api/product/delete?id=${item}`, {
-                headers: {
-                    authorization: JSON.stringify(currentUser.token)
-                }
-            })
-            console.log(res);
-        } catch (error) {
-            console.log(error);
+
+    const handleDeleteProduct = (choose)=>{
+        if(choose){
+            const index = product.findIndex(e => e.id === dataProductPopup)
+            if(index < 0) return 
+            product.splice(index, 1)
+            setCheck(!check)
+            try { 
+                const res = privateRequest.delete(`/api/product/delete?id=${dataProductPopup}`, {
+                    headers: {
+                        authorization: JSON.stringify(currentUser.token)
+                    }
+                })
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+            setDataPopup({header: 'SUCCESS', body:'Xóa sản phẩm thành công'})
+            setPopup(true)
+            setTimeout(() => setPopup(false), 2000);
         }
+        setProductDialog(!productDialog)
+      
     }
     const [thead, setThead] = useState(getThead(threadName))
-    const handleRemoveUser = (id) => {
-        const index = users.findIndex(i => i.id === id)
-        if(index < 0) return
-        try {
-            const res = privateRequest.delete(`/api/user/delete?id=${id}`, {
-                headers: {
-                    authorization: JSON.stringify(currentUser.token)
-                }
-            })
-            console.log(res);
-        } catch (error) {
-            console.log(error);
+    const handleDeleteUser = (choose) => {
+        if(choose){
+            const index = users.findIndex(i => i.id === dataUserPopup)
+            if(index < 0) return
+            try {
+                const res = privateRequest.delete(`/api/user/delete?id=${dataUserPopup}`, {
+                    headers: {
+                        authorization: JSON.stringify(currentUser.token)
+                    }
+                })
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+            setDataPopup({header: 'SUCCESS', body:'Xóa người dùng thành công'})
+            setPopup(true)
+            setTimeout(() => setPopup(false), 2000);
         }
-    }
-    const handleRemoveOrder = (id) =>{
-        const index = order.findIndex(i => i.order.order_id === id)
-        if(index < 0) return 
-        order.splice(index, 1)
+        setUserDialog(!userDialog)
         setCheck(!check)
-        try {
-            const res = privateRequest.delete(`/api/order/delete?id=${id}`, {
-                headers: {
-                    authorization: JSON.stringify(currentUser.token)
-                }
-            })
-            console.log(res);
-        } catch (error) {
-            console.log(error);
+        
+    }
+    const handleDeleteOrder = (choose) =>{
+        if(choose){
+            const index = order.findIndex(i => i.order.order_id === dataOrderPopup)
+            if(index < 0) return 
+            order.splice(index, 1)
+            setCheck(!check)
+            try {
+                const res = privateRequest.delete(`/api/order/delete?id=${dataOrderPopup}`, {
+                    headers: {
+                        authorization: JSON.stringify(currentUser.token)
+                    }
+                })
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+            setDataPopup({header: 'SUCCESS', body:'Xóa đơn hàng thành công'})
+            setPopup(true)
+            setTimeout(() => setPopup(false), 2000);
         }
+        setOrderDialog(!orderDialog)
     }
     return (
         <div className='table'>
             {product &&
             <>
+            {productDialog && <Notification check = {handleDeleteProduct} data={{header:'Thông báo', body:'Vui lòng xác nhận thay đổi!'}}></Notification>}
+            {popup && <PopupAnimation data={{header:dataPopup.header, body:dataPopup.body}}/>}
             <div className="table-body">
                 <table>
                     <thead>
@@ -132,7 +167,7 @@ const Table = ({users, product, order}) => {
                                         <td >{product.discount}</td>
                                         <td className='action'>
                                             <i class="fa-solid fa-wrench" onClick={()=>{navigate(`./productChange/${product.id}`)}}></i>
-                                            <i class="fa-solid fa-trash-can" onClick={()=>handleDeleteProduct(product.id)}></i>
+                                            <i class="fa-solid fa-trash-can" onClick={()=>{setProductDialog(!productDialog); setDataProductPopup(product.id)}}></i>
                                         </td>
                                     </tr>
                                 ))
@@ -141,6 +176,9 @@ const Table = ({users, product, order}) => {
                 </table>
             </div></>}
             {users &&
+            <>
+            {userDialog && <Notification check = {handleDeleteUser} data={{header:'Thông báo', body:'Vui lòng xác nhận thay đổi!'}}></Notification>}
+            {popup && <PopupAnimation data={{header:dataPopup.header, body:dataPopup.body}}/>}
             <div className="table-body">
                 <table>
                     <thead>
@@ -167,15 +205,18 @@ const Table = ({users, product, order}) => {
                                         <td>{user.isAdmin ? "Admin": "User"}</td>
                                         <td className='action'>
                                             <i class="fa-solid fa-wrench"></i>
-                                            <i class="fa-solid fa-trash-can" onClick={()=>handleRemoveUser(user.id)}></i>
+                                            <i class="fa-solid fa-trash-can" onClick={()=>{setUserDialog(!userDialog); setDataUserPopup(user.id)}}></i>
                                         </td>
                                     </tr>
                                 ))
                             }
                     </tbody>
                 </table>
-            </div>}
+            </div></>}
             {order &&
+            <>
+            {popup && <PopupAnimation data={{header:dataPopup.header, body:dataPopup.body}}/>}
+            {orderDialog && <Notification check = {handleDeleteOrder} data={{header:'Thông báo', body:'Vui lòng xác nhận thay đổi!'}}></Notification>}
             <div className="table-body">
                 <table>
                     <thead>
@@ -202,14 +243,14 @@ const Table = ({users, product, order}) => {
                                         <td>{moment(o.createdAt).format('YYYY-MM-DD HH:mm:ss')}</td>
                                         <td className='action'>
                                             <i class="fa-solid fa-wrench" onClick={()=>{navigate('/admin/order-detail/' + o.order.order_id)}}></i>
-                                            <i class="fa-solid fa-trash-can" onClick={()=>handleRemoveOrder(o.order?.order_id)}></i>
+                                            <i class="fa-solid fa-trash-can" onClick={()=>{setOrderDialog(!orderDialog);setDataOrderPopup(o.order?.order_id)}}></i>
                                         </td>
                                     </tr>
                                 ))
                             }
                     </tbody>
                 </table>
-            </div>}
+            </div></>}
         </div>
     )
 }
