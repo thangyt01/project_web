@@ -4,6 +4,8 @@ import { useSelector } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import Footer from "../../../../components/footer/Footer"
 import { Header } from "../../../../components/header/Header"
+import { Notification } from "../../../../components/notification/Notification"
+import { PopupAnimation } from "../../../../components/PopupAnimation/PopupAnimation"
 import { COLOR_STATUS, DEFAULT_IMAGE_URL } from "../../../../helpers/utils"
 import { privateRequest } from "../../../../requestAxios"
 
@@ -12,6 +14,13 @@ const OrderDetail = () => {
     const location = useLocation();
     let id = location.pathname.split("/")[3];
     const {currentUser} = useSelector(state => state.user)
+    const [dialog, setDialog] = useState(false)
+    const [popup, setPopup] = useState(false)
+    const [state, setState] = useState({})
+    const [dataPopup, setDataPopup] = useState({})
+    const handlePopup = (id, e)=>{
+        setDialog(!dialog)
+    }
 
     useEffect(()=>{
         const getDetailOrder = async ()=>{
@@ -29,31 +38,37 @@ const OrderDetail = () => {
         }
         getDetailOrder()
     }, [id])
-    const handleChange = async (id, e)=>{
-        console.log(e.target.value)//value
-        // Hiển thị popup xác nhận thay đổi
-        // Nếu có thì gọi api
-        // Nếu không thì revert về trạng thái cũ
-        const data = {
-           status: e.target.value
-        }
-        try {
-            const res = await privateRequest.post('api/order/update?id='+id, data, {
-                headers: {
-                    authorization: JSON.stringify(currentUser.token),
-                }
-            })
-        } catch (error) {
-            if(error.response.data.code === 200){
-                // Hiển thị popup cập nhật trạng thái đơn hàng thành công
-            } else {
-                // Hiển thị popup cập nhật trạng thái đơn hàng thất bại
+    const handleSubmit = async (choose)=>{
+        if(choose){
+
+            const data = {
+               status: state.e.target.value
             }
+            try {
+                const res = await privateRequest.put('/api/order/update?id='+state.id, data, {
+                    headers: {
+                        authorization: JSON.stringify(currentUser.token),
+                    }
+                })
+            } catch (error) {
+                if(error.response.data.code === 200){
+                    setDataPopup({header: 'SUCCESS', body:'Cập nhật đơn hàng thành công'})
+                } else {
+                    setDataPopup({header: 'ERROR', body:'Cập nhật đơn hàng thất bại'})
+                }
+            }
+            setPopup(true)
+            setTimeout(() => setPopup(false), 2000);
+    
         }
+        setDialog(!dialog)
     }
+      
     return (
         <div className="order-detail">
             <Header />
+            {dialog && <Notification check = {handleSubmit} data={{header:'Thông báo', body:'Vui lòng xác nhận thay đổi!'}}></Notification>}
+            {popup && <PopupAnimation data={{header:dataPopup.header, body:dataPopup.body}}/>}
             <div className="main padding___main">
                 <div className="wrapper">
                     <div className="top1">
@@ -64,7 +79,7 @@ const OrderDetail = () => {
                             <h2 className="order-code">Mã đơn hàng: #{order.order?.order_id}</h2>
                             <h2 className="status">
                                 {/* Trạng thái: {order.order?.status} */}
-                                <select name="" id="" onChange={(e)=>handleChange(order.order?.order_id, e)}>
+                                <select name="" id="" onChange={(e)=>{handlePopup(order.order?.order_id, e); setState({id:order.order.order_id, e:e})}}>
                                     <option value={'Đặt Hàng'} selected={order.order?.status === 'Đặt Hàng'} style={{color: `${COLOR_STATUS['Đặt Hàng']}`}}>Đặt Hàng</option>
                                     <option value={'Xác Nhận'} selected={order.order?.status === 'Xác Nhận'} style={{color: `${COLOR_STATUS['Xác Nhận']}`}}>Xác Nhận</option>
                                     <option value={'Hủy'} selected={order.order?.status === 'Hủy'} style={{color: `${COLOR_STATUS['Hủy']}`}}>Hủy</option>

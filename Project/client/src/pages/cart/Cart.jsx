@@ -63,8 +63,7 @@ export const Cart = () => {
               dispatch(orderEnd())
               setDialog(!dialog)
               setPopup(!popup)
-              const timeout = setTimeout(() => setPopup(!popup), 1000);
-              clearTimeout(timeout)
+              setTimeout(() => setPopup(!popup), 1000);
         }
         setDialog(!dialog)
         
