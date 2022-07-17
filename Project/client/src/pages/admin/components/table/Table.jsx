@@ -3,6 +3,7 @@ import { useState } from 'react'
 import './table.scss'
 import { privateRequest } from "../../../../requestAxios"
 import moment from "moment"
+import { useSelector } from "react-redux"
 
 function getThead(type){
     switch (type){
@@ -43,6 +44,7 @@ function getThead(type){
 }
 
 const Table = ({users, product, order}) => {
+    const { currentUser } = useSelector(state => state.user)
     const [check, setCheck] = useState(false)
     let threadName = ""
     const navigate = useNavigate()
@@ -50,17 +52,52 @@ const Table = ({users, product, order}) => {
     if(product) threadName = 'product'
     if(order) threadName = 'order'
     const handleDeleteProduct = (item)=>{
-         const index = product.findIndex(e => e.id == item)
-         product.splice(index, 1)
-         setCheck(!check)
+        const index = product.findIndex(e => e.id === item)
+        if(index < 0) return 
+        product.splice(index, 1)
+        setCheck(!check)
         try { 
-            const res = privateRequest.delete(`/api/product/delete?id=${item}`)
+            const res = privateRequest.delete(`/api/product/delete?id=${item}`, {
+                headers: {
+                    authorization: JSON.stringify(currentUser.token)
+                }
+            })
             console.log(res);
         } catch (error) {
             console.log(error);
         }
     }
     const [thead, setThead] = useState(getThead(threadName))
+    const handleRemoveUser = (id) => {
+        const index = users.findIndex(i => i.id === id)
+        if(index < 0) return
+        try {
+            const res = privateRequest.delete(`/api/user/delete?id=${id}`, {
+                headers: {
+                    authorization: JSON.stringify(currentUser.token)
+                }
+            })
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const handleRemoveOrder = (id) =>{
+        const index = order.findIndex(i => i.order.order_id === id)
+        if(index < 0) return 
+        order.splice(index, 1)
+        setCheck(!check)
+        try {
+            const res = privateRequest.delete(`/api/order/delete?id=${id}`, {
+                headers: {
+                    authorization: JSON.stringify(currentUser.token)
+                }
+            })
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <div className='table'>
             {product &&
@@ -131,7 +168,7 @@ const Table = ({users, product, order}) => {
                                         <td>{user.isAdmin ? "Admin": "User"}</td>
                                         <td className='action'>
                                             <i class="fa-solid fa-wrench"></i>
-                                            <i class="fa-solid fa-trash-can"></i>
+                                            <i class="fa-solid fa-trash-can" onClick={()=>handleRemoveUser(user.id)}></i>
                                         </td>
                                     </tr>
                                 ))
@@ -154,7 +191,7 @@ const Table = ({users, product, order}) => {
                     <tbody>
                             {
                                 order && order.length > 0 && order.map((o, index)=>(
-                                    <tr>
+                                    <tr key={index}>
                                         <td className='col1'>{index + 1}</td>
                                         <td>{o.order.order_id}</td>
                                         <td>{o.user.user_id}</td>
@@ -166,7 +203,7 @@ const Table = ({users, product, order}) => {
                                         <td>{moment(o.createdAt).format('YYYY-MM-DD HH:mm:ss')}</td>
                                         <td className='action'>
                                             <i class="fa-solid fa-wrench" onClick={()=>{navigate('/admin/order-detail/' + o.order.order_id)}}></i>
-                                            <i class="fa-solid fa-trash-can"></i>
+                                            <i class="fa-solid fa-trash-can" onClick={()=>handleRemoveOrder(o.order?.order_id)}></i>
                                         </td>
                                     </tr>
                                 ))
