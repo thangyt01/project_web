@@ -15,7 +15,7 @@ const Products = ({ title, type, limit, isPaging }) => {
         let path;
         if (type === "most") {
           path = `api/product/recommend?limit=${limit}&page=${currentPage - 1}`;
-        } else if (type == 'random'){
+        } else if (type === 'random'){
           path = `api/product/random?limit=${limit}&page=0`;
         } else {
           path = `api/product/get_list_products?sort=${type}&limit=${limit}&page=${

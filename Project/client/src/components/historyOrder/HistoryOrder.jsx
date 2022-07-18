@@ -28,9 +28,6 @@ const HistoryOrder = () => {
         getHistory();
     }, [currentUser.profile.id])
     
-    
-    // console.log(COLOR_STATUS['Hoàn thành'])
-
     return (
         <div className="profile">
             <div className="wrapper">

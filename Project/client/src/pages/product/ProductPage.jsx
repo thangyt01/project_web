@@ -43,12 +43,8 @@ const ProductPage = ({ selected }) => {
   };
 
   const dispatch = useDispatch();
-  // useEffect(()=>{
-  //   setPopup(!popup)
-  // })
   const handleSubmit = () => {
     setPopup(true)
-    // setPopup(!popup)
     dispatch(orderSuccess({
       id: product.id,
       name: product.name,
@@ -61,8 +57,7 @@ const ProductPage = ({ selected }) => {
     setTimeout(
       () => {
         setPopup(false)
-    console.log("first")}, 2000);
-    // clearTimeout(timeout)
+    }, 2000);
   };
 
  
