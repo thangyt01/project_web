@@ -62,6 +62,7 @@ const SearchProduct = () => {
 
   useEffect(() => {
     const getProducts = async () => {
+      window.scrollTo(0, 0)
       try {
         let path = `api/product/get_list_products?limit=${16}&page=${
           currentPage - 1

@@ -91,6 +91,7 @@ const Table = ({users, product, order}) => {
         if(choose){
             const index = users.findIndex(i => i.id === dataUserPopup)
             if(index < 0) return
+            users.splice(index, 1)
             try {
                 const res = privateRequest.delete(`/api/user/delete?id=${dataUserPopup}`, {
                     headers: {

@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Navigate, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import Footer from "../../../../components/footer/Footer";
 import { Header } from "../../../../components/header/Header";
-import { privateRequest, publicRequest } from "../../../../requestAxios";
+import { privateRequest } from "../../../../requestAxios";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import "./changeProduct.scss";
 import axios from "axios";
 import Notfound from "../../../../components/notfound/Notfound";
-import { getToken } from "../../../../helpers/utils";
 import { useSelector } from "react-redux";
 import { PopupAnimation } from "../../../../components/PopupAnimation/PopupAnimation";
 
@@ -73,7 +72,6 @@ export const ChangeProduct = () => {
     };
     const handleRemoveImage = (item) => {
         var index = product.image_path.indexOf(item);
-        console.log(index);
         if (index !== -1) {
              imageDelete.push(item)
          };
@@ -102,7 +100,6 @@ export const ChangeProduct = () => {
                         data
                     );
                     const { url } = uploadRes.data;
-                    console.log(url)
                     productImage.push(url)
                     imageAdd.push(url)
                     return url;
@@ -126,7 +123,7 @@ export const ChangeProduct = () => {
                         {product && product.image_path != undefined ? (
                             productImage.map((item, index) =>
                             (
-                                <div className="imageItem">
+                                <div className="imageItem" key={index}>
                                     <img src={item} alt="" />
                                     <div onClick={() => handleRemoveImage(item)} className="xButton">X</div>
                                 </div>

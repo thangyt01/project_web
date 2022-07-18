@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Navigate, useLocation } from "react-router";
+import React, { useRef, useState } from "react";
 import Footer from "../../../../components/footer/Footer";
 import { Header } from "../../../../components/header/Header";
-import { privateRequest, publicRequest } from "../../../../requestAxios";
+import { privateRequest } from "../../../../requestAxios";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import "./newProduct.scss";
 import axios from "axios";
@@ -35,7 +34,6 @@ export const NewProduct = () => {
             discount: parseInt(productDiscount),
             image_path: [...productImage],
         };
-        console.log(dataProductUpdate)
         try {
             const res = await privateRequest.post(`api/product/create`, dataProductUpdate, {headers: {
                 authorization: JSON.stringify(currentUser.token),
@@ -66,7 +64,6 @@ export const NewProduct = () => {
                         data
                     );
                     const { url } = uploadRes.data;
-                    console.log(url)
                     productImage.push(url)
                     return url;
                 })

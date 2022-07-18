@@ -95,7 +95,6 @@ async function fetchGetProduct(query) {
             table: 'product',
             where: `id = '${query.id}' and product.deletedAt <> 1`,
         })
-        console.log(data.length)
         if (data.length == 0) {
             return {
                 error: true,
@@ -152,7 +151,6 @@ async function fetchGetProduct(query) {
 }
 
 async function fetchUpdateProduct(req) {
-    console.log(req.body)
     let { image_path_add, image_path_remove, ...dataUpdate } = req.body
     dataUpdate.updatedBy = req.user.id
     try {
@@ -311,7 +309,6 @@ function getRandom(count){
     let arr = []
     while(arr.length != 4){
         let item = Math.floor(Math.random()*count)
-        console.log(item)
         if(!arr.includes(item)) arr.push(item)
     }
     return(arr)
@@ -347,7 +344,6 @@ async function fetchGetRandomProduct(query) {
             
         }
         let numPage = Math.ceil(listProduct.length / limit)
-        console.log(listProduct.length)
         const arr = getRandom(listProduct.length)
         let new_listProduct = []
         arr.map(item=>{

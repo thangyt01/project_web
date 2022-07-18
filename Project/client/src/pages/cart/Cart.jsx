@@ -34,7 +34,7 @@ export const Cart = () => {
             if(phone) info.phone = phone
             let date = new Date()
             let list_Order = []
-            listOrder.map((item, index)=>{
+            listOrder.map((item)=>{
                 list_Order.push({
                     product_id: item.id,
                     quantity: item.quantity,
